@@ -1,0 +1,948 @@
+   
+!!!- pythontutor.com
+   - 2 types of languages: - interpreted and compiled
+     - c, C++ <- compiled
+	 - python, java, javascript <- interpreted
+   - for finding version: python -v
+   - python interpreter is a virtual maschine just like java
+   - name convention is a script is a program for an interpreted language
+   - one file in a multifile python program is a masterscript that is an entry in the python program(usually main.py but can be any)
+   - a python file is level 1 compiled that results in bytecode( *.pyc). The python virtual maschine compiles to maschine code (compilation level 2) that is 
+     executed on the processor.C and C++ does not have level 2 compilation that is why is faster then interpreted languages that are 2 level compiled
+   - the virtuma schine verifies if a function is called multiple times and caches the maschine code so that it not needs to reintepret it when the 
+     function is called again (python does not have this feature, java does(pypy.org python with cache))
+   - interpreted languages can change code at runtime, compiled languages not
+   - virtual maschine helps achieve platform independence
+   - There are utilities that help construct executable programs from python scripts.after compilation makes them platform dependent:
+   Ex. py2exe, pyinstaller, py2app, freeze, cx_freeze
+   - Jython produces code that runs on Java virtual maschine but can read python code
+   - Iron Python can run C# and python scripts together
+   - Stackless (not concurent programming - not secvential)
+   - in python, identetion is crucial, it makes sense what  comes in which code block. it has 4 space
+   - we can write multiple line of code on a single line with ; between them:
+   Ex.  l=15;print(l)
+   - ASCII - 128 characters
+   - UTF-8 standard holds all the language characters for any language(japan, arab,chinese)(used by html, xml,etc)
+
+command line arguments:
+---------------------------------------------------------
+   - we can use command line arguments with files from sys library:
+   ex. import sys                                                      <- acces to command line arguments through sys module
+       print (sys.argv)                                                <- the arguments we gave to the .py files in comand line
+	   cmd line->python myprogy.py abc 123 "a fost odata"
+	   ['myprogy.py','abc','123','a fost odata']                 <- list with all the strings separated by space from the command line arguments
+	- sys.argv[0]    - file name 
+	- sys.argv[1]    - 'abc'
+	- to check if there was an argument given:
+	ex. if len(sys.argv)>1
+	       print('we have an argument!")
+		myargument=argv[1]
+    ex. try:
+	      myargument=argv[1]
+		except:
+		   print("we have no arguments!"
+		   exit()
+	
+Commenting :
+---------------------------------------------------------
+   - comenting a line starts with #
+   # this is a comment
+
+!!!To execute a python program:
+----------------------------------------------------------
+   - in the command prompt:
+   Ex. python main.py                         <- .py is the source code
+
+print
+----------------------------------------------------------
+   Ex. print("casa", 23,32.4)   <- we can use multiple variables separated with ,
+       print("Hello 'moni' dear")
+   - we can write text multiple lines with \n in the text:
+   ex. print("Hello world\nHello world\nhelloworld")                                  <- prints to 3 different line
+       l=[2,3,4,2]
+	   print(f'nrin ordine={lista}')                                                  <- fstring
+   - we can have multiline prints:
+     print('''
+	    Meniu stringuri:
+		1. citeste
+		2. scrie''')
+   
+input
+----------------------------------------------------------
+   - input always results in a string
+   - we can enter an object with the input ('message to print')
+   Ex. line=input("what is your name?")
+       print('Hello',line)
+   Ex. print("Helle "+input("what is your name?")) 
+   
+data types in python and variables
+-----------------------------------------------------------
+	- function and type names are not reserved words, we can accidentaly override them
+	- variable names start with small letters
+	- variables are created on the heap
+!!!	- every data type is an object in python
+    - variables do not need declared with their data type
+	- variables come in existence when they are assigned a value, they not need to be declared
+	- variables contain a reference to the object they point to (they dont make a copy!!!!!
+	- variables can store data of different types	
+    - in Python if a variable starts with Big letter, it is considered constant (it is not)
+    ex. Number=23	
+    - python has the following data types:
+        text type: str  
+        numeric types: int, float complex
+        sequence types: list, tuple, range
+        mapping type: dict
+        set types: set, frozenset
+        boolean types: bool
+        binary types: bytes, bytearray, memoryview
+	- int  : 5,3,-7                       <- positive or negative numbers, arbitrary large, 0 is the default, without decimals of unlimited length
+	- we can represent 123456 as 123_456     <- python knows that _ is for helping us understand large numbers
+	- bool : True, False                  <- default is False
+	
+	- float : 3.141592 (double in c/C++)  <- positive or negative float number, arbitrary large
+	Ex. x=3.14
+	    x=12E4                            <- scientific notation e power of 10
+		
+    - complex : complex numbers are writen with a "j" as the imaginary part
+	Ex. x=3+5j
+	    y=5j
+		
+	- str 'man', "girl"                   <- strings have default "" empty string
+	- Lists
+	- user (object data types)
+	
+	- we can find the type the data of a variable with the type(var)
+	Ex. print(type('type'), type(3))               <- class'str' class 'int'
+	
+	- variables are asigned values:
+	Ex. x=0                     <- x assigned an integer object
+	    y='erte'                <- y assigned a string object
+	    z=True                  <- z assigned a boolean object
+	    print(x,y)
+		
+   - variable names are not tied to their object type:
+   Ex. x=2
+       x='trete'    <- x can point to different data type after it was assigned a different data type initialy, 
+	   
+   - data values that are not pointed to by variables will be destroyed
+   Ex. x=2
+       x='trete'    <- 2 will be destroyed by garbage collector, no variable points to it
+	   y=x          <- values in x will be copied to y
+	   
+   - we can assign multiple variables multiple values:
+   Ex. x,y,z="Luki", "atti", "feri"                 <- multiple definition of variables
+   ex. x,y=y,x                                      <- swap numbers
+   - we can concatanate strings in python with +
+   Ex. first="Luki"
+       second="Atti"
+       print(first+second)
+	   
+	- we can convert from float to int:
+    Ex. z=23.4
+        y=int(z)
+		
+    - we can convert from int to complex:
+	Ex. x=45
+	    y=complex(x)
+		
+    - we can find out the type of a variable:
+    Ex. print(type(y))
+	
+randomization  in python:
+--------------------------------------------------------------
+   - we can generate random numbers:           <- we need to import the library
+	Ex. import random                           <- imports random module
+        n=random.randint(0,22)		            <- generate random numbers between 0 an 22 included
+   - we can generate a random number with random( function:
+   ex. n=random.random(0,1)                     <- generate a random floatig point number between 0 and 1
+   
+   - we can return a random element from a list:
+   ex. import random
+		list=["asda","dfgD","ert"]
+		random.choice(mylist)
+		
+   - we can randomly reorganiza a list with shuffle() method:
+   ex. import random
+		list=["asda","dfgD","ert"]
+		random.shuffle(mylist) 		
+
+strings in python:
+----------------------------------------------------------
+   - strings are inmutable meaning  we can read the string char by char however we cant change the elements value with string[pos]="c"
+   - if we dont have ' in line we can use :
+   Ex. print('world')
+   
+   - if we have a ' in the string we can use the ""
+   Ex. print("Worl'd")
+   
+   - we can have a multiline string:
+   ex. s=''' This
+             is
+			 Sparta '''
+			 
+   - if we enter 'enter' when input a string, enter is empty string ''
+   ex. l=input("enter enter")
+       if l=="":
+   
+   - we can mix  numbers with strings with the fstring:
+   ex. l=f"your score is {var:2}"                                     <- returns a string, var:2
+   
+   - we can format a float number into string:
+   ex. amount = "{:.2f}".format(stringvar)                            <- float to string with 2 decmal precision
+   
+   - we can check if a string is a directory's name or not:
+   Ex. import os
+       if os.path.isdir(stringname)
+   
+   - if we want to find if a string in another string we have the in:
+   ex. s="eterterte"
+       if("er" in s)
+	       print("am gasit stringul")
+   
+   - we can check the nr of characters in a string with len()
+   ex. l=len(stringvar)
+   
+   - we can find out the length in bytes of a string with sys.getsizeof()
+   ex. import sys
+       l=sys.getsizeof(stringvar)
+   
+   - we can return the elements in a string:
+   ex. print("Hello"[0])                         <- Helle
+   
+   - we can change the letters in a string to lowercase with the .lower() function:
+   ex. l="sdfere"
+       result=l.lower()                                                <- returns a new list with all the letters lowercase leaving the original string intact
+	   
+   - we can change the letters in a string to uppercase with the .upper() function:
+   ex. l="sDfere"
+       result=l.upper()                                                <- <- returns a new list with all the letters uppercase leaving the original string intact
+
+   - we can change the letters from lowercase to uppercase and from uppercase to lowercase with the .swapcase() function
+   ex. l="sDfere"
+       result=l.swapcase()   
+	
+   - we can count the number a letter apears in a string:
+   ex. l="sDfere"
+       print(l.count("e")
+   
+   - we can remove spaces from the begining and end of the string with the strip() function:
+   ex. l=" sDfere "
+       x=l.strip()
+   
+   - we can change in a string the first letter to uppercase and the rest to lowercase 
+   ex. l="sDfere"
+       x=l.capitalize()
+   
+   - we can find the first occurence of a string in a string with the find() method.it returns the index where it finds it or -1 if not:
+   ex. l="sDfere"
+       x=l.find('fe')
+   
+   - we can find if a string has only alfanumeric values with isalnum()
+   ex. print(l.isalnum())      <- True or False
+   
+   - we can find if a string has only numeric values with isnumeric()
+   ex. print(l.isnumeric())      <- True or False
+   
+   - we can find if in a string is alfabets with the isalpha() method:
+   ex. l="sDfere"
+       print(l.isalpha())      <- True or False 
+	   
+   - we can find if in a string is just decimal values with  isdecimal() method:
+   ex. l="sDfere"
+       print(l.isdecimal())      <- True or False
+	   
+   - we can find if in a string is just digits values with  isdigit() method:
+   ex. l="sDfere"
+       print(l.isdigit())      <- True or False
+
+   - we can check if a string has all the letters with lowercase with .islower() method:
+   ex. l="sDfere"
+   print(l.islower())
+   
+   - we can check if a string has all the letters with upercase with .isupper() method:
+   ex. l="sDfere"
+   print(l.isupper())
+   
+   - we can join the elements of a string with space between words with .join() function
+   ex. text = ['Python', 'is', 'a', 'fun', 'programming', 'language']
+       print(' '.join(text))                                                               <- Python is a fun programming language
+	   
+   - we can vdchange upercase to lowercase and vice versa with the swapcase() method:
+   ex. l="sDfere"
+   print(l.swapcase())
+ 
+   - we can change characters i a strings with other character in the string with .translate() method:
+   ex. l="sDfere"
+       l.translate(table)               <- table contains the mapping of the character that i will be changed with a character 
+	   
+   - we can replace a character with an other character with the replace() function:
+   ex. l="sDfere"
+       replaced text=l.replace("s", "p")           <- pDfere
+	   
+   - we can find the highest index of the substring in a string. if found, returns index, if not then -1
+   ex. l="sDfere"
+       str.rfind("sD")
+
+   - we can find the highest index  of the substring inside the string . if the substring is not found then exception:
+   ex. quote = 'Do small things with great love'
+       print(quote.rindex('o small ', 6, 20))	   <-    
+
+   - we can split a string in a list of strings , with a separator .split():
+   ex. text = 'Python is a fun programming language'
+       print(text.split(' '))                                 <- ['Python', 'is', 'a', 'fun', 'programming', 'language']
+
+   - we can split string from the right at the specified separator and returns a list of strings with rsplit().
+   ex. text= 'Love thy neighbor'
+       print(text.rsplit(". "))
+	   
+   - we can check if a strings start with a string with the startswith() method:
+   ex. message = 'Python is fun'
+       print(message.startswith('Python'))
+	   
+   - we can make each word in a string start with uppercase with the title() function:
+   ex. text = 'My favorite number is 25.'
+       print(text.title())
+
+string slicing:
+------------------------------------------------------------
+   ex. s="abcdefghijklmnopqrstvuwxyz"
+       print(s[3])     <- d
+	   print(s[-1])    <- z
+	   print(s[3:10])	<- defghij     <- range of elements
+	   print(s[:9])     <- abcdefghijklmnopqrstvuwxyz
+	   print(s[1:])     <- bcd....
+	   print(s[1:7:2])  <- bdf   <- range with steep
+	   print([::-1])    <- reverse iterator from begining to end
+	   
+conversions:
+------------------------------------------------------------
+   - we can convert one type to another with they type(variablename)
+   Ex. varsta=input("ce varsta ai?")
+       b=int(varsta)                     <- converts string to int
+	
+   - if cannot make conversion then exception "qq" to int exception 
+   ex. inercari=10
+       msg=f'Ai epuizat toate cele{incercari} incercari'	         <- with f' we convert from int to string
+       msg=f'Ai epuizat toate cele{incercari:<20} incercari'         left align with 20 character total (blank if nothing)
+   
+   - we can convert from int to string:
+   ex.l=str(stringvar)
+   
+   - we can round a float number ( round it to the closest integer)
+   ex. s=round(2.342)                <- 2
+   
+   - we can round it  to decimal places:
+   ex. s=round(2.342:2)                        <- 2.34
+   
+   - if we want to get rid of the decimals in a division we can use //
+   ex. s=8//3
+   
+variable scope:
+----------------------------------------------------------
+   - variables created outside any function is a global variable
+   - global variables can be used inside or outside functions by everyone
+   - to change the value of a global variable inside a function we can with the global keyword
+   Ex. 
+       x=1
+	   def func():
+          global x                             <- if we dont declare that x refers to the global variable it will create a local variable with name x
+		  x=10
+		  print (x)
+	   func() 
+
+if else:
+-----------------------------------------------------------
+  - in python the if condition has if - elif - else
+  Ex. if rez=="9":                 <- if(rez=="9") works also
+        print ('bravo!')
+      else:
+        print('not 9')	
+   Ex. varsta=input("how old are you")
+       if int(varsta)<18:                     <- conversion needed because input inputs only string
+           print("you are underage")
+       else:
+           print("you are overaged")	   
+   ex. if age<=1:
+        print ("age is <=1")
+	   elif age==10:
+		print("age is 10")
+	   elif age==12:
+		print("age is 12")
+	   else:
+	    print ("age not known")
+   Ex. numar =4
+       if numar >0
+          print("nr este poz")
+       else:
+         if numar<0:
+            print("nr este negatic")
+     	 else:
+            print ("nr este 0")	
+   Ex: numar =4
+       if numar >0
+          print("nr este poz")
+       elif numar<0:
+            print("nr este negatic")
+       else:
+            print ("nr este 0")
+			
+python operators:
+------------------------------------------------------------
+   - in python the operators are divided in 7 groups
+      - arithmetic operators  
+	  - assignment operators
+	  - comparison operators
+	  - logical operators
+	  - identity operators
+	  - membership operators
+	  - bitwise operators
+   - Arithmetic operators:
+     + - addition - x+y
+	 - - subtraction - x-y
+	 * - multiplication - x*y
+	 / - division - x/y
+	 % - modulus - x%y
+	 ** - exponential - x**you
+	 // - floor division  x//you
+   - Assignment operators:
+     = - equal - x=5
+     += - plus equal - x=x+5
+     -= - minus equal - x=x-5
+     *= - multiply equal - x=x*5
+     /= - division equal - x=x/5
+     %= - modulus equal - x=x%3
+     //= - floor division equal - x=x//3
+     **= - exponential equal - x=x**3
+     &= - and equal - x=x&3
+     |= - or equal - x=x|3	
+   - comparison operators  
+     == - equal - x==y
+     != - not equal x!=y
+	 >,< - greater then, less then - x>y, x<y
+	 >= - greater or equal - x>=y
+	 <= - less then equal - x<=y
+   - logical operators:
+     and - true if both are true, else false - x<5 and y<6
+	 ex. if a and b
+	 or - true if one is true, else false - x<4 or y>3
+	 not - true if not - not (x<5 and y<10)
+	 ex. if not boolean
+   - identity operators
+     is - return true if both variables are of same object - x is you
+     is not - returns true if both the variables are not the same object - x is not y
+     	 
+   - membership operator:
+     in - returns true if a sequence with the specified value is present in the object - x in y
+     not in - returns true if a sequence with a secified value is not present in the object - x not in y
+	 Ex. x=["apple","orange"]
+	     print("banana" in x)   <- false
+		 print("banana" not in x) <- true
+   - bitwise operators:
+     & - AND - sets each bit to one if both bits are 1
+	 ex. c=a&b            <- operator copies a bit to the result if exists in both operands
+     | - OR - sets each bit to 1 if one of the bits are 1
+	 ex. c=a|b            <- operator copies a bit to the result if exists in in one operands
+     ^ - XOR - sets each bit to 1 if only one of the bits is 1
+	 ex. c=a^b            <- operator copies a bit to the result if exists in  one and only one operands
+     ~ - NOT - invert all bits
+	 ex. c=a~b            <- operator copies a bit to the result if exists in  one and only one operands
+     << - zero fill left shift - shifts left by pushing zeros in from the right and let the leftmost bits fall of
+	 ex. c<<2             <- left shifts with 00000011
+     >> - signed right shift - shift right by pushing copies of the leftmost bit in from the left, and let the rightmost bits fall of
+	 ex. c=a>>2           <- a is right shifterd with 00000011
+	 ~ - complements - reverses the bits 
+	 ex. c=~a         <- makes 1 in 0 an 0 in 1
+
+while loop:
+-----------------------------------------------------------------
+   - executes a block while it is true:
+   while cond:
+     -code block-
+   Ex. suma=0
+       nr=1 
+       while nr<=1000
+         suma+=nr
+	     nr+=1
+	   print(suma) 
+
+   Ex. suma=0
+       nr=1 
+       while True
+         if nr>1000:
+          break	 
+         if nr%5==0
+           continue
+         suma+=nr
+         nr+=1
+	   print(suma)
+
+for loop:
+------------------------------------------------------------------
+   - executes a block multiple times
+   ex.l=["Atti","Tibi","Shivan","Gauron","Feri"] 
+      for element in l:
+       print(element)
+	   if(cond)
+	      break
+	   
+   ex: for idx in range(len(l)):                                   <- default =0 to len(l)-1     
+          print(l[idx])          <- c style array acces notation
+   ex. for contor, element in enumerate(list,1):                       <- we have 2 variable incrementing :contor from 0 to n-1, element l[0],l[1],l[2]...l[n-1]
+         print(f"{contor:3}. {element}")
+   - we can loop through a range of numbers:
+   ex. for x in range(5):                                            <- by default a range starts from 0 to 5(5 not included)
+   ex. for x in range(2,6):                                         <- values 2-5
+   ex. for x in range(2,6,3):                                        <- values between 2 and 5 with step of 3
+   - we can execute code after the for is ended:
+   ex. for x in range(2,6,3):
+			x+=1
+	   else:
+	      print("hello!")
+   - we can iterate through a collection with enumerate:
+   ex. for count , value in enumerate(list)                        <- count is a counter , and value is the value one at a time from the list
+   - we can specify a start argument for the enumerate:
+   ex. for count , value in enumerate(list, start=3)               <- starts from the 4th element
+
+colections:
+-----------------------------------------------------------
+   - an object with objects
+   - elements cant be different type once they are set with a type
+   - lists:
+      - ordered collection
+	  - slow search
+   - multimi:
+      - unic elements
+	  - speed
+   - maps:
+    - key - value pairs
+    - speed
+    - unnique keys
+   - list - mutable/unmutable	   
+
+python lists:
+----------------------------------------------------------
+   - list is a collection which is ordered, changeable and allow duplicates elements
+   - allows duplicate membership
+   - list indices start from 0
+   - we can insert different datatypes in it
+   ex: l=["edre",1,True,"Erd",3]
+   
+   - we can point to the same list in memory
+   ex. list1=list2                     <- shallow copy
+   
+   - we can have a copy of a list (diferent memory region):
+   ex. list2=list(list1)               <- produce a new list in memory 
+
+   - we can have a different list, we can do it with copy:
+   ex.import copy 
+      list2=copy.deepcopy(list)   
+
+   - the list is created placing all the elements inside [ ] separated by commas.first element is always 0
+   Ex. list1=["Toni","Zoli","Tibi"]
+       print(list[0])     -> "Toni"
+	   print(list[1])     -> "Zoli"
+	   
+   - we can have negative indexing. element [-1] is the last element of the list, [-2] is the before last element
+   ex. print(list[-1])   <- "Tibi"
+   
+   - we can have list with lists:
+   Ex. l=[4,'casa',True, [33,12],0]
+   
+   
+range of indexes
+----------------------------------------------------------
+   - we can specify a range of indexes by specifying where to start and where to end the range
+!!!- when specifying a range, the return value will be a new list with the specified items
+   - the end range element=end range-1
+   ex. list1=["Atti","Tibi","Shivan","Gauron","Feri"]
+       print(list1[1:3])                        <- Tibi Shivan  - element 3 not included
+   
+   - we can specify elements from begining to a set number:
+   ex. list1=["Atti","Tibi","Shivan","Gauron","Feri"]
+	   print(list1[:3])                                 <- Atti Tibi Shivan <- element 3 not including
+	
+   - we can specify all the elements from 1 to end:
+   ex. list1=["Atti","Tibi","Shivan","Gauron","Feri"]
+       print(list1[1:])                                 <- Tibi Shivan Gauron Feri
+   
+   - we can view elements with negative indexes:
+    ex. list1=["Atti","Tibi","Shivan","Gauron","Feri"]
+	    print(list[-1:-3])
+	  
+   - we can specify a range with steps:
+    ex. list1=["Atti","Tibi","Shivan","Gauron","Feri"]
+	    print(list[1:4:2])     <- Tibi, gauron
+		
+   - we can have backward list:
+   ex. list1=["Atti","Tibi","Shivan","Gauron","Feri"]
+       print(list[::-1])            <-  Feri Gauron Shivan Tibi Atti
+
+working with lists:
+----------------------------------------------------------	   
+   - we can change the element in the list at a certain position:
+   ex. list1=["Atti","Tibi","Shivan","Gauron","Feri"]
+       list[1]="Teri"
+   
+   - we can loop through a list with a for loop:
+   ex. for i in list1:
+          print(i)
+
+   - check if name exists in list with is in:
+   ex. list1=["Atti","Tibi","Shivan","Gauron","Feri"]
+       if "Tibi" in list:
+	      print("Tibi is in the list")
+	   else:
+	      print("Tibi is not in the list!")
+		  
+   - we can check the length of a list with len():
+   ex. list1=["Atti","Tibi","Shivan","Gauron","Feri"]
+       print (len(list1))
+	   
+   - we can add a new element to a list with append():
+   ex. list1=["Atti","Tibi","Shivan","Gauron","Feri"]
+       list1.append("Kati")                               <- adds an element to the end of a list
+   
+   - we can insert an element to a specified index position with insert():
+   ex. list1=["Atti","Tibi","Shivan","Gauron","Feri"]
+       list1.insert(2,"Kati")                             <- "kati" is inserted at postion 2 and all the rest of the elements are moving to the right
+	   
+   - we can remove an element by name from the list with remove():
+   ex. list1=["Atti","Tibi","Shivan","Gauron","Feri"]
+       list.remove("Tibi")                                <- removes "Tibi" from the list
+	   
+   - we can remove the last element from the list with pop():
+   ex. list1=["Atti","Tibi","Shivan","Gauron","Feri"]
+       list1.pop()
+	   
+   - we can delete a list or remove a certain element in a position with del():
+   ex. list1=["Atti","Tibi","Shivan","Gauron","Feri"]
+       del(list1[2])                                       <- removes element 2 of the list
+	   del list1[2]	   
+	   del(list1)                                          <- deletes list1
+	   
+   - we can clear all the elements from a list with clear():
+   ex. list1=["Atti","Tibi","Shivan","Gauron","Feri"]
+       list1.clear()                                       <- he list becomes empty
+	   
+   - we can make a copy of a list with copy():
+   ex. list1=["Atti","Tibi","Shivan","Gauron","Feri"] 
+       list2.copy(list1)                                   <- list 2 will have the elements of list1
+
+   - we can extend our list (add an other lists elements to the lists end) with the extend():
+   ex. list1=["Atti","Tibi","Shivan","Gauron","Feri"]
+       list2=["1","2","3"]
+       list1.extend(list2)                                  <- adds element of list2 at the end of list1
+
+   - we can reverse the elements of a list with reverse()
+   ex. list1=["Atti","Tibi","Shivan","Gauron","Feri"]
+       list1.reverse()                                      <- reverses the order of the list
+
+   - we can sort the list in alfabetical order with sort().In strings Big letter comes before small letter. sorting in place, 
+   ex. list1=["Atti","Tibi","Shivan","Gauron","Feri"]
+       list1.sort(reverse=True)                             <- reverse is putting the elements in alfabetical order  z-a
+	   list1.sort()                                          <- natural ascending sort
+   
+   - if we want the result of the sorting in another variable:
+   ex. l=sorted(lista)
+   
+   - we can join 2 list with the + operator:
+   ex. list1=["Atti","Tibi","Shivan","Gauron","Feri"]
+       list2=["1","2","3"]
+	   list3=list1+list2
+   
+   - we can create a list by using the list constructor:
+   ex. list1=list("Atti","Tibi","Shivan","Gauron","Feri")
+       print(list1)
+   - we can find the legth of the tuple with the len()
+   ex. length=len(tuplename)
+   
+   - we can acces list in list:
+   ex. list1=[["Atti",1],["Tibi",2],["Shivan",3],["Gauron",4],["Feri",5]]
+       a=list1[1][1] 	   <- "2"
+	   
+   - we can make a list with a for:
+   ex. data(1,2,3,4,5)
+       selectitem=[mylist[1] for mylist in data] 
+   - if we want to find a string in a list:
+   ex. l=["wer","dffg","erty"]
+       if("wer" in l:                 <- true because wer is an element in language
+	   if("w" in l:                   <- false because w is not an element in l(it is part of an element in l)
+
+   - we can found the max value element in a list with the max() function:
+   ex. print(max(listname))
+   
+   - we can find the minimum value in a list with the min function:
+   ex. print(min(listname))
+   
+   - we ca nreturn a random element from a list:
+   ex. import random
+		list=["asda","dfgD","ert"]
+		random.choice(mylist)
+   - we can randomly reorganiza a list with shuffle() method:
+   ex. import random
+		list=["asda","dfgD","ert"]
+		random.shuffle(mylist)   
+		
+tuple:
+----------------------------------------------------------
+   - a tuple is an ordered container that is not modifiable and accepts duplicates .we cannot add new elements to it after it is created or change the elements
+   - tuples are used 
+   - we can define a tupel with 
+   ex. t=(1,2,3,4)                            <- tuples are created with (), lists with []
+       print(t, type(t))
+   - we can cycle throu the tuple :
+	   for x in t:
+	     print (x)
+   - we can create list of tuples:
+   ex. lista=[("gdfg",2),("rtyR",5),("xcvx",4)]
+       print(sorted(lista))                        <- it will sort by default after the first element in the pair
+   - we can have tuples in lists:
+   list[(1,1),(1,2),(3,4)]                                          
+   list.append((1,1))
+   - we can use the constructor to construct  a tuple:
+   thistuple=tuple(("apple", "banana"))
+   - we can acces tuple in list:
+   ex. list1=[("Atti",1),("Tibi",2),("Shivan",3),("Gauron",4),("Feri",5)]
+       a=list1[1][1]                               <- "2"
+   
+   
+dictionary in python
+----------------------------------------------------------
+   - 
+
+set in python:
+-----------------------------------------------------------------
+   - 
+
+sorting in python:
+-----------------------------------------------------------------
+   - we can sort inplace:
+   ex. l=[1,2,3,4,5,3,4]           
+       l.sort()                  :not create a new list 
+   
+   - we can sort a list and the result is a new list saved in a new variable
+   ex. l=[1,2,3,4,5,3,4]
+       ll=sorted(l) 
+   
+   - we can sort a list and the result is a new list with custom sorting functions
+   ex. l=[1,2,3,4,5,3,4]
+       ll=sorted(l, key=fct)                  <- key=fct is a function name of a fucntion  that is used to sort the elements 
+       def fct(nr):
+			return abs(nr)                    <- returns absolute number for every element in the list
+   
+   - we can sort after a key function:we can use a lambda function
+   ex. l=["Masa","Apa","Birou"]
+		ll=sorted(l,key=f),                    
+		print(ll)
+		def f(string: str):                     <- anotation   type it tells that str is of type string   
+			return string.lower()               <- changes all to lowercase and then sort naturally
+   
+   ex. l=["Masa","Apa","Birou"]
+		ll=sorted(l,key=f),                    
+		print(ll)
+		def f(str):                     <- anotation   type it tells that str is of type string   
+			return len(str)             <- it will return the length and then the sorting will happen naturally  after the length
+   
+   - functions are there to provide a different value after the sorting will sort naturally
+   ex. l=["Masa","Apa","Birou"]
+		ll=sorted(l,key=lambda s: s.lower()),                    
+		print(ll)
+
+   -    
+exceptions:
+-----------------------------------------------------------------
+   - exceptions is a mechanism to treat errors in programs 
+   ex. while True:
+        try:
+           x = int(input("Please enter a number: "))
+           break
+      except ValueError:
+          print("Oops!  That was no valid number.  Try again...") 
+   ex. linie=input("esti minor?")
+       try: 
+          varsta=int(linie)                                   <- trys to convert string to int
+	   except ValueError as err:
+	      print('am prins exceptia',err)                      <- if exception se executa lina asta
+   
+   ex. try:
+         varsta=int(linie)
+		 if varsta<18
+		    print("esti mnor")
+		 else:
+		     print("esti major")
+	   except ValueError as err:
+	     print("am prins exceptia!", err)
+		print("!!!!!")
+	   except TypeError as err:
+	     print("am prins exceptia")
+   - we can have an else after the try - except with code that is not intended to give exception <- recomended way
+   ex. try:
+			f=open(arg,'r')
+		except OSError:
+            print(arg, "has", len(f.readlines()), "lines")
+			f.close()
+   ex. 
+  
+
+working with files
+-------------------------------------------------------------------
+   - we can open a file with the open function: open mode: w - write, r- read, t- text     - more on help
+   ex. fileout=open("filename.txt","wt", encoding='asci')                       <- if not pathname then file in same folder, encoding flag optional 
+   
+   - python processes unicode 16/32, a text file is utf-8 - python traduces to utf-8. if not specified in open then then the standard 
+   - if we used the fileout=open syntax, we need mandatory to close the file after we worked with it:
+   ex. fileout.close()
+   
+   - we can write a line to a opened file:
+   ex. fileout.write("prima linie!")
+   
+!!!- the recomended way of opening  and writing a file in python is:   - it closes the file automaticaly!!
+   ex. with open ("a.txt", "wt") as fileout:
+      fileout.write("prima linie!")
+      fileout.write("a doua linie!")
+	
+!!!- the recomended way of reading a file in python is:
+   ex. with open("a.txt",'rt') as filein:         - r read  t text
+           for linie in filein:                            <- the line from the file is read with the new line at the end
+              linie=linie.strip()                          <- removes \n from the end of line    
+			  lista.append(linie)	
+
+!!!- the recomended  read a file in the memory like a list of multiple lines(file will be closed after use automatically):
+   ex. with open ("a.txt") as filein:
+         continut=filein.readlines()       <- reads the file line by line like a list
+         print(continut)		 
+
+!!! the recomended way of writing in a file multiple lines which closes the file automaticaly after usage:
+   ex. with open("a.txt",'rt') as filein: 
+       filein.writelines(["\nSee you soon!", "\nOver and out."])
+	   filein.writelines(listname)   
+   
+   - we can read a file in the memory like a single line:
+   ex. with open ("a.txt") as filein:
+         continut=filein.read()       <- reads the file like a long  string
+         print(continut)
+   
+   - we can read from a file line by line and encode in utf8:
+   ex. with open('quotes.txt', encoding='utf8') as f:
+           for line in f:
+				print(line.strip())                        <- strip() removes \n from end of line
+		 
+   - we can check if a string is a foldername with os.path.isdir()
+   ex. import os
+      if not os.path.isdir(folderstringname):
+          print (f'{folderstringname} is not a foldername!')	   
+   
+   - we can find if the content of a directory list is a file with the isfile():
+   ex. for intrare in os.listdir(folder):
+			if os.path.isfile(f'{foldername}/{intrare}')                 <- or if os.path.isfile(numelefisieruluicucalea)
+				print(intrare)
+  ex.file=r'C:\\dir\\file.py'   <- windows style folder notation
+     file=r'C:\dir\file.py'                  <- raw it tels the \ sign to njot use as a command characte (\n,\f,\t, etc)
+	 file='C:/dir/file.py'
+	 path_name=rf'{folder}\{intrare}'
+   
+   - we can find out if a file exist or not with exists().if there is no such file, False, else True:
+   ex. from os.path import exists
+       fileexists=exists(path to file)
+   ex. import os.path
+       os.path.exists(path to file)
+          
+   - we can get a files size in bytes:
+   ex. os.path.getsize(pathwithfilename)
+   ex. for intrare in os.listdir(folder):
+          path_name =f'{folder}/{intrare}'
+		  if(os.path.isfile(path_name):
+			size=os.path.getsize(pathname)
+			print(f'{contor:3},{intrare:5},{size<6}')
+   
+   - we can make a list of files with size:
+   ex. fisiere[]
+       for i in os.listdir(path)
+	      path_name -rf'{folder}\{intrare}'
+		  if os.path.isfile(path_name)
+		  size=os.path.getsize(path_name)
+		  fisiere.append((size,intrare))                  <- appends a tuple to the list
+		print(fisiere)
+		sortate=sorted(fisiere)
+		for cnt,t in enumerate(sortate,1):                     enumerate(sortate,1)   <- starts with element 1
+		   print(f'{cnt:3},{t[1]:22}, {t[0]:4}')
+   
+functions
+---------------------------------------------------------------
+   - main() is a variable that points to the function main() (just for main function)
+   - a function needs to be defined before use
+   - in python a function apears in memory when it is needed unlike in c where it is created at compile time the only 
+     condition is that it has to be defined before it is called
+   - functions called with different numbers of arguments give error
+   - a function that returns nothing returns None
+   - a functions arguments are references to  the arguments so it can be modifyed and they modifys the passed variables
+   - if we dont know how many arguments will be we add a * in front of argument name
+   ex. def funcname (*arg):
+         print (arg[2])
+   - we can call functions with keyword arguments:
+   ex. def funcname(**kid):
+       funcname(name="Tobias",lname="Frank")
+   - we can use default parameter value
+   ex. def myfunc(country="Norway"):                   <- default parameters are defined in function definition
+         print(f"I am from {country}")
+   - we can define a function that does nothing  with a pass
+   ex. def myfunc(): pass
+   
+   - we can pass arguments through name:
+   ex. def numefunctie(a,b,c)
+           print(a,b,c)
+        numefunctie(c=4,a=3,b=2)          <- c will be in position like c in numefunctie
+        numefunctie(2, c=1,b=3)            <- first parameter passing through positional, 2 and 3 through name
+		numefunctie(2,c=1,a=3)             <- error , a defined twice
+   
+   		 
+      
+   
+   - that is why a function can be defined in an if:
+   ex. a=1;b=4
+       if a<3
+         def aduna(a,b)
+		      return a+b
+		print(aduna,b))
+		print(aduna("sdfs","sdfs"))
+   - we can exit a function anytime with a return, even if not return anything	
+   - we can define our program with a def main():
+   ex. def main():                 <- 
+       ,.....
+	   return
+	   main()                      <- execution   
+		
+   - we can define a function folowing way:
+   def aduna(a,b)
+      return (a+b)      <- indentation important
+   - we can return multiple things from a function and we can test it:
+   ex. def func (a, b)
+		if a>b and b not 0
+		  return (a+b)
+		else
+		  return None
+   - variables  with same name defined global and local in functions, locals will overshadow global. if we tell that glabal keyword, it will acces global
+   ex: x=5
+       def func(a,b):
+	     global x=3
+		 return x*(a+b)
+   
+lambda functions
+------------------------------------------------------------------
+   - lambdas are functions defined in the place it is needed
+   - syntax :      lambda arguments: expression
+   - lambda functions begin with lambda
+   - in python a lambda function must be an expression
+   ex. lambda s: s.lower()              <- s is an input parameter
+   ex. a= lambda a:a+10
+       print(a(5)) 
+
+   - we can have multiple arguments in a lambda function:
+   ex. x=lambda a,b:a+backward
+       print(x(1,2))
+
+   - if we have a function that takes an argument and returns a multiplied value of the argument:
+    ex. def myfunc(n):
+           return lambda a:a*n-1
+        mydoubler=myfunc(2)
+        print(mydoubler(11))		

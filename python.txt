@@ -49,6 +49,7 @@ modules in python:
 ---------------------------------------------------------
    - modules are searched in "sys.path" - it is a list of paths where python library files are located and the current directory
    - PYTHONPATH - environment variable in windows
+   
    - we can insert a new path folder in sys.path:
    ex. sys.path.insert(0,'c:/myscript')                  <- sys.path is a list where we can insert elements 
    
@@ -56,9 +57,11 @@ modules in python:
    - we can import a *.py file with import
    ex. import hangman
        x=hangman.use()
+   
    - we can import a module as an alias and use the alias in front of the functions:
    ex. import hangman as hg                <- hg is an alias for hangman
        a=hg.use()
+   
    - we can import just parts of the module with the from keyword - we import just the list:
    ex. happy.py has the folowing variable and function: 
        def greeting():
@@ -68,7 +71,7 @@ modules in python:
 	   from happy import person1   
 	   print(person1["age"])          <- when importing with from we dont use the modulename when we adress the variable(not happy.person1[age])
 	   
-   - when importing from a module we can import more things:
+   - we can import more things when we import a module:
    ex. from happy import person1 , greeting             person1 is a function, greetig is a variable, if we specify what to import then we dont need to specify 
                                                         library name:
        a=person1(greeting)
@@ -660,7 +663,7 @@ python lists:
    Ex. l=[4,'casa',True, [33,12],0]
    
    
-range of indexes
+range of indexes - list slicing (
 ----------------------------------------------------------
    - we can specify a range of indexes by specifying where to start and where to end the range
 !!!- when specifying a range, the return value will be a new list with the specified items
@@ -688,6 +691,10 @@ range of indexes
    ex. list1=["Atti","Tibi","Shivan","Gauron","Feri"]
        print(list[::-1])            <-  Feri Gauron Shivan Tibi Atti
 
+   - we can specify a range in the for loop with slicing:
+   ex. for i in list[1:]:
+           print (i)
+
 working with lists:
 ----------------------------------------------------------	   
    - we can change the element in the list at a certain position:
@@ -705,6 +712,9 @@ working with lists:
 	   else:
 	      print("Tibi is not in the list!")
 		  
+   - sum() we can have the sum of the collection with the su() function:
+   ex. a=sum(iterable, start)
+   
    - len(): we can check the length of a list with :
    ex. list1=["Atti","Tibi","Shivan","Gauron","Feri"]
        print (len(list1))
@@ -830,6 +840,13 @@ tuple:
    - in: we can check if a value tuple is in a tuple:
    ex. thistuple = ("apple", "banana", "cherry")
        if "apple" in thistuple:
+   
+   - we can make a ist from a tuple:
+   ex. n = (1,2,3)
+       a = list(n)
+	   
+   - sum() we can have the sum of the collection with the su() function:
+   ex. a=sum(iterable, start)
    
    - we cant change a tuple but can create a list that can change the values, and then convert to a tupple:
    ex. x = ("apple", "banana", "cherry")
@@ -1055,6 +1072,9 @@ set in python:
    ex. thisset = {"apple", "banana", "cherry"}
 	   for i in thisset
           print(i)
+   
+   - sum() we can have the sum of the collection with the su() function:
+   ex. a=sum(iterable, start)
    
    - clear(): we can clear a set with clear() method:
    ex. thisset = {"apple", "banana", "cherry"}
@@ -1469,17 +1489,19 @@ functions
         numefunctie(2, c=1,b=3)            <- first parameter passing through positional, 2 and 3 through name
 		numefunctie(2,c=1,a=3)             <- error , a defined twice     
    
-   - that is why a function can be defined in an if:
+   - a function can be defined in an if:
    ex. a=1;b=4
        if a<3
          def aduna(a,b)
 		      return a+b
 		print(aduna,b))
 		print(aduna("sdfs","sdfs"))
+   
    - we can exit a function anytime with a return, if return without parameter, then returns "None"
    ex. def func(t):
 		print("t")
 		return                                     <- function returns None
+   
    - we can define our program with a def main():
    ex. def main():                 <- 
        ,.....
@@ -1518,12 +1540,13 @@ functions
        mydict={"plus":add}            <- dictionary, add is variablename!!  
        x=l["plus"](2,3)               <- l["plus"] replaces with the add from the dictionary and becomes the function name!!!!
        print(x)
+	   
 !!! - we can pass functions to function!!!!:
-   ex. def add(func):
-          return func(2)
-	   def func(n):
-			return n*n
-	   print (add())
+   ex. def add(a,b,func):
+          return func(a,b)
+	   def func(a,b):
+			return a+b
+	   print (add(1,2,func))
 
    - we can have wrapper function (functions that will be alled inside another function):
    ex. def add():
@@ -1762,6 +1785,24 @@ Inheritance:
 	     pas
    - when a class inherits an other it gets the other classes properties and methods
    
+   - we can initialize the parent class when we inherit with the super keyword:
+   ex. class Animal:
+          def __init__(self):
+		         self.num_eyes = 2
+		  def breathe(self):
+				print("Inhale, exhale")
+	   class Fish(Animal):
+           def __init__(self):
+		       super().__init__()                                  <- the super refers to the super class
+		   def swim(self):
+		       print("moving the fish")
+		   def breathe():
+		       super().breathe()                                    <- calls the super classes method
+			   print("doing this underwater")
+	  nemo = Fish()
+	  nemo.swim()
+	  nemo.breath()
+   
 Accessing methods of the objects:
 ------------------------------------------------------------
    - we can acces a metod of a class with classname.function()
@@ -1853,10 +1894,14 @@ abstraction:
 	     def emp_id(self, id ):                    <- partialy implemented in the child class
 		     print("emp_id is ")
 			 
-modules:
+math module:
 -------------------------------------------------------
    import math
    x=min (15, 10,20)
    x=abs(-7.2)    <- absolute number
    x=pow(3,4)
    x=math.sqrt(64)
+   
+event listeners:
+-------------------------------------------------------
+   - keyboard eventl isteners work by passing the key type that will be pressed  and a function that will be triggered when the key was pressed

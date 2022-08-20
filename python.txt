@@ -354,7 +354,7 @@ strings in python:
    ex. l="sDfere"
        l.translate(table)               <- table contains the mapping of the character that i will be changed with a character 
 	   
-   - replace(): we can replace a character with an other character with the replace() function:
+   - replace(): we can replace a string with an other string with the replace() function:
    ex. l="sDfere"
        replaced text=l.replace("s", "p")           <- pDfere
 	   
@@ -1313,6 +1313,10 @@ working with files
    ex. with open ("a.txt", "wt") as fileout:
       fileout.write("prima linie!")
       fileout.write("a doua linie!")
+	ex. textlist = ["Dear Name:","I anounce you that i am maried.","see you on my wedding."]
+        with open("stas.txt","wt") as inputfile:                                               <- writes the whole text line by line to a file with newline at the end
+        for i in textlist:
+            inputfile.write(i+"\n")
 	
 !!!- the recomended way of reading a file in python is:
    ex. with open("a.txt",'rt') as filein:         - r read  t text
@@ -1322,7 +1326,7 @@ working with files
 
 !!!- the recomended  read a file in the memory like a list of multiple lines(file will be closed after use automatically):
    ex. with open ("a.txt") as filein:
-         continut=filein.readlines()       <- reads the file line by line like a list
+         continut=filein.readlines()       <- reads the file line by line and ads it to the  list
          print(continut)		 
 
 !!! the recomended way of writing in a file multiple lines which closes the file automaticaly after usage:
@@ -1392,6 +1396,17 @@ working with files
    - we can delete a folder:
    ex. import os
        os.rmdir("sample data") 
+   
+   - we can have relative and absolute paths:
+      - relative path:      <- it is relative to the position we are currently
+	  	  ./Project/readme.txt    <-  we are going down in the project folder and then we find the file readme.txt
+	  - absolute path:      <- it is the absolute pathname
+		 d:/This/Project/readme.txt     <- we got absolute path
+		 /This/Project/readme.txt        <- in the same drive as the script is in
+   - we cn go up in directory and then down:
+	  - ../../Projet/readme.txt         <- we going up 2 levels and then going down the project folder to the readme.txt
+	  
+   - in python the current path is the path where we launched the script
 	   
 pickle si serializarea
 ------------------------------------------------------------------

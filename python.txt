@@ -1920,3 +1920,52 @@ math module:
 event listeners:
 -------------------------------------------------------
    - keyboard eventl isteners work by passing the key type that will be pressed  and a function that will be triggered when the key was pressed
+   
+working with CSV files:
+--------------------------------------------------------
+   - we can easily work with csv files in python by importing the csv module
+   ex. import csv
+   
+   - we can read in a list from a csv file with the csv.reader()
+   ex. import csv  
+       with opne (:file.csv","r") as data file:
+	   data = csv.reader(data_file)
+	   temperatures = []
+	   for row in data:
+	      if row[1] != "temp":             <- the first line in the file might be the tablenames
+			temperatures.append(row[1])
+	   print (temperatures)
+	   
+pandas:
+----------------------------------------------------------
+   - we can use the functions in pandas we can import pandas library:
+   ex. import pandas                <- we may not have it and needs to be installed
+   
+   - readcsv() we can read datas from a csv file with pandas.read_csv() function:
+   ex. data = pandas. read_csv("filename")                     <- puts all the data in a table with indexpositions, tablenames, etc
+   
+   - [] we can acces a tablename from the table with the [] or with table.tablename
+   ex. print(data["temp"])              <- outputs all the elements of the tablename temp  - dictionary type of adressing
+   ex. print(data.temp)                  <- object type of adressing
+   
+   - a panda structure can be 1 dimensional, or 2 dimensional data
+      - 1 dimensional are Series
+	  - 2 dimensional are DataFrame
+   
+   - the data type of the panda structure is DataFrame  (list of dictionary kinda)
+   ex. data = pandas. read_csv("filename")
+       print(type(data))      <- DataFrame object type    
+	   
+   - the data type of a table from the DataFrame is a Series type of object:( a list kinda)
+   ex. print(type(data[1]))                    <- Series type of data
+   
+   - the pandas library allow to convert a panda to any data type (DataFrame.to_parquet, to_pickle, to_csv, to_hdf, to_sql, to_dict, to_excel, to_json, to_html, to_feather, to_latex, etc)
+   - to_list() to convert from a panda table column Series, we can with the to-list() method
+   ex. print (data["temp"].to_list())                          <- this convert the panda t a list
+   
+   - pandas have built in math functions for mean, square, largest, median, etc:
+   ex. a= data[0].mean()
+   
+   - if we want to acces all the row  in the Series:
+   ex. print(data[data.day == "Monday"])           <- have acces to all the other elements of the row that has Monday in the day column
+       print (data[data.temp==data.temp.max()]

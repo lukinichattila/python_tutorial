@@ -1960,6 +1960,7 @@ pandas:
    ex. print(type(data[1]))                    <- Series type of data
    
    - the pandas library allow to convert a panda to any data type (DataFrame.to_parquet, to_pickle, to_csv, to_hdf, to_sql, to_dict, to_excel, to_json, to_html, to_feather, to_latex, etc)
+   
    - to_list() to convert from a panda table column Series, we can with the to-list() method
    ex. print (data["temp"].to_list())                          <- this convert the panda t a list
    
@@ -1974,5 +1975,16 @@ pandas:
    ex. data_dict = {"student":["Amy","Feri","Tibi"], "scores:":[76,56,65]}
        data = pandas.DataFrame(data_dict)            <- we create the panda by creating a dataFrame object with a dictionary as argument
 	   
-	   - data.to_csv() we can save our DataFrame to a csv file:
-	   ex. data.to_csv("new_data.csv")                 <- new_data.csv file where we want to save the DataFrame
+   - data.to_csv() we can save our DataFrame to a csv file:
+   ex. data.to_csv("new_data.csv")                 <- new_data.csv file where we want to save the DataFrame
+   
+   - len() we can find how many elements are in a result in the DataFrame:
+   ex. squirelcount = len(data[data["Primary Fur color"] == "Gray"])     <- all the elements that contains in the Primary Fur color column the gray element
+   
+   - iloc[] we can acces a row in a DataFrame with the iloc[pos] 
+   ex. datarow = data.ilok[0]                <- we can acces all the elements of the first dictionary
+   
+   - we can acces elements like in a matrix with [][]
+   ex. datarow = data.ilok[0][0]    <- element from the 0 row, 0 column
+   
+	 

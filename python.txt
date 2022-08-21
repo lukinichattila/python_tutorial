@@ -1969,3 +1969,10 @@ pandas:
    - if we want to acces all the row  in the Series:
    ex. print(data[data.day == "Monday"])           <- have acces to all the other elements of the row that has Monday in the day column
        print (data[data.temp==data.temp.max()]
+	   
+   - we can create a DataFrame object with a dictionary as argument:
+   ex. data_dict = {"student":["Amy","Feri","Tibi"], "scores:":[76,56,65]}
+       data = pandas.DataFrame(data_dict)            <- we create the panda by creating a dataFrame object with a dictionary as argument
+	   
+	   - data.to_csv() we can save our DataFrame to a csv file:
+	   ex. data.to_csv("new_data.csv")                 <- new_data.csv file where we want to save the DataFrame

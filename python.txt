@@ -1058,7 +1058,17 @@ dictionary in python
 		print(item[0], item[1])
    ex. for key,value in d.items()
 			print(key,value)
-			
+
+dictionary comprehension:
+-----------------------------------------------------------------
+   - syntax:
+   ex. newdict = {newkey:newvalue for (key,value) in dict.items()}            <- dict.items() are the pair of key values from the dictionaries 
+       newdict = {newkey:newvalue for (key,value) in dict.items() if condition True} 
+   ex. names = ['Alex","Feri","Tibi"]
+       student_score = {student:random:randint(1,100) for student in names}
+   
+   ex. student_score = {"Alex":24,"Tibi":34,"Feri":12}
+       passed_student = {student:scores for (student,score) in student_score.items() if score>=15)   
 set in python:
 -----------------------------------------------------------------
    - set is unordered, unchangable(just remove and add items) and unindexed, dont allow duplicates, and can be of any type (even mixed)
@@ -1987,4 +1997,34 @@ pandas:
    - we can acces elements like in a matrix with [][]
    ex. datarow = data.ilok[0][0]    <- element from the 0 row, 0 column
    
-	 
+   - iterrows() we can iterate over a Pandas DateFrame with iterrows():
+   ex. import pandas
+       student_dict = dict {"student":["Angela", "Tibi"], score:[15,13]}  
+       for (key,value) in student_dict.items():      <- classsic iteration with a for
+          print(value)   
+       studentdataframe = pandas.DataFrame(student_dict)
+	   #loop through rows of a data frame:
+	   for (index,rows) in student_data_frame.iterrows():
+	       print(rows.student)                           <- or rows["student"]
+       	   
+Graphical user interfaces with tkinter:
+------------------------------------------------------------------------------
+   - we can invoke the graphic user interface with tkinter
+   ex. import tkinter
+       window = tkinter.Tk()         <- invoke the windows creation
+	   ..............
+	   window.mainloop()             <- this has to bee the last line in the program, before it comes al the code
+   
+   - title() we can set the title of a window with title()
+   ex. window=tkinter.Tk()
+       window.title("Title of the window")
+
+   - minsize() we can set the minimum size of a window:
+   ex. window=tkinter.Tk() 
+       window.minsize(width = 500, heigth = 300)
+
+   - Label() - we can give a label to the window:
+   ex. mylabel = tkinter.Label(text = "I am a label", font = ("Arial", 24, "bold")
+       mylabel.pack(expand = True)
+   
+      

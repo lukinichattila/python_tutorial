@@ -244,7 +244,12 @@ strings in python:
    Ex. first="Luki"
        second="Atti"
        print(first+second)
-	   
+   - we can find the ASCII character code of a character:
+   ex. a=ord('a') 
+
+   - we can convert ASCII code to characters:
+   ex. print(chr(120))            <- "x"
+   
    - if we have a ' in the string we can use the ""
    Ex. print("Worl'd")
    
@@ -992,8 +997,8 @@ dictionary in python
    
    - we can acces the value of a dictionary with:
    ex. thisdict = {"brand":"Ford","model":"Mustang","year":1984}
-       x=thisdict["model"]
-	   x=thisdict.get("model")
+       x=thisdict["model"]           <- if key notin dictionary then error
+	   x=thisdict.get("model")       <- with get if key is not in dictionary it will not give error, it returns None
    
    - keys(): we can have a list of all the keys in the dictionary:
    ex. x=thisdict.keys()           <- it is not a new list, it is a view
@@ -1069,6 +1074,7 @@ dictionary comprehension:
    
    ex. student_score = {"Alex":24,"Tibi":34,"Feri":12}
        passed_student = {student:scores for (student,score) in student_score.items() if score>=15)   
+
 set in python:
 -----------------------------------------------------------------
    - set is unordered, unchangable(just remove and add items) and unindexed, dont allow duplicates, and can be of any type (even mixed)
@@ -1488,7 +1494,11 @@ functions
        funcname(name="Tobias",lname="Frank")
 	   funcname()
 	   funcname(name="Feri")    
-
+   - we can acces the arguments passed like dictionary in the function:
+   ex. def funcname(**kwargs):
+       for key,value in kwargs.item():
+		 print (key,value)
+		 print(kwarg[key])
    - we can pass a dictionary as a function parameter element by element
    ex. info{'start:0,'start':1,'step':2}
        def f(start,stop,step):
@@ -1563,7 +1573,7 @@ functions
    ex. def add(d,y):
          return d+y
        mydict={"plus":add}            <- dictionary, add is variablename!!  
-       x=l["plus"](2,3)               <- l["plus"] replaces with the add from the dictionary and becomes the function name!!!!
+       x=mydict["plus"](2,3)               <- mydict["plus"] replaces with the add from the dictionary and becomes the function name!!!!
        print(x)
 	   
 !!! - we can pass functions to function!!!!:
@@ -1580,6 +1590,11 @@ functions
 			function()
        func(add)
 	
+   - we can have default values in the functions:
+   ex. def myfunc(a=5,b=6,c=7):
+       myfunc(b=7)                           <- the function will take default arguments except b that is given, a and c will be 5 and 7
+   ex. def myfunc(a,b=2,
+	   
 lambda functions
 ------------------------------------------------------------------
    - lambdas are functions defined in the place it is needed
@@ -2026,5 +2041,12 @@ Graphical user interfaces with tkinter:
    - Label() - we can give a label to the window:
    ex. mylabel = tkinter.Label(text = "I am a label", font = ("Arial", 24, "bold")
        mylabel.pack(expand = True)
-   
+
+   - pack() the geometry manager organizes widgets in blocks before placing them in the parent widgets
+   - syntax:
+   ex. widget.pack(pack options)                <- pack options are **kwarg,we have to specify the key value pair
+         options : - expand  - when set to tru the widget expand to fill any space that it can fill
+		           - fill - Determines whether widgets fill any extra space alocated by the packer.
+				     NONE(default), Y fill horizontaly, Y - fill vertically, BOTH - fill X and Y
+				   - side - determines which side of the parent widget packs aginst:TOP, BOTTTOM, LEFT, RIGHT
       

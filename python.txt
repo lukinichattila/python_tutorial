@@ -1493,12 +1493,16 @@ functions
             print(kid)
        funcname(name="Tobias",lname="Frank")
 	   funcname()
-	   funcname(name="Feri")    
-   - we can acces the arguments passed like dictionary in the function:
+	   funcname(name="Feri")  
+	   
+   - we can acces the arguments passed like dictionary in the function( unknown number of arguments):
    ex. def funcname(**kwargs):
        for key,value in kwargs.item():
 		 print (key,value)
 		 print(kwarg[key])
+   - ex. def funcname(n, **kwarg):
+         funcname(5, car = green, wheels = 4)
+		 
    - we can pass a dictionary as a function parameter element by element
    ex. info{'start:0,'start':1,'step':2}
        def f(start,stop,step):
@@ -2024,9 +2028,11 @@ pandas:
        	   
 Graphical user interfaces with tkinter:
 ------------------------------------------------------------------------------
-   - we can invoke the graphic user interface with tkinter
+   - we can find tkinter related information on tcl.tk  
+  - we can invoke the graphic user interface with tkinter
    ex. import tkinter
        window = tkinter.Tk()         <- invoke the windows creation
+	   windows.config(background = "Red")
 	   ..............
 	   window.mainloop()             <- this has to bee the last line in the program, before it comes al the code
    
@@ -2049,4 +2055,34 @@ Graphical user interfaces with tkinter:
 		           - fill - Determines whether widgets fill any extra space alocated by the packer.
 				     NONE(default), Y fill horizontaly, Y - fill vertically, BOTH - fill X and Y
 				   - side - determines which side of the parent widget packs aginst:TOP, BOTTTOM, LEFT, RIGHT
+				   
+	- we can acces the properties of the widgets in 2 ways:
+	   - the dictionary way:
+	   ex. mylabel["text"] = "My button"
+       - through the config method:
+       ex. mylabel.config(text = "new button")	 
+
+Buttons with TKinter:
+--------------------------------------------------------------
+   - we can create a button with tkinter:
+   ex.import tkinter
+       def functionnametobecalled:
+		print("i got clicked")
+      mybutton = tkinter.Button(text = "Klick me!", command = functionnametobecalled)             <- command calls the functioname when clicked on it
+	  mybutton.pack()                                    <- puts the button on the frame
+	  
+Entry with tkinter:
+--------------------------------------------------------------
+   - The Entry widget is used to accept single-line text strings from a user.
+   - we can have an entry window where we input data:
+   ex. import tkinter
+       myentry = tkinter.Entry(width = 20)
+	   myentry.pack()                                <- needed to put it on the window, otherwise does not apear
+	   
+   - we can get the text in the entry with the get function:
+   ex. myentry.get()
+
+Text with tkinter:
+--------------------------------------------------------------
+   
       

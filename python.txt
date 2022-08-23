@@ -2058,11 +2058,19 @@ Graphical user interfaces with tkinter:
        - through the config method:
        ex. mylabel.config(text = "new button")
 	   
+padding in tkinter(making a space around an element or window border where nothing comes:
+--------------------------------------------------------------
+   ex.window=tkinter.Tk()
+       window.config(padx=100,pady=100)            <- safespace from the border of the window 
+       label.config(padx=50,pady=20)
+	   
 Label in tkinter:
 -----------------------------------------------------------
    - Label() - we can give a label to the window:
    ex. mylabel = tkinter.Label(text = "I am a label", font = ("Arial", 24, "bold")
        mylabel.pack(expand = True)
+	   
+   - we can change the properties anytime of the element with the .config(options)
 	   
 Buttons with TKinter:
 --------------------------------------------------------------
@@ -2072,7 +2080,11 @@ Buttons with TKinter:
 		print("i got clicked")
       mybutton = tkinter.Button(framename,text = "Klick me!", command = functionnametobecalled)             <- command calls the functioname when clicked on it
 	  mybutton.pack(anchor = CENTER)                                    <- puts the button in the center of the frame
-	  
+   - we can change the label after the creation with 
+   ex. mybuton.config(text="fgdF")
+   
+   - we can change the properties anytime of the element with the .config(options)
+   
 Entry with tkinter:
 --------------------------------------------------------------
    - The Entry widget is used to accept single-line text strings from a user.
@@ -2083,11 +2095,13 @@ Entry with tkinter:
 	   
    - we can get the text in the entry with the get function:
    ex. myentry.get()
+   
+   - we can change the properties anytime of the element with the .config(options)
 
 Text with tkinter:
 --------------------------------------------------------------
    - we can define a text box for multiple line entering:
-	ex. text = Text(parrentwindowname, height = 5, width = 30)                 <- textbox propertys height and width
+	ex. text = Text(parrentwindowname, height = 5, width = 30)                 <- textbox propertys height and width in character number and lines
 	
 	- we can put a cursor in the textbox for imediate typing:
 	ex. text.focus()                                            <- puts cursor in textbox
@@ -2096,7 +2110,9 @@ Text with tkinter:
 	ex. text.insert(END, "Example of multiline text entry")
 	
 	- get() we can get the text in the textbox:
-	ex. text.get("1,0", END)               <- get the current value in the textbox at line 1, character 0
+	ex. text.get("1,0", END)               <- get the current value in the textbox at line 1, character 0, until the END of the textline
+	
+	- we can change the properties anytime of the element with the .config(options)
 	
 spinbox in tkinter:
 -----------------------------------------------------------
@@ -2106,6 +2122,8 @@ spinbox in tkinter:
 	   
    - get() we can get the value from a spinbox:
    ex. print(spinbox.get())
+   
+   - we can change the properties anytime of the element with the .config(options)
    
 checkbuton in tkinter:
 -----------------------------------------------------------
@@ -2122,16 +2140,24 @@ checkbuton in tkinter:
    - invoke() we can call this method that does the same action like a user clicked on the checkbutton
    ex. checkbutton.invoke()
    
+   - we can change the properties anytime of the element with the .config(options)
+   
 radiobutton in tkinter:
 ----------------------------------------------------------
    - we can have a radiobutton in tkinter
-   ex. radiobutton = tkinter.Radiobutton(parentwindow,text="Option1", value=1, variable = radiostate, command=radio_used)
-       radiobutton2 = tkinter.Radiobutton(text="Option2", value=2, variable = radiostate, command=radio_used)
-	   radiobutton.pack()
-	   radiobutton2.pack()
+   ex. mainwindow = Tk()
+		radiostate = tkinter.IntVar(mainwindow)
+		radiobutton = tkinter.Radiobutton(mainwindow,text="Option1", value=1, variable = radiostate, command=radio_used)   <-in radiostate will be  saved which button is clicked
+       radiobutton2 = tkinter.Radiobutton(mainwindow,text="Option2", value=2, variable = radiostate, command=radio_used)
+	   radiobutton.pack(anchor = W)
+	   radiobutton2.pack(anchor = W)
+	   def radio_used:
+			print(radiostate.get())         <- print out which buton is pressed
 	   
    - we can get the state of the radio button:
    ex. print(radiostate.get())
+   
+   - we can change the properties anytime of the element with the .config(options)
    
 Listbox in tkinter:
 ----------------------------------------------------------
@@ -2142,6 +2168,7 @@ Listbox in tkinter:
 		listbox.insert(fruits.index(item), item)
 	   listbox.bind("<<ListboxSelect>>", listbox_used)
 	   listbox.pack()
+	- we can change the properties anytime of the element with the .config(options)
 
 Scale in tkinter:
 ---------------------------------------------------------
@@ -2157,9 +2184,33 @@ Scale in tkinter:
    - we can set the scales value:
    ex. scale.set(value)
    
+   - we can change the properties anytime of the element with the .config(options)
+   
 tkinter layout managers: pack, place and grid
 --------------------------------------------------------
-
+   - just one manager can be used in a program
+   - pack manager: packs each of the element next to each other in a logical manner - by default from up to down
+        -hard to position something precise
+      ex. label.pack(side = "left")      <- packs everything from left to right
    
+   - place manager: permits the positioning much more precise of the elements
+	  ex. label.place(x=0,y=0)                         <- positions the element at 0,0 position
+	  
+   - grid manager: positions the element oon a grid.the window is split on rows and columns and positions the elements on the row,column
+     coordonates
+		ex. mylabel.grid(column=3,row=2)
+		
+tkinter Canvaas widget:
+--------------------------------------------------------
+   - canvas allows to layer one widget over an other widget
+   ex. from tkinter import *
+        window= Tk()
+		window.title("Hey")
+		window.config(width=100,heigth=50, bg = "#e65743")     <- hexa for the color
+        mycanvas = Canvas(width = 200, heigth = 200,bg="#5467763",highlighttickness=0)      <- width and heigth in pixel
+		imagevar = PhotoImage(file="tomato.png")      <- PhotoImage is a tkinter format that can read an image file and return it in python
+        canvas.create_image(100,122,image=imagevar)
+		canvas.create_text(100,112,text="yuhuuu",fill="white",font=("Arial",35,"bold")
+		canvas.pack()
 
    

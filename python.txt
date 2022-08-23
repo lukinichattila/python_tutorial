@@ -2044,10 +2044,6 @@ Graphical user interfaces with tkinter:
    ex. window=tkinter.Tk() 
        window.minsize(width = 500, heigth = 300)
 
-   - Label() - we can give a label to the window:
-   ex. mylabel = tkinter.Label(text = "I am a label", font = ("Arial", 24, "bold")
-       mylabel.pack(expand = True)
-
    - pack() the geometry manager organizes widgets in blocks before placing them in the parent widgets
    - syntax:
    ex. widget.pack(pack options)                <- pack options are **kwarg,we have to specify the key value pair
@@ -2060,23 +2056,29 @@ Graphical user interfaces with tkinter:
 	   - the dictionary way:
 	   ex. mylabel["text"] = "My button"
        - through the config method:
-       ex. mylabel.config(text = "new button")	 
-
+       ex. mylabel.config(text = "new button")
+	   
+Label in tkinter:
+-----------------------------------------------------------
+   - Label() - we can give a label to the window:
+   ex. mylabel = tkinter.Label(text = "I am a label", font = ("Arial", 24, "bold")
+       mylabel.pack(expand = True)
+	   
 Buttons with TKinter:
 --------------------------------------------------------------
    - we can create a button with tkinter:
    ex.import tkinter
        def functionnametobecalled:
 		print("i got clicked")
-      mybutton = tkinter.Button(text = "Klick me!", command = functionnametobecalled)             <- command calls the functioname when clicked on it
-	  mybutton.pack()                                    <- puts the button on the frame
+      mybutton = tkinter.Button(framename,text = "Klick me!", command = functionnametobecalled)             <- command calls the functioname when clicked on it
+	  mybutton.pack(anchor = CENTER)                                    <- puts the button in the center of the frame
 	  
 Entry with tkinter:
 --------------------------------------------------------------
    - The Entry widget is used to accept single-line text strings from a user.
    - we can have an entry window where we input data:
    ex. import tkinter
-       myentry = tkinter.Entry(width = 20)
+       myentry = tkinter.Entry(framename,width = 20)
 	   myentry.pack()                                <- needed to put it on the window, otherwise does not apear
 	   
    - we can get the text in the entry with the get function:
@@ -2084,5 +2086,80 @@ Entry with tkinter:
 
 Text with tkinter:
 --------------------------------------------------------------
+   - we can define a text box for multiple line entering:
+	ex. text = Text(parrentwindowname, height = 5, width = 30)                 <- textbox propertys height and width
+	
+	- we can put a cursor in the textbox for imediate typing:
+	ex. text.focus()                                            <- puts cursor in textbox
+    
+	- our text can have some text already typed in:
+	ex. text.insert(END, "Example of multiline text entry")
+	
+	- get() we can get the text in the textbox:
+	ex. text.get("1,0", END)               <- get the current value in the textbox at line 1, character 0
+	
+spinbox in tkinter:
+-----------------------------------------------------------
+   - we can have a spinbox
+   ex. spinbox = tkinter.Spinbox(parentwindow,from_=0 to=10, width=5, command=spinbox_used)        <- command - a function that is executed
+       spinbox.pack()
+	   
+   - get() we can get the value from a spinbox:
+   ex. print(spinbox.get())
    
-      
+checkbuton in tkinter:
+-----------------------------------------------------------
+   - we can have a checkbuton in tkinter
+   ex. checkbutton = tkinter.CheckButton(parentwindow, text=="is on?", variable = checkedstate, command = checkbutonused)  <- checkbutonused a function that will be executed
+       checkbutton.pack()                                                                                               variable = checkedstate   <- chackedstate is  0 or 1
+		  
+   - get() we can get the state of the checkbuton with the get ()
+   ex. a = checkbutton.get()
+   
+   - deselect() we can deselect the checkbuttton:
+   ex.checkbutton.deselect()
+   
+   - invoke() we can call this method that does the same action like a user clicked on the checkbutton
+   ex. checkbutton.invoke()
+   
+radiobutton in tkinter:
+----------------------------------------------------------
+   - we can have a radiobutton in tkinter
+   ex. radiobutton = tkinter.Radiobutton(parentwindow,text="Option1", value=1, variable = radiostate, command=radio_used)
+       radiobutton2 = tkinter.Radiobutton(text="Option2", value=2, variable = radiostate, command=radio_used)
+	   radiobutton.pack()
+	   radiobutton2.pack()
+	   
+   - we can get the state of the radio button:
+   ex. print(radiostate.get())
+   
+Listbox in tkinter:
+----------------------------------------------------------
+   - we canhave a listbox in tkinter:
+   ex. listbox = tkinter.Listbox(masterwindow, height = 4)
+       fruits = ["Apple","pear","orange"]
+	   for item in fruits:
+		listbox.insert(fruits.index(item), item)
+	   listbox.bind("<<ListboxSelect>>", listbox_used)
+	   listbox.pack()
+
+Scale in tkinter:
+---------------------------------------------------------
+   - we can have a scale in tkinter : it returns a value if we release the mouse
+   ex. def scaleused(value):
+			print(value)
+		scale = tkinter.Scale(masterwindow, from_=0, to =100, command=scaleused))   <- scaleused is a function that gets called when used, 
+		                                                                         master represents the master window
+		scale.pack()
+   - we can get the return value of the scale:
+   ex. scale.get()
+   
+   - we can set the scales value:
+   ex. scale.set(value)
+   
+tkinter layout managers: pack, place and grid
+--------------------------------------------------------
+
+   
+
+   

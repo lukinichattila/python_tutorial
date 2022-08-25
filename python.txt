@@ -111,6 +111,11 @@ Commenting :
    - in the command prompt:
    Ex. python main.py                         <- .py is the source code
 
+sleep in python:
+----------------------------------------------------------
+   - we can have a pause in our program with the sleep function:
+   ex. import time
+       time.sleep(1)                   <-  stops execution for 1 second
 print
 ----------------------------------------------------------
    Ex. print("casa", 23,32.4)   <- we can use multiple variables separated with ,
@@ -204,6 +209,14 @@ data types in python and variables
     - type(): we can find out the type of a variable:
     Ex. print(type(y))
 
+python dynamic typing:
+--------------------------------------------------------------
+   - dynamic typing means that after we asssigned a data type to a vaiable, we can assign a different one later:
+   ex. a = 5
+       print (a)
+	   a="text"
+	   print (text)
+	   
 variable scope:
 --------------------------------------------------------------
    - variables declared in upper function hierarchyies are visible in lower functions
@@ -244,6 +257,7 @@ strings in python:
    Ex. first="Luki"
        second="Atti"
        print(first+second)
+   
    - we can find the ASCII character code of a character:
    ex. a=ord('a') 
 
@@ -391,6 +405,7 @@ strings in python:
    - we can make each word in a string start with uppercase with the title() function:
    ex. text = 'My favorite number is 25.'
        print(text.title())
+	   
    - we can add punctuations, digits, whitespaces to a string:
    ex. import string 
        strip=string.whitespace+string.punctuation+string+"\"."
@@ -1213,7 +1228,7 @@ sorting in python:
        def fct(nr):
 			return abs(nr)                    <- returns absolute number for every element in the list
    
-   - sorted(): we can sort after a key function:we can use a lambda function
+   - sorted(): we can sort after a key function:
    ex. l=["Masa","Apa","Birou"]
 		ll=sorted(l,key=f),                    
 		print(ll)
@@ -1226,7 +1241,7 @@ sorting in python:
 		def f(str):                     <- anotation   type it tells that str is of type string   
 			return len(str)             <- it will return the length and then the sorting will happen naturally  after the length
    
-   - functions are there to provide a different value after the sorting will sort naturally
+   - we can use a lambda function.functions are there to provide a different value after the sorting will sort naturally
    ex. l=["Masa","Apa","Birou"]
 		ll=sorted(l,key=lambda s: s.lower()),                    
 		print(ll)
@@ -1386,7 +1401,8 @@ working with files
        os.path.exists(path to file)
           
    - we can get a files size in bytes:
-   ex. os.path.getsize(pathwithfilename)
+   ex. import os 
+      os.path.getsize(pathwithfilename)
    ex. for intrare in os.listdir(folder):
           path_name =f'{folder}/{intrare}'
 		  if(os.path.isfile(path_name):
@@ -1419,7 +1435,7 @@ working with files
 	  - absolute path:      <- it is the absolute pathname
 		 d:/This/Project/readme.txt     <- we got absolute path
 		 /This/Project/readme.txt        <- in the same drive as the script is in
-   - we cn go up in directory and then down:
+   - we can go up in directory and then down:
 	  - ../../Projet/readme.txt         <- we going up 2 levels and then going down the project folder to the readme.txt
 	  
    - in python the current path is the path where we launched the script
@@ -1945,6 +1961,7 @@ math module:
    x=abs(-7.2)    <- absolute number
    x=pow(3,4)
    x=math.sqrt(64)
+   x=math.floor(z)             <- rounds the number down to an integer i<= z
    
 event listeners:
 -------------------------------------------------------
@@ -2043,7 +2060,10 @@ Graphical user interfaces with tkinter:
    - minsize() we can set the minimum size of a window:
    ex. window=tkinter.Tk() 
        window.minsize(width = 500, heigth = 300)
-
+	   
+   - we can change the tkinter logo with wm_iconbitmap("logofile.ico")
+   ex. window.wm_iconbitmap("myicon.ico")
+   
    - pack() the geometry manager organizes widgets in blocks before placing them in the parent widgets
    - syntax:
    ex. widget.pack(pack options)                <- pack options are **kwarg,we have to specify the key value pair
@@ -2067,8 +2087,9 @@ padding in tkinter(making a space around an element or window border where nothi
 Label in tkinter:
 -----------------------------------------------------------
    - Label() - we can give a label to the window:
-   ex. mylabel = tkinter.Label(text = "I am a label", font = ("Arial", 24, "bold")
-       mylabel.pack(expand = True)
+   ex. mylabel = tkinter.Label(text = "I am a label",fg = "#45337" font = ("Arial", 24, "bold"),width=29)    <- fg foreground color, 24 is size 
+                                                                                                       <- width makes the widget this width, centering text
+	   mylabel.pack(expand = True)
 	   
    - we can change the properties anytime of the element with the .config(options)
 	   
@@ -2090,13 +2111,20 @@ Entry with tkinter:
    - The Entry widget is used to accept single-line text strings from a user.
    - we can have an entry window where we input data:
    ex. import tkinter
-       myentry = tkinter.Entry(framename,width = 20)
+       myentry = tkinter.Entry(framename,width = 20)           <- the frame or window where it belongs
 	   myentry.pack()                                <- needed to put it on the window, otherwise does not apear
 	   
    - we can get the text in the entry with the get function:
    ex. myentry.get()
    
    - we can change the properties anytime of the element with the .config(options)
+   - we can hve a blinking cursor in it with the focus() method:
+   ex. myentry.focus()
+   -.insert(index, text) we can insert a text in the entry that will be in the box(email sign in a email box): index can be 0, END
+   ex.myentry.insert(0, "aloha@aloha.com") 
+   
+   - .delete() we can delete the content of the entry with delete:
+   ex. myentry.delete(0,END)                                      <- deletes an entry from index 0 to index END
 
 Text with tkinter:
 --------------------------------------------------------------
@@ -2198,19 +2226,62 @@ tkinter layout managers: pack, place and grid
 	  
    - grid manager: positions the element oon a grid.the window is split on rows and columns and positions the elements on the row,column
      coordonates
-		ex. mylabel.grid(column=3,row=2)
+		ex. mylabel.grid(column=3,row=2,columnspan=2, rowspan = 5, sticky="W")           <-columnspan means how many columns it will stretch
+																			  - rowspan means how many rows it will span
+               - sticky() we can position inside a grid cell with sticky  
+                label.grid(row=10, column=10, sticky="w", padx=10, pady=10)    <- positions to the left side of the grid cell(default is center), 
+				                                                                  padx,pady makes spaces in pixals before and after the widget, up or down			   
 		
-tkinter Canvaas widget:
+tkinter Canvas widget:
 --------------------------------------------------------
    - canvas allows to layer one widget over an other widget
    ex. from tkinter import *
         window= Tk()
 		window.title("Hey")
-		window.config(width=100,heigth=50, bg = "#e65743")     <- hexa for the color
+		window.config(width=100,heigth=50, bg = "#e65743",padx=20,pady=20)     <- hexa for the color,padx,pady space where nothing comes
         mycanvas = Canvas(width = 200, heigth = 200,bg="#5467763",highlighttickness=0)      <- width and heigth in pixel
 		imagevar = PhotoImage(file="tomato.png")      <- PhotoImage is a tkinter format that can read an image file and return it in python
-        canvas.create_image(100,122,image=imagevar)
-		canvas.create_text(100,112,text="yuhuuu",fill="white",font=("Arial",35,"bold")
-		canvas.pack()
+        myimage = mycanvas.create_image(100,122,image=imagevar)       <- creates an image on the canvas places it to 100,122 with center of the image like anchor
+		myimage = mycanvas.create_image(0,0,anchor="nw",image=imagevar)   <- creates an image on the canvas,
+                                                                		places it to 0,0 with the uper left corner of the image as anchor
+		mmytext = mycanvas.create_text(100,112,text="yuhuuu",fill="white",font=("Arial",35,"bold"))
+		mycanvas.pack()
+	
+- itemconfig() we can modify the atributs of any widget placed on a canvas with the itemconfig()	
+	ex. mycanvas.itemconfig(mytext, text = "hulla")                      <- mytext is the widget name placed on a canvas, , text is the property changed
+	- by default when an image is placed the center of the image is taken when placeing as coordinate
+	- to specify  the upperleft corner of the image when placing we can use the anchor():
+	ex: self.canvas.create_image(0, 0, image=self.image, anchor="nw")           <- anchor="nw" means that when placing the image the upper left corner shouldbe placed at the coordinates
+	
+	
+	
 
+.after() widget property:
+---------------------------------------------------------
+   - .after() we can use the .after() property on a widget that waits for an amount of time and then gives a command to execute something:
+   ex. import tkinter
+       window = tkinter.Tk()
+	   timerpause = windows.after(1000,dosomething,*args)       <- dosomething is a method name that will be called, *args is an argument list that
+                                                 	   will be passed to the function
+	   def dosomething(a):
+			print(a)
+   - .after_cancel()we can cancel the timer setup with the cancel method:
+   ex. window.after_cancel(timerpause)                         <- timerpause is the variable that the after was assigned
    
+messagebox in tkinter:
+----------------------------------------------------------
+   - messagebox is defined in tkinter:
+   ex. import from tkinter messagebox
+   
+   - the folowing methods are defined in the messagebox class:
+           showinfo(title=None, message=None, **options): Show some relevant information to the user.
+           showwarning(title=None, message=None, **options): Display the warning to the user.
+           showerror(title=None, message=None, **options): Display the error message to the user.
+           askquestion(title=None, message=None, **options): Ask question and user has to answered in yes or no.
+           askokcancel(title=None, message=None, **options): Confirm the user’s action regarding some application activity.
+           askyesno(title=None, message=None, **options): User can answer in yes or no for some action.
+           askretrycancel(title=None, message=None, **options): Ask the user about doing a particular task again or not.
+	ex. import from tkinter messagebox
+	    istrue = messagebox.askokcancel("write","this will be written.Ok or cancel!")
+		if istrue:
+		   print ("ok was clicked!")

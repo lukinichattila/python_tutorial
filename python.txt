@@ -361,9 +361,9 @@ strings in python:
    ex. l="sDfere"
    print(l.isupper())
    
-   - join(): we can join the elements of a string with space between words with .join() function
+   - join(): we can join the elements of an iterable with character(or string?) between elements with .join() function
    ex. text = ['Python', 'is', 'a', 'fun', 'programming', 'language']
-       print(' '.join(text))                                                               <- Python is a fun programming language
+       print(' '.join(text))                                    <- Python is a fun programming language
 	   
    - swapcase(): we can vdchange upercase to lowercase and vice versa with the swapcase() method:
    ex. l="sDfere"
@@ -732,7 +732,7 @@ working with lists:
 	   else:
 	      print("Tibi is not in the list!")
 		  
-   - sum() we can have the sum of the collection with the su() function:
+   - sum() we can have the sum of the collection with the sum() function:
    ex. a=sum(iterable, start)
    
    - len(): we can check the length of a list with :
@@ -1311,6 +1311,9 @@ exceptions:
    ex. x=-1
        if x<0:
 	   raise Exception("Sorry, no numbers below zero")
+	   
+  ex. if x<0:
+		raise KeyError("This is a thrown error!")             
    
    - we can define the type of error to raise and the text to print to the user:
    ex. x="hello"
@@ -1325,7 +1328,24 @@ exceptions:
 			work()
 		except ValueError as err:
 			print ("exception caught", err)
-	- we have base exception, and any custm exception needs to inherit from BaseException!!   
+	- we have base exception, and any custm exception needs to inherit from BaseException!! 
+    
+	- error mesages can be catched with the as keyword:
+	ex. try:
+	        dictionary = {"key":"value"}
+			print(dictionary["asda"])
+		except KeyError as errormsg:                <- errormsg contains the error message
+			print (f"{errormsg}")
+			
+	- if we can have multiple errors in a try block, it i wise to treat it with a specfic Except error type:
+    ex. try:
+           file = open("file.txt")
+           dictionary={"key":"value"}
+           print(dictionary["asd"])
+        except FileNotFoundError:	
+           print("file not found error catched!
+        except KeyError as error_mesage:         
+		   print(f"{error_mesage}")
 
 working with files
 -------------------------------------------------------------------
@@ -1461,13 +1481,21 @@ pickle si serializarea
 	
 	- we can use json for serialization write - json does save everything in lists so other containers types will be lost 
    ex. import json	
-       with open ("db.json", 'wt') as input                <- open for write as a text file forjson
-	   l=[1,3,'casa']
-	   json.dump(l,f)           <- problem withjosn that is only one dump and we cant dump just 1 object unlike pikle
-   
+       with open ("db.json", 'wt') as inputfile                <- open for write as a text file forjson
+	   mylist=[1,3,'casa']
+	   json.dump(mylist,inputfile, indent=4)           <- problem withjosn that is only one dump and we cant dump just 1 object unlike pikle
+															indent means it will output it to a more readable format in the file(for eyes)
    - we can use json for deserialization read:
-   ex. with open ("db.json", 'rt') as output
+   ex. import json
+       with open ("db.json", 'rt') as output
 	   l=json.load(output)
+	   
+   - we can use json to update in a file an already saved json database:
+   ex. with open ("data.json", "r") as data_file:
+		data=json.load(data_file)
+		data.update(new_data)
+	   with open ("data.json", "w") as data_file:
+	   json.dump(data, data_file,indent = 4)
 
 
 functions
@@ -2106,6 +2134,10 @@ Buttons with TKinter:
    
    - we can change the properties anytime of the element with the .config(options)
    
+   - we can put an image on a buton:
+   ex. my_image = tkinter.PhotoImage(file = "pathtofile/file.png")
+       mybuton = tkinter.Button(Image = my_image, highlighttickness=0)
+   
 Entry with tkinter:
 --------------------------------------------------------------
    - The Entry widget is used to accept single-line text strings from a user.
@@ -2213,7 +2245,30 @@ Scale in tkinter:
    ex. scale.set(value)
    
    - we can change the properties anytime of the element with the .config(options)
-   
+
+Menu in tkinter:
+--------------------------------------------------------
+   - every toplevel window can have only one menu bar
+   - we can add a menu in tkinter:
+   ex. from tkinter import *
+	   mainwindow=Tk()
+	   menubar=Menu(mainwindow)                                    <- creates a Menu
+	   filemenu=Menu(menubar,tearoff=0)                            <-create a filemenu whos container is menubar, tearoff means no dashed line!!!!
+	   filemenu.add_command(label="New", command = newmethod)      <- add elements to the menu
+	   filemenu.add_command(label="Open", command = openmethod)
+	   filemenu.add_command(label="Save", command = savemethod)
+	   filemenu.add_separator()
+	   filemenu.add_command(label="Exit", command = mainwindow.quit()
+	   menubar.add_cascade(label="File", menu=filemenu, underline=0)     <- add the filemenu and its elements to the manubar container,
+	                                                                        underline means it can be accesed with a shortcut, specifies which character in pos to be underlined
+	   editmenu=Menu(menubar, tearoff=0)                                <- tearoff means no dashed line (detach menubar) apears in the menu
+	   editmenu.add_command(label="Undo", command = undomethod)
+	   editmenu.add_command(label="Redo",command = redomethod)
+	   menubar.add_cascade(label="Edit",menu=editmenu, underline=0)
+	   submenu = Menu(filemenu, tearoff=0)                               <-creates submenu with parent not main manu but the menu where it apears
+	   submenu.add_command(label="Color Themes")
+	   filemenu.add_cascade(label="Preferences", menu=submenu)           <-add submenu to filemenu and links it to filemenu
+	   
 tkinter layout managers: pack, place and grid
 --------------------------------------------------------
    - just one manager can be used in a program
@@ -2285,3 +2340,13 @@ messagebox in tkinter:
 	    istrue = messagebox.askokcancel("write","this will be written.Ok or cancel!")
 		if istrue:
 		   print ("ok was clicked!")
+		   
+copying to the clipboard:
+----------------------------------------------------------
+   - to be able to use we need to install pyperclip.
+   ex. import pyperclip
+       pyperclip.copy(textstring)     <- copies the text to the clipboard
+	   pyperclip.paste()              <- returns the text in the clipboard
+
+   - text is pasteable outside and inside of the python progy
+	   

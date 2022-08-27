@@ -2002,7 +2002,7 @@ working with CSV files:
    
    - we can read in a list from a csv file with the csv.reader()
    ex. import csv  
-       with opne (:file.csv","r") as data file:
+       with open ("file.csv","r") as data file:
 	   data = csv.reader(data_file)
 	   temperatures = []
 	   for row in data:
@@ -2050,7 +2050,8 @@ pandas:
        data = pandas.DataFrame(data_dict)            <- we create the panda by creating a dataFrame object with a dictionary as argument
 	   
    - data.to_csv() we can save our DataFrame to a csv file:
-   ex. data.to_csv("new_data.csv")                 <- new_data.csv file where we want to save the DataFrame
+   ex. data.to_csv("new_data.csv", index = False)                 <- new_data.csv file where we want to save the DataFrame index=False                        
+                                                                     does not write the index of every line to the file
    
    - len() we can find how many elements are in a result in the DataFrame:
    ex. squirelcount = len(data[data["Primary Fur color"] == "Gray"])     <- all the elements that contains in the Primary Fur color column the gray element
@@ -2350,3 +2351,48 @@ copying to the clipboard:
 
    - text is pasteable outside and inside of the python progy
 	   
+smtplib and python(sending mail from python)
+--------------------------------------------------------------------
+   - SMTP - Simple Mail Transfer Protocol
+   - we can send and receive mail from python with the smtplib:
+   - the recomended way of sending mail is the one thaat closes the connection imediately:
+   ex. import smtplib
+       myemail="luky@gmail.com"
+	   with smtplib.SMTP("smtp.google.com") as connection:
+		connection.starttls()                        <- makes an ancrypted connection, so if someone intercepts mail , it will be encrypted
+	   connection.login(login=myemail, password="yyyyyy")
+	   connection.sendmail(from_addr=myemail, to_addrs="johny@gmail.com",msg="Subject:Hello!\n\nThis is the message!")
+   
+   - we can connet the old way (like read and write in a file) with the SMTP()
+   ex. import smtplib
+       myemail="luky@gmail.com"
+	   connection = smtplib.SMTP("smtp.google.com")
+	   c  /n/n mesage start, subject: subjecttitle
+	   conneection.close()
+   
+   
+   - different providers different smtp servers: gmail:smtp.gmail.com, hotmail:smtp.live.com,yahoo:smtp.mail.yahoo.com
+   - some providers(yahoo) need special password(generated in the preferences (app password))
+   
+python date and time module:
+----------------------------------------------------------------------
+   - we can use the date and time modules and functions by importing date time:
+   ex. import datetime as dt
+   
+   - datetime.now() we can find out the date and time now:
+   ex. now=dt.datetime.now()    <- prints out the date and time in this moment, date.time type of object
+   
+   - year: we can find out the year , returning int type:
+   ex. now=dt.datetime.now()
+       print(now.year)
+
+   - we can find out the minute, second,microsecond:
+   ex. now=dt.datetime.now()
+	   print(now.minute)
+	   print(now.month)
+  
+  - weekday() we can find the day we are 
+   ex. dayofweek = now.weekday()           <- returns an integer, monday = 1
+   
+   - we can create a datetime object with custom date:
+   ex. dateofbirth = datetime.datetime(year=1974, month = 12, day =20)  <- we can enter hours, minutes, seconds but not required(onlyyear,month,day)

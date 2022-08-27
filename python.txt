@@ -100,6 +100,7 @@ packages:
 	        image=Graphics.Bmp.load(
    ex. import numpy as np
        numpy. 
+	   
 Commenting :
 ---------------------------------------------------------
    - comenting a line starts with #
@@ -257,7 +258,25 @@ strings in python:
    Ex. first="Luki"
        second="Atti"
        print(first+second)
+	   
+   - we can step slice a string:
+   ex. print(s[0:4:2])    <- prints "hl"
+       print(s[0::2])     <- prints "hla"
    
+   - we can backwardslice a string:
+   ex. print(s[4::-1])       <- prints "anloh"
+       print([:-4:-1])       <- prints "loh"    
+
+   - we can use string operators:
+   ex. print("Hello"*5)          <- prints  hello hello hello hello hello
+
+   - we can have string replacement fields:
+   ex. a="{x}/{y}".format(x=100,y=100)     <- switches x and y with 100 and 100
+   ex. print("my age is {0} year and {1} month".format(age, month)}
+   ex. print("Nr is {0:2} and squared {1:2}.format(2, 3))            <- :2 with 2 wide
+   ex. print("Nr is {0:<2} and squared {1:<2}.format(2, 3))          <- left alligned
+   ex. print("Nr is {0:^2} and squared {1:^2}.format(2, 3))          <- center alligned
+   print("pi is {0:12.20f}".format(22/7))                            <-    
    - we can find the ASCII character code of a character:
    ex. a=ord('a') 
 
@@ -271,6 +290,8 @@ strings in python:
    ex. s=''' This
              is
 			 Sparta '''
+	ex. s="""  ez a szoveg
+        tobb sorba van irva""" 
 			 
    - if we enter 'enter' when input a string, enter is empty string ''
    ex. l=input("enter enter")
@@ -375,7 +396,7 @@ strings in python:
 	   
    - replace(): we can replace a string with an other string with the replace() function:
    ex. l="sDfere"
-       replaced text=l.replace("s", "p")           <- pDfere
+       replacedtext=l.replace("s", "p")           <- pDfere
 	   
    - rfind(): we can find the highest index of the substring in a string. if found, returns index, if not then -1
    ex. l="sDfere"
@@ -401,7 +422,10 @@ strings in python:
    - startswith(): we can check if a strings start with a string with the startswith() method:
    ex. message = 'Python is fun'
        print(message.startswith('Python'))
-	   
+   
+   - endsswith(): we can check if a strings ends with a string with the endsswith() method:   
+   ex. print(newstring.endswith("string)) 
+   
    - we can make each word in a string start with uppercase with the title() function:
    ex. text = 'My favorite number is 25.'
        print(text.title())
@@ -410,6 +434,9 @@ strings in python:
    ex. import string 
        strip=string.whitespace+string.punctuation+string+"\"."
 
+   - a string can be rawstring  - it does not reat /n and other special characters like special:
+   ex. b_string=r"this is a \n a string split \t \t ND TABBED"
+   
 string slicing:
 ------------------------------------------------------------
    ex. s="abcdefghijklmnopqrstvuwxyz"
@@ -714,7 +741,30 @@ range of indexes - list slicing (
    - we can specify a range in the for loop with slicing:
    ex. for i in list[1:]:
            print (i)
+		   
+   - we can make a list with range:
+   ex. print(list(range(2,10))        <- makes a list and prints 2,3,..10 
+   
+   - we can compare 2 ranges:
+   ex. range1=range(1,10,2)
+	   range2=range(1,10,2)
+	   print(range==range2)           <- prints true
+	   
+   - 
 
+iterators:
+----------------------------------------------------------
+   ex. string="1234567890"
+         my_iterator=iter(string)
+         print(next(my_iterator))                    / prints 1
+         print(next(my_iterator))                    /prints 2
+         for char in iter(string)                     /prints 1 2 3 4 5 6 7 8 9 for char in string   <- implicit iterator in the background
+             print (char)
+	ex. my_string=["a","b","c","d","e","f","g"]
+        iteratorom=iter(my_string)
+        for i in range (0, len(my_string)):
+            print(next(iteratorom))                            /prints: a b  d e f g
+			
 working with lists:
 ----------------------------------------------------------	   
    - we can change the element in the list at a certain position:
@@ -845,11 +895,19 @@ list comprehension:
 tuple:
 ----------------------------------------------------------
    - a tuple is an ordered container that is not modifiable and accepts duplicates .we cannot add new elements to it after it is created or change the elements
-   - tuples are used 
-   - we can define a tupel with 
+   - we can define a tupel with :
    ex. t=(1,2,3,4)                            <- tuples are created with (), lists with []
        print(t, type(t))
    
+   - we can asign tuples to variables :
+   ex. t=("1","2","3")
+       a,b,c=t          <- a=1,b=2,c=3
+	   
+   - we can assign variables to tuple of tuples:
+   ex. mytuple=(1,"f"),(2,"ty"),(3,"ert")
+       a,b,c=mytuple
+       number,name=a        <- number=1, name="f"
+	   
    - tuple(): we can define a tuple with the tuple constructor:
    ex. thistuple=tuple(("apple","banana"))
    
@@ -995,6 +1053,7 @@ dictionary in python
    ex. thisdict = dict([("id",1984),("name","washer")]}
    ex. thisdict=dict(zip(("id","name","size"),("nr","where","year")  ) 
 	   print (thedict}
+   
    - we can have dictionary in dictionary:
    ex. d=dict("France":{"cities visited":["Paris","Lle","Stutgart"])       <- dictionary within a dictionary 
    
@@ -1013,7 +1072,7 @@ dictionary in python
    - we can acces the value of a dictionary with:
    ex. thisdict = {"brand":"Ford","model":"Mustang","year":1984}
        x=thisdict["model"]           <- if key notin dictionary then error
-	   x=thisdict.get("model")       <- with get if key is not in dictionary it will not give error, it returns None
+	   x=thisdict.get("model")       <- with get if key is not in dictionary it will not give exception, it returns None
    
    - keys(): we can have a list of all the keys in the dictionary:
    ex. x=thisdict.keys()           <- it is not a new list, it is a view
@@ -1031,6 +1090,11 @@ dictionary in python
    - update(): we can update the dictionary with the update() method:
    ex. car = {"brand": "Ford","model": "Mustang","year": 1964}
        car.update({"year":1970})
+	   
+   - we can join 2 dictionaryes with update():
+   ex. fruit={1:"a",2:"b",3:"c"}
+       veg={"a":"lemon","b":"aple","c":"orange"}
+       veg.update(fruit)
    
    - pop(): we can remove items from the dictionary with pop():
    ex. car = {"brand": "Ford","model": "Mustang","year": 1964}
@@ -1042,6 +1106,9 @@ dictionary in python
    
    - del(): we can remove an item with a key name:
    ex. del car["model"]
+   
+   - we can delete the entire ditionary:
+   ex. del car
    
    - clear(): we can clear the dictionary with the clear method:
    ex. car.clear()
@@ -1098,12 +1165,23 @@ set in python:
    - we can create a set:
    ex. s=set()
        ss={2,2,1,4,5,'casa',True}                     <- set will automatically order the set
+   
+   - we can create a set from range:
+   ex. numbers=set(range(0,10,2))
+   
+   - we can create a set from list:
+   ex. numbers=(4,5,6,7)
+       setnumbers=set(numbers) 
 
    - we can acces items in the set:
    ex. thisset = {"apple", "banana", "cherry"}
 	   for i in thisset
           print(i)
    
+   - we can search for an item in the set:
+   ex. a={"a","b","c","d"}
+       if "a" in a
+	   
    - sum() we can have the sum of the collection with the su() function:
    ex. a=sum(iterable, start)
    
@@ -1142,10 +1220,7 @@ set in python:
    - len(): we can find the length of a set:
    ex. thisset = {"apple", "banana", "cherry"}
 	   print(len(thisset))
-   
-   - union(): we can concatanate a set with other sets or iterable objects.all duplicates will be ignored:
-   ex. myset.union(set1,set2,..) 
-   
+	   
    - split(): we can make a unique collection out of a text:
    ex. import sys
        nume_scrypt=sys.argv[0]           <- name and path of py script
@@ -1163,6 +1238,7 @@ set in python:
    ex. set1 = {"a", "b" , "c"}
        set2 = {1, 2, 3}
        set3 = set1.union(set2) 
+   ex. myset.union(set1,set2,..) 
    
    - intersection_update(): we can keep both the duplicates from 2 sets:
    ex. x = {"apple", "banana", "cherry"}
@@ -1174,7 +1250,7 @@ set in python:
        y = {"google", "microsoft", "apple"}
        x.differnece_update(y)
 	   
-   - - intersection(): returns a set that contains the item that exists in both set x and y:
+   - intersection(): returns a set that contains the item that exists in both set x and y:
    ex. x = {"apple", "banana", "cherry"}
        y = {"google", "microsoft", "apple"}
        x.intersection(y)
@@ -1399,7 +1475,12 @@ working with files
    ex. for filename in sys.argv[1:]:   <- all the arguments after the filename
           with open(filename) as fin:
 	        
-   
+   - we can append to the end of a file:
+   ex. varosok=["Temesvar","Arad", "Deva"]
+       with open("C:\\Temp\\temp.txt",'a') as varosfile:
+       for varos in varosok:
+          print(varos,file=varosfile)
+		  
    - os.path.isdir(): we can check if a string is a foldername with os.path.isdir()
    ex. import os
       if not os.path.isdir(folderstringname):
@@ -1459,8 +1540,16 @@ working with files
 	  - ../../Projet/readme.txt         <- we going up 2 levels and then going down the project folder to the readme.txt
 	  
    - in python the current path is the path where we launched the script
+   - we can write binary data to a file:
+   ex. with open("binary",'bw') as binfile:
+       for i in range(17):
+         binfile.write(bytes([i])                              /must be converted to binary otherwise error
+   - we can read binary data from a file:
+   ex. with open("binary",'br')as binfile:
+       or b in binfile:
+         print(b)
 	   
-pickle si serializarea
+pickle and serialization
 ------------------------------------------------------------------
    - through serialization we convert from program obiect format to json,xml,etc
    - through deserialization we convert from json, xml, to program obiect format
@@ -1469,8 +1558,8 @@ pickle si serializarea
    ex. import pickle
        with open ("db.bin", 'wb') as input                <- open for write as a binary file
 	   l=[1,3,'casa']
-	   pickle.dump(l,f,pickle.HIGHEST_PROTOCOL)           <- HIGHEST_PROTOCOL compression algoritm to max - first dump in the file
-	   pickle.dump('pom',f,pickle.HIGHEST_PROTOCOL)       <- second dump, pom is a string that is dumped in the file after the list l
+	   pickle.dump(l,input,pickle.HIGHEST_PROTOCOL)           <- HIGHEST_PROTOCOL compression algoritm to max - first dump in the file
+	   pickle.dump('pom',input,pickle.HIGHEST_PROTOCOL)       <- second dump, pom is a string that is dumped in the file after the list l
    
    - we can read objects:
    ex. with open('db.bin','rb') as f:                    <- open for read as a binary file
@@ -1478,6 +1567,12 @@ pickle si serializarea
 	   print(a)
 	   b=pickle.load(f)                                  <- loads the second dump from the write
 	   print(b)
+   ex. with open ("file.pickle","rb") as picklefile:
+       text2=pickle.load(picklefile)
+       album,artist,name, tracklist=text2
+       for track in tracklist:
+            a=tracklist[0]
+            b=tracklist[1]
 	
 	- we can use json for serialization write - json does save everything in lists so other containers types will be lost 
    ex. import json	
@@ -1508,6 +1603,7 @@ functions
    - a function that returns nothing returns None
    - a functions arguments are references to  the arguments so it can be modifyed and they modifys the passed variables
    - if we dont know how many arguments will be, we add a * in front of argument name
+   - in python there is no method overloading
    
    - functions can return values: they do with the return variable keyword
    ex. def func(n):
@@ -1641,7 +1737,12 @@ functions
    - we can have default values in the functions:
    ex. def myfunc(a=5,b=6,c=7):
        myfunc(b=7)                           <- the function will take default arguments except b that is given, a and c will be 5 and 7
-   ex. def myfunc(a,b=2,
+   ex. def myfunc(a,b=2,c=3)
+       myfunc(5)                            <-a=5, rest is default
+	   
+	- in python overriding method is defining the same name method in the subclass
+	- if we want to refer to the super class methodname we can call it with super
+	ex. super().metodanem(argument)
 	   
 lambda functions
 ------------------------------------------------------------------
@@ -2133,6 +2234,21 @@ Buttons with TKinter:
    - we can change the label after the creation with 
    ex. mybuton.config(text="fgdF")
    
+   ex. from tkiner import *
+       class MyButtons:
+        def --init--(self, rootone):
+          frame=Frame(rootone)
+          frame.pack()
+          self.printbutton=Button(frame,text="Click here", command=self.printmessage)
+          self.printbutton.pack()
+          self.quitbuttton=Button(frame, text="Exit", command=frame.quit)                         /frame.quit  kimehy a windowbol
+          self.quitbutton.pack(side=LEFT)
+        def printmessage(self):
+          print("Button clicked")
+        root=Tk()
+        b=MyButtons(root)
+        root.mainloop()
+		
    - we can change the properties anytime of the element with the .config(options)
    
    - we can put an image on a buton:
@@ -2247,6 +2363,47 @@ Scale in tkinter:
    
    - we can change the properties anytime of the element with the .config(options)
 
+dropdowns in tkinter:
+---------------------------------------------------------
+   ex. from tkinter import *
+       def function1:
+         print("Menu item clicked")
+       root=Tk()
+       mymenu=Menu(root)
+       root.config(menu=mymenu)      /tells the root windows who is the menu
+       submenu=Menu(mymenu)          /tells that the manu has a submenu
+       mymenu.add_cascade(label="File", menu=submenu)
+       submenu.add_command(label="Project", command=function1)
+       submenu.add_command(label="Save", command=function1)
+       submenu.add_separator()
+       submenu.add_command(label="Save", command=function1)
+       newMenu= Menu(mymenu)
+       mymenu.add_sascade(label="Edit", menu=newmenu)
+       newmenu.add_command(label="Undo", command=function1)
+       root.mainloop()
+	   
+ toolbar in Tkinter:
+---------------------------------------------------------
+    ex. from tkinter import *
+        def function1:
+          print("Menu item clicked")
+        root=Tk()
+        toolbar=Frame(root, bg="pink")
+        insertbutton=Button(toolbar, text="Insert Files", command=function1)
+        insertbutton.pack(side=Left, padx=2, pady=3)
+        printbutton=Button(toolbar, text="print", commmand=function1)
+        printbutton.pack(side=LEFT, padx=2,pady=3)
+        toolbar.pack(side=TOP, fill=X)
+        root.mainloop()
+
+Status bar in tkinter
+---------------------------------------------------------
+   ex. from tkinter import *
+       root=Tk()
+       status=Label(root,text="this is a status",bd,1,relief=SUNKEN, ancor=W)            /status bar=label glued to bottom
+       status.pack(side=BOTTOM,fill=X)
+       root.mainloop()
+	   
 Menu in tkinter:
 --------------------------------------------------------
    - every toplevel window can have only one menu bar
@@ -2396,3 +2553,12 @@ python date and time module:
    
    - we can create a datetime object with custom date:
    ex. dateofbirth = datetime.datetime(year=1974, month = 12, day =20)  <- we can enter hours, minutes, seconds but not required(onlyyear,month,day)
+   
+python webbrowser module:
+----------------------------------------------------------------------
+   ex. import webbrowser
+       webbrowser.open("http://www/python.org")
+       help(webbrowser)
+       print(1, 2, 3, 4, 5, 6, 7, 8, 9, sep='; ')              /kimutatja 1; 2; 3; 4; 5; 6; 7; 8; 9
+       chrome=webbrowser.get(using='google-chrome')
+       chrome.open_new("http://www/python.org")

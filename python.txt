@@ -426,7 +426,7 @@ strings in python:
    - endsswith(): we can check if a strings ends with a string with the endsswith() method:   
    ex. print(newstring.endswith("string)) 
    
-   - we can make each word in a string start with uppercase with the title() function:
+   - title() we can make each word in a string start with uppercase with the title() function:
    ex. text = 'My favorite number is 25.'
        print(text.title())
 	   
@@ -2117,11 +2117,14 @@ pandas:
    ex. import pandas                <- we may not have it and needs to be installed
    
    - readcsv() we can read datas from a csv file with pandas.read_csv() function:
-   ex. data = pandas. read_csv("filename")                     <- puts all the data in a table with indexpositions, tablenames, etc
+   ex. data = pandas. read_csv("filename")                     <- puts all the data in a table with indexpositions(if it was saved), tablenames, etc
    
    - [] we can acces a tablename from the table with the [] or with table.tablename
    ex. print(data["temp"])              <- outputs all the elements of the tablename temp  - dictionary type of adressing
    ex. print(data.temp)                  <- object type of adressing
+   
+   - .keys() we can find all the keys of the Dataframe:
+   ex. keys = dataframe.keys()
    
    - a panda structure can be 1 dimensional, or 2 dimensional data
       - 1 dimensional are Series
@@ -2157,11 +2160,9 @@ pandas:
    - len() we can find how many elements are in a result in the DataFrame:
    ex. squirelcount = len(data[data["Primary Fur color"] == "Gray"])     <- all the elements that contains in the Primary Fur color column the gray element
    
-   - iloc[] we can acces a row in a DataFrame with the iloc[pos] 
+   - iloc[] we can acces a row in a DataFrame with the iloc[pos] if dataframe is a list we can acces row and column
    ex. datarow = data.ilok[0]                <- we can acces all the elements of the first dictionary
-   
-   - we can acces elements like in a matrix with [][]
-   ex. datarow = data.ilok[0][0]    <- element from the 0 row, 0 column
+   ex. datarow= data.ilok[0][1] 
    
    - iterrows() we can iterate over a Pandas DateFrame with iterrows():
    ex. import pandas
@@ -2172,6 +2173,14 @@ pandas:
 	   #loop through rows of a data frame:
 	   for (index,rows) in student_data_frame.iterrows():
 	       print(rows.student)                           <- or rows["student"]
+   - loc() we can add new rows to a DataFrame with the loc function:
+   ex. import pandas
+       database = pandas.read_csv("birthdays.csv")
+       listofnames=[["Test","test@email.com",1961,12,21],["Anna","anna@gmail.com", 2018,10,21],["Andra","gruia@gmail.com",1982,3,24]]
+       for i in listofnames:
+          database.loc[len(database)]=i
+       database.to_csv("birthdays.csv", index=False, header=False)
+   - 
        	   
 Graphical user interfaces with tkinter:
 ------------------------------------------------------------------------------
@@ -2516,7 +2525,8 @@ smtplib and python(sending mail from python)
    ex. import smtplib
        myemail="luky@gmail.com"
 	   with smtplib.SMTP("smtp.google.com") as connection:
-		connection.starttls()                        <- makes an ancrypted connection, so if someone intercepts mail , it will be encrypted
+		connection.starttls()                         <- makes an ancrypted connection, so if someone intercepts mail , it will be encrypted
+       connection.connect("smtp.google.com",465)		<- not necesarily needed?
 	   connection.login(login=myemail, password="yyyyyy")
 	   connection.sendmail(from_addr=myemail, to_addrs="johny@gmail.com",msg="Subject:Hello!\n\nThis is the message!")
    
@@ -2562,3 +2572,13 @@ python webbrowser module:
        print(1, 2, 3, 4, 5, 6, 7, 8, 9, sep='; ')              /kimutatja 1; 2; 3; 4; 5; 6; 7; 8; 9
        chrome=webbrowser.get(using='google-chrome')
        chrome.open_new("http://www/python.org")
+	   
+running python files in the cloud:
+-----------------------------------------------------------------------
+   - pythonanywhere.com    <- make an acount
+   - in a made directory we upload the project folder to the servers
+   - console->bash console->python3 main.py
+   - Task menu-> scheduled task -> daily 
+
+Python Aplication Programming interface:
+------------------------------------------------------------------------   

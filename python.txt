@@ -2580,5 +2580,39 @@ running python files in the cloud:
    - console->bash console->python3 main.py
    - Task menu-> scheduled task -> daily 
 
-Python Aplication Programming interface:
+Python Aplication Programming interface(API):
 ------------------------------------------------------------------------   
+   - some sites have API- s to interact with them
+   - it is an interface to comunicate with the external system where it is specified how can we acces the services:
+   - we make an API request in the form specified by the interface and we get responses:
+   - sites that are offering API's: coinbase, open-notify.org, yahoo, googlemaps, etc
+   - the International Spacestation Current Location API returns the lat and long of the space station with a unix timestamp.Needs no inputs
+   - we can connect to API's with the request module:
+   - the iss api returns a json file with the following structure:
+   ex. {
+          "message":"succes","timestamp":UNIX_TIMESTAMP,"iss_position":{"latitude":CURRENT_LATITUDE,"longitude":CURRENT_LONGITUDE}
+	   }
+   - the code that gets this data from the site:
+   ex. import requests    <- may need to be installed, most important framework for api developers
+       response = requests.get(url="link-of-api-link.json")
+	   response.raise_for_status()	    <- returns an error status if something is wrong, None if it is ok
+       data = response.json()
+		longitude = data ["iss_position"]["longitude"]
+		latitude = data ["iss_position"]["latitude"]
+	   print(response.status_code) 
+	   
+   - websites have different response codes: 1xx: Hold on, something is happening
+                                             2xx: Here you go, its ok 
+											 3xx: You dont have permission
+											 4xx: you screwed up(thing not exist)
+											 5xx: the server screwed up 
+	- apis can get parameters so they responds with something that depends on the parameter sent:
+	ex. import requests
+	    parameters = {"lat":51.03,"lng":13.34}
+	    response = requests.get("http://api.sunrise-sunset.org/json", params=parameters)
+		response.raise_for_status()          <- will give an exception if we dont provide the parameters needed by the api
+		data=response.json()
+		sunrise = data["results"][{"sunrise"]
+		sunset = data["results"]["sunset"]
+		print(sunrise.split("T")[1].split(":")[0])
+		

@@ -1604,6 +1604,8 @@ functions
    - a functions arguments are references to  the arguments so it can be modifyed and they modifys the passed variables
    - if we dont know how many arguments will be, we add a * in front of argument name
    - in python there is no method overloading
+   - we can specify the type of the argument a function receives and the return type :
+   ex. def func(l: list, index: int) -> int:          -> return type
    
    - functions can return values: they do with the return variable keyword
    ex. def func(n):
@@ -2123,6 +2125,10 @@ pandas:
    ex. print(data["temp"])              <- outputs all the elements of the tablename temp  - dictionary type of adressing
    ex. print(data.temp)                  <- object type of adressing
    
+   - we can convert a json object to a pandas dataframe:
+   ex. from pandas import json_normalize
+       mydataFrame = json_normalize(jsonlist)
+	   
    - .keys() we can find all the keys of the Dataframe:
    ex. keys = dataframe.keys()
    
@@ -2243,7 +2249,7 @@ Buttons with TKinter:
    - we can change the label after the creation with 
    ex. mybuton.config(text="fgdF")
    
-   ex. from tkiner import *
+   ex. from tkinter import *
        class MyButtons:
         def --init--(self, rootone):
           frame=Frame(rootone)
@@ -2372,7 +2378,7 @@ Scale in tkinter:
    
    - we can change the properties anytime of the element with the .config(options)
 
-dropdowns in tkinter:
+menus or  dropdowns in tkinter:
 ---------------------------------------------------------
    ex. from tkinter import *
        def function1:
@@ -2466,10 +2472,11 @@ tkinter Canvas widget:
         myimage = mycanvas.create_image(100,122,image=imagevar)       <- creates an image on the canvas places it to 100,122 with center of the image like anchor
 		myimage = mycanvas.create_image(0,0,anchor="nw",image=imagevar)   <- creates an image on the canvas,
                                                                 		places it to 0,0 with the uper left corner of the image as anchor
-		mmytext = mycanvas.create_text(100,112,text="yuhuuu",fill="white",font=("Arial",35,"bold"))
-		mycanvas.pack()
-	
-- itemconfig() we can modify the atributs of any widget placed on a canvas with the itemconfig()	
+		mmytext = mycanvas.create_text(100,112,text="yuhuuu",fill="white",font=("Arial",35,"bold"), width = 100)      <- fill - color in the background of the text
+		mycanvas.pack()                                                                                                  width is the text box width where the text will be fit
+		
+   - whenever we add something to the canvas, we need to specify position , middle is the position	where x and y are considered
+   - itemconfig() we can modify the atributs of any widget placed on a canvas with the itemconfig()	
 	ex. mycanvas.itemconfig(mytext, text = "hulla")                      <- mytext is the widget name placed on a canvas, , text is the property changed
 	- by default when an image is placed the center of the image is taken when placeing as coordinate
 	- to specify  the upperleft corner of the image when placing we can use the anchor():
@@ -2609,10 +2616,16 @@ Python Aplication Programming interface(API):
 	- apis can get parameters so they responds with something that depends on the parameter sent:
 	ex. import requests
 	    parameters = {"lat":51.03,"lng":13.34}
-	    response = requests.get("http://api.sunrise-sunset.org/json", params=parameters)
+	    response = requests.get("http://api.sunrise-sunset.org/json", params=parameters)        <- checks if connection is allright
 		response.raise_for_status()          <- will give an exception if we dont provide the parameters needed by the api
 		data=response.json()
 		sunrise = data["results"][{"sunrise"]
 		sunset = data["results"]["sunset"]
 		print(sunrise.split("T")[1].split(":")[0])
-		
+
+Reading htmlcode:
+--------------------------------------------------------------
+   - we can read unescaped html code with the html module:
+   ex. import html
+       extext="this is a &34 day"
+	   text = html.unescape(extext)             <- removes the &34

@@ -177,6 +177,9 @@ data types in python and variables
 	- Lists
 	- user (object data types)
 	
+!!!	- we can predefine a data type to a variable :
+	ex. a:int                <- a will be int, python gives error if assigned differnet type of data type
+	
 	- type(): we can find the type the data of a variable with the type(var)
 	Ex. print(type('type'), type(3))               <- class'str' class 'int'
 	
@@ -1604,8 +1607,8 @@ functions
    - a functions arguments are references to  the arguments so it can be modifyed and they modifys the passed variables
    - if we dont know how many arguments will be, we add a * in front of argument name
    - in python there is no method overloading
-   - we can specify the type of the argument a function receives and the return type :
-   ex. def func(l: list, index: int) -> int:          -> return type
+!!!- we can specify the type of the argument a function receives and the return type :
+   ex. def func(l: list, index: int) -> int:          -> return type int, arguments are list and int types
    
    - functions can return values: they do with the return variable keyword
    ex. def func(n):
@@ -1729,7 +1732,7 @@ functions
 			return a+b
 	   print (add(1,2,func))
 
-   - we can have wrapper function (functions that will be alled inside another function):
+   - we can have wrapper function (functions that will be called inside another function):
    ex. def add():
           print ("function")
 	   def func(function):
@@ -1818,7 +1821,7 @@ Objects in python:
 	  p1.age=15
       print(p1.__dict__)    <- __dict__ is a dictionary and prints all the elements of the object like a dictionary
 	  
-!!!- self parameter is a reference to the current instance of the class and is used to acces variables that belong to the class(this in java and c++)
+!!!- self parameter is a reference to the current instance of the class and is used to acces variables and functions that belong to the class(this in java and c++)
      it does not need to be called self, but needs to be the first parameter of any method of a class
    ex. class Person:
            def __init__(mysillyobject, name, age):
@@ -2124,6 +2127,9 @@ pandas:
    - [] we can acces a tablename from the table with the [] or with table.tablename
    ex. print(data["temp"])              <- outputs all the elements of the tablename temp  - dictionary type of adressing
    ex. print(data.temp)                  <- object type of adressing
+   
+   - we can acces the elements of the elements in a json converted file with the []:
+   ex. data["temp"][0]["location"][1:12:2]       <- slice notation from 1 to 12 with step 2
    
    - we can convert a json object to a pandas dataframe:
    ex. from pandas import json_normalize
@@ -2481,17 +2487,14 @@ tkinter Canvas widget:
 	- by default when an image is placed the center of the image is taken when placeing as coordinate
 	- to specify  the upperleft corner of the image when placing we can use the anchor():
 	ex: self.canvas.create_image(0, 0, image=self.image, anchor="nw")           <- anchor="nw" means that when placing the image the upper left corner shouldbe placed at the coordinates
-	
-	
-	
 
 .after() widget property:
 ---------------------------------------------------------
    - .after() we can use the .after() property on a widget that waits for an amount of time and then gives a command to execute something:
    ex. import tkinter
        window = tkinter.Tk()
-	   timerpause = windows.after(1000,dosomething,*args)       <- dosomething is a method name that will be called, *args is an argument list that
-                                                 	   will be passed to the function
+	   timerpause = window.after(1000,dosomething,*args)       <- dosomething is a method name that will be called, *args is an argument list that
+                                                 	              will be passed to the function(can be used on main window or any other widget that needs it)
 	   def dosomething(a):
 			print(a)
    - .after_cancel()we can cancel the timer setup with the cancel method:
@@ -2514,7 +2517,27 @@ messagebox in tkinter:
 	    istrue = messagebox.askokcancel("write","this will be written.Ok or cancel!")
 		if istrue:
 		   print ("ok was clicked!")
-		   
+
+Frame in python:
+----------------------------------------------------------
+   - we can create a frame in a window with the frame keyword:
+   ex. from tkinter import *
+       window = Tk()
+	   myframe = Frame(window, height=120, width = 180, bg="#234567", bd=1, relief=FLAT)     <- bd = border depth, relief - it does not have rd dimensional
+	   myframe.place(x=0,y=0)                         <- x=0,y=0 is the upper left corner of the main window
+       window.mainloop()	   
+   ex. window = Tk()
+       window.geometry("700x480")
+       myframe = Frame(window, height=120, width = 180, bg="#234567", bd=1, relief=FLAT)     
+       myframe.place(x=0,y=0)  
+       myframe2 = Frame(window, height=120, width = 520, bg="#232267", bd=3, relief=GROOVE)     
+       myframe2.place(x=180,y=0) 
+       myframe3 = Frame(window, height=360, width = 700, bg="#112267", bd=3, relief=RIDGE)     
+       myframe3.place(x=0,y=120)                       
+	   mybutton = Button(myframe, height = 2, width=5, text="ok", bd=2, relief=raised)    <- we can place a button over a frame (mainwindow can be window, coordonates are relative to masterwindow
+	   mybutton.place(x=20,y=20)
+	   window.mainloop()
+	   
 copying to the clipboard:
 ----------------------------------------------------------
    - to be able to use we need to install pyperclip.
@@ -2587,8 +2610,9 @@ running python files in the cloud:
    - console->bash console->python3 main.py
    - Task menu-> scheduled task -> daily 
 
-Python Aplication Programming interface(API):
+Aplication Programming interface (API) in Python:
 ------------------------------------------------------------------------   
+   - we can find a bunch of apis in apilist.fun site
    - some sites have API- s to interact with them
    - it is an interface to comunicate with the external system where it is specified how can we acces the services:
    - we make an API request in the form specified by the interface and we get responses:
@@ -2623,9 +2647,52 @@ Python Aplication Programming interface(API):
 		sunset = data["results"]["sunset"]
 		print(sunrise.split("T")[1].split(":")[0])
 
+Api authentication:
+---------------------------------------------------------------
+   - we can authenticate ourself with api keys to sites that need them with parameter to api call:
+   ex. import requests
+       Endpoint = "http://api.openweathermap.org/data/2.5/onecall"      
+	   api_key="dfgdfggfdgdfgdfgdgdf"
+	   weather_params = {"Lat" : 51.3}, "Lon":-0.3, "appid":api_key, }
+	   response = requests.get(Endpoint, params=weather_params)            <- http://api.openweathermap.org/data/2.5/onecall?lat=2343432&lon=4535335&appid=dfgdfggfdgdfgdfgdgdf
+	   print(response.json())
+	   
 Reading htmlcode:
 --------------------------------------------------------------
    - we can read unescaped html code with the html module:
    ex. import html
        extext="this is a &34 day"
 	   text = html.unescape(extext)             <- removes the &34
+	   
+Sending SMS with Twillio:
+---------------------------------------------------------------
+   - from Twilio.com we can acces the API and send sms (trial account)
+   ex. from twilio.rest import Client
+       account_sid="sdfsdfSDFSdfsFSD"
+       auth_token = "your_auth_token"
+	   client = Client(account_sid, auth_token)
+	   message = client.messages.create(body = "Hello world", from_="+0040723928287", to="0040756432345")     <- body is the message
+	   print (message.status)
+
+Python Anywhere environment variables:
+---------------------------------------------------------------
+   - when we deploy an aplication to python anywhere sometimes we dont want to change the code, that is why environment variables are handy
+   - certain variables used in the code can be used from environment variables that is expected to change in time (email adress, passwords, apikeys,etc)
+   - it is a good idea to not store api keys or other confidential data in the code, instead to store it in environment variables in Python anywhere.
+     (ex. code is on github, can be seen by others, etc)
+   - we can set environment variables in Python Anywhere :
+   ex. in terminal on PythonAnywhere : 
+       export variablename=value    <- no space between variablename=value. if it is a string, no "" should be typed
+       export apikey=werwr342523rwerr3
+	   export name=Tibi
+       if we type: env      <- will print all the setted environment variables
+   
+   - to set in the .py program this variables that will be tacken from the environment:
+   ex. import os
+       api_key=os.environ.get("apikey")                      <- the api keys are not visible this way
+	   name=os.environ.get("name")
+	   
+   - we can schedule to run variables from the daily task scheduler:
+   ex. instead daily at 6am run : python3 main.py  
+       we can have run: export name=Tibi; export apikey=ertfsdfs; python3 main.py      <- this method also hides the apikeys and data because it will nt be seen outside
+          

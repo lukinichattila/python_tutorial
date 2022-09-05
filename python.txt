@@ -2092,7 +2092,7 @@ math module:
 -------------------------------------------------------
    import math
    x=min (15, 10,20)
-   x=abs(-7.2)    <- absolute number
+   x=abs(-7.2)    <- absolute number (it returns the positive number of the number getting rid of the -)
    x=pow(3,4)
    x=math.sqrt(64)
    x=math.floor(z)             <- rounds the number down to an integer i<= z
@@ -2593,6 +2593,23 @@ python date and time module:
    
    - we can create a datetime object with custom date:
    ex. dateofbirth = datetime.datetime(year=1974, month = 12, day =20)  <- we can enter hours, minutes, seconds but not required(onlyyear,month,day)
+
+   - we can format the datetime with the strftime("formatstring")
+   ex. x=datetime.datetime(2018,6,6)
+       print(x.strftime("%B")   
+	  - formatstring: %a - weekday short  Wed
+	                  %A - weekday long   Wednesday
+					  %w - weekday as a number 0,6, 0 is Sunday
+					  %d - day of month 1-31
+					  %b - month name short Ian
+					  %B - month name long Ianuary
+					  %m - month as a number 1-12
+					  %Y - year    2018
+					  %H - hour 00-23
+					  %I - Hour 0-12
+					  %p - Am/Pm
+					  %M - minute 0-59
+					  %S - second 0-59
    
 python webbrowser module:
 ----------------------------------------------------------------------
@@ -2613,7 +2630,7 @@ running python files in the cloud:
 Aplication Programming interface (API) in Python:
 ------------------------------------------------------------------------   
    - we can find a bunch of apis in apilist.fun site
-   - some sites have API- s to interact with them
+   - some sites have API-s to interact with them
    - it is an interface to comunicate with the external system where it is specified how can we acces the services:
    - we make an API request in the form specified by the interface and we get responses:
    - sites that are offering API's: coinbase, open-notify.org, yahoo, googlemaps, etc
@@ -2656,7 +2673,61 @@ Api authentication:
 	   weather_params = {"Lat" : 51.3}, "Lon":-0.3, "appid":api_key, }
 	   response = requests.get(Endpoint, params=weather_params)            <- http://api.openweathermap.org/data/2.5/onecall?lat=2343432&lon=4535335&appid=dfgdfggfdgdfgdfgdgdf
 	   print(response.json())
+
+Api http request:
+--------------------------------------------------------------
+   - http requests are as follows:
+         - requests.get()      <- we ask the external system for a piece of data , and the system response
+		 - requests.post()     <- we give the external system some data, response is it was succesfull or not (post data to google sheets)
+		 - requests.put()      <- update the external data in the external service
+		 - requests.delete()   <- delete an external data on external service
+
+Post request:
+---------------------------------------------------------------
+   - we can make a post request on pixe.la:
+   ex. import requests
+       pixelaendpoint="http://pixe.la/v1/users"
+       userparams = {
+            "token":"tokencode",
+			"username":"angela",
+			"AgreeTermsofService":"yes",
+			"notMinor":"yes",
+			}
+   	   response=requests.post(uel=pixelaendpoint, json=userparams)
+       print(response.text)
 	   
+    - we can make an authentication 
+    ex. userparams = {
+            "token":"tokencode",
+			"username":"angela",
+			"AgreeTermsofService":"yes",
+			"notMinor":"yes",
+			}
+		hders: { "X-USER-TOKEN": TOKEN}
+	    graphendpoint= f"{pixelaendpoint}/{USERNAME}/graphs" 
+        graphconfig = {"id":"graph", "name":"Cycling Graph","unit":"Km","type":"float","color":"ajisai"}
+        response = requests.post(url = graphendpoint, json = graphconfig, headers = hders)		           <- headers = kvargs
+	
+	- we can post our data and get the response of the server if it succeded or not	
+	ex.  pixelcreationendpoint = f"{pixelendpoint}/{username}/graphs/{graphid}"
+	     pixeldata = {"date": "20220903","quantity": "9,74",}
+		 request.post(url=pixelcreationendpoint, json=pixeldata, headers=hders)
+		 print(response.txt)
+
+put request:
+--------------------------------------------------------------
+   - we can update with the put request:
+   ex. updateendpoint=f"{pixelaendpoint}/{username}/graphs/{graphid}/{today.strftime("%Y%m%d")}"
+       newpixeldata={"quantity":"4.5",}
+       response = request.put (url=updateendpoint, json= newpixeldata, headers=hders)
+       print(response.text)
+	   
+delte request:
+--------------------------------------------------------------
+   - we can delete from the pixela:
+   ex. deleteendpoint=f"{pixelaendpoint}/{username}/graphs/{graphid}/{today.strftime("%Y%m%d")}"
+       response=requests.delete(url=deleteendpoint, headers=hders)
+       print(response.text)	   
 Reading htmlcode:
 --------------------------------------------------------------
    - we can read unescaped html code with the html module:
@@ -2681,7 +2752,7 @@ Python Anywhere environment variables:
    - it is a good idea to not store api keys or other confidential data in the code, instead to store it in environment variables in Python anywhere.
      (ex. code is on github, can be seen by others, etc)
    - we can set environment variables in Python Anywhere :
-   ex. in terminal on PythonAnywhere : 
+   ex. in console on PythonAnywhere : 
        export variablename=value    <- no space between variablename=value. if it is a string, no "" should be typed
        export apikey=werwr342523rwerr3
 	   export name=Tibi

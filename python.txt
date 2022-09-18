@@ -9,7 +9,7 @@
    - one file in a multifile python program is a masterscript that is an entry in the python program(usually main.py but can be any)
    - a python file is level 1 compiled that results in bytecode( *.pyc). The python virtual maschine compiles to maschine code (compilation level 2) that is 
      executed on the processor.C and C++ does not have level 2 compilation that is why is faster then interpreted languages that are 2 level compiled
-   - the virtuma schine verifies if a function is called multiple times and caches the maschine code so that it not needs to reintepret it when the 
+   - the virtual maschine verifies if a function is called multiple times and caches the maschine code so that it not needs to reintepret it when the 
      function is called again (python does not have this feature, java does(pypy.org python with cache))
    - interpreted languages can change code at runtime, compiled languages not
    - virtual maschine helps achieve platform independence
@@ -93,7 +93,7 @@ packages:
        pip list --outdated
 	   pip install <package> --upgrade
 	   pip install matplotlib --upgrade
-   - tool to manage imported package  http://pypi.org - e repository of 400k de biblioteci facute opensource (search projects)
+   - tool to manage imported package  http://pypi.org - e repository of 400k open source libraries (search projects)
    - a package is a directory with modules with a file __init__.py
    ex. if we have in a dir Bmp.py, jpeg.py
        use: import Graphics.Bmp
@@ -279,7 +279,8 @@ strings in python:
    ex. print("Nr is {0:2} and squared {1:2}.format(2, 3))            <- :2 with 2 wide
    ex. print("Nr is {0:<2} and squared {1:<2}.format(2, 3))          <- left alligned
    ex. print("Nr is {0:^2} and squared {1:^2}.format(2, 3))          <- center alligned
-   print("pi is {0:12.20f}".format(22/7))                            <-    
+   ex. print("pi is {0:12.20f}".format(22/7))                             
+   
    - we can find the ASCII character code of a character:
    ex. a=ord('a') 
 
@@ -328,7 +329,7 @@ strings in python:
        l=sys.getsizeof(stringvar)
    
    - we can return the elements in a string:
-   ex. print("Hello"[0])                         <- Helle
+   ex. print("Hello"[0])                         <- H
    
    - lower(): we can change the letters in a string to lowercase with the .lower() function:
    ex. l="sdfere"
@@ -388,14 +389,11 @@ strings in python:
    - join(): we can join the elements of an iterable with character(or string?) between elements with .join() function
    ex. text = ['Python', 'is', 'a', 'fun', 'programming', 'language']
        print(' '.join(text))                                    <- Python is a fun programming language
-	   
-   - swapcase(): we can vdchange upercase to lowercase and vice versa with the swapcase() method:
-   ex. l="sDfere"
-   print(l.swapcase())
  
-   - translate(): we can change characters i a strings with other character in the string with .translate() method:
+   - translate(): returns a string where some specified characters are replaced with the character described in a dictionary, or in a mapping table:
    ex. l="sDfere"
-       l.translate(table)               <- table contains the mapping of the character that i will be changed with a character 
+       table = l.maketrans("s", "K")
+       l.translate(table)               <- table contains the mapping of the character that i will be changed with a character ->KDfere
 	   
    - replace(): we can replace a string with an other string with the replace() function:
    ex. l="sDfere"
@@ -446,7 +444,7 @@ string slicing:
        print(s[3])     <- d
 	   print(s[-1])    <- z
 	   print(s[3:10])	<- defghij     <- range of elements
-	   print(s[:9])     <- abcdefghijklmnopqrstvuwxyz
+	   print(s[:9])     <- abcdefghij
 	   print(s[1:])     <- bcd....
 	   print(s[1:7:2])  <- bdf   <- range with steep
 	   print([::-1])    <- reverse iterator from begining to end
@@ -612,6 +610,7 @@ while loop:
          suma+=nr
          nr+=1
 	   print(suma)
+	
 	- we can have an else: after the while executes it will execute what is in the else:
 	ex. while nr<=1000
          suma+=nr
@@ -657,7 +656,7 @@ for loop:
    - we can specify a start argument for the enumerate:
    ex. for count , value in enumerate(list, start=3)               <- starts from the 4th element
    
-   - we can use continue or break to get out of a loop or restart iteretation:
+   - we can use continue or break to get out of a loop or restart iteretation with next element:
    ex. for i in a:
          if i==mango:
 		    continue

@@ -1064,7 +1064,9 @@ dictionary in python
    ex, thisdict = {id:"Ford",name:"Mustang",year:1984}            <- id, name,year variables
    ex. thisdict = dict([("id",1984),("name","washer")]}
    ex. thisdict=dict(zip(("id","name","size"),("nr","where","year")  )      <- The zip() function takes iterables , aggregates them in a tuple, and returns it.
-	   print (thedict}                                                   [("Id","nr"),("name","where"),("size","year")];
+                                                                           If 1 iterable, returns list with distinct elements, if different nr of elements then returns a list with nr of tuples that the shortest 
+																		   list number of element has
+	   print (thedict}                                     <- [("Id","nr"),("name","where"),("size","year")];
    
    - we can have dictionary in dictionary:
    ex. d=dict("France":{"cities visited":["Paris","Lle","Stutgart"])       <- dictionary within a dictionary 
@@ -1816,6 +1818,9 @@ Objects in python:
 !!!- every class has a __init__() function that is inherited from the "object" superclass and is always executed when an object is created(constructor)
      if an object does not have the __init__() then it does not initializes any unitialized data
    - if the __new__ is redefined then object creation is tempered with in exotic way
+   - __repr__ and __str__ return a string representation of the class where repr returns it in maschine form and can be reconstructed the class from it.__str__ and repr  can override the defaultfunctions:
+   ex. myobject.__repr__()      <- the object representation in a string (variable fields separated by comas)
+       m2=eval(repr(myobject))     <- will reconstruct m2 from the objects string representation
    
    - we can define a class with:	 
    ex. class Personana:
@@ -1833,6 +1838,8 @@ Objects in python:
 		 def __init__(self, name, age):
 		    self.name=named
 			self.age=age
+		def __str__(self)"
+			return ("T%his is the class")         <- when print(p1) it will return and print "This is the class"
 		 def speak(self)
 		    print("{self.name} aloha")
 		 

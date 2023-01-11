@@ -2075,7 +2075,7 @@ polymorphism
 	  func(objemp2)
 	- we can have runtime polymorphism:
 	ex. class employee():
-          def def __init__(self, name,age):
+          def __init__(self, name,age):
                self.name=name
                self.age=age
           def earn (self):
@@ -2092,7 +2092,33 @@ polymorphism
 		c.earn(employee)                     <- acces the function from the parentclass, error if not
 		d=childemployee2
 		d.earn(employee)                     <- acces the function from the parentclass
-           		
+
+Method override:
+-----------------------------------------------------
+   - we can override methods in the child class naming the method with the same name:
+	ex. class Parent():        
+			def show(self):
+				print("Inside Parent") 
+		class Child(Parent):         
+			def show(self):
+				print("Inside Child")
+				
+	- we can acces the super class method from the overide method with super() keyword:
+	ex. class Parent():        
+			def show(self):
+				print("Inside Parent") 
+		class Child(Parent):         
+			def show(self):
+				super().show()
+				
+	- we can acces the super class method from the override method with the name of the parent class:
+	ex. class Parent():        
+			def show(self):
+				print("Inside Parent") 
+		class Child(Parent):         
+			def show(self):
+				Parent.show()                         <- parent class name
+				
 encapsulation:
 -----------------------------------------------------
    - encapsulation means makeing members private

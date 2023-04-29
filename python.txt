@@ -212,6 +212,9 @@ data types in python and variables
 		
     - type(): we can find out the type of a variable:
     Ex. print(type(y))
+	
+	- we can have a variable not initialized with None:
+	b = None
 
 python dynamic typing:
 --------------------------------------------------------------
@@ -261,6 +264,9 @@ strings in python:
    Ex. first="Luki"
        second="Atti"
        print(first+second)
+	   
+   - we can use escape caracters in strings and prints:
+   Ex. print("This is \ta good \nday")
 	   
    - we can step slice a string:
    ex. print(s[0:4:2])    <- prints "hl"
@@ -458,7 +464,7 @@ string slicing:
 	   print(s[:9])     <- abcdefghij
 	   print(s[1:])     <- bcd....
 	   print(s[1:7:2])  <- bdf   <- range with steep
-	   print([::-1])    <- reverse iterator from begining to end
+	   print(s[::-1])    <- reverse iterator from begining to end
 	   
 conversions:
 ------------------------------------------------------------
@@ -531,7 +537,14 @@ if else:
             print("nr este negatic")
        else:
             print ("nr este 0")
-			
+
+ternary operator:
+------------------------------------------------------------
+    - it is a shortened if else:
+    ex: x = 10
+        y = 5
+        max_value = x if x>y else y
+		
 python operators:
 ------------------------------------------------------------
    - in python the operators are divided in 7 groups
@@ -549,6 +562,7 @@ python operators:
 	 / - division - x/y
 	 % - modulus - x%y
 	 ** - exponential - x**you
+	 ** - square root - 100 ** 0.5
 	 // - floor division  x//you
    - Assignment operators:
      = - equal - x=5
@@ -901,6 +915,8 @@ list comprehension:
    - we can generate lists with expression in one line of code
    ex. lll=[2*nr for nr in range(1000)]		   <- generates a list where every element is *2
    ex. lll=[ 2*nr for nr in range(1000) if nr%2==0]      <- generate a list with every element to the power of 2 if the elem. is even 
+   ex. lll=[ x if x%2==0 else 1 for x in range (0,11)]
+   ex. lll = [x*y for x in [1,2,3] for y in [4,5,6]]     <- equals with nested for loops -> 4,5,6,8,10,12,12,15,18
 		
 tuple:
 ----------------------------------------------------------
@@ -2917,8 +2933,10 @@ Finding and selecting Particular elements with Beautifullsoup
 			contents = file.read()
 		soup = BeautifulSoup(contents, "html.parser")
 		allanchortags=soup.find_all(name="h1", id="name")             <- <h1 id="name">Attila</h1> this is the html line that looks like a search
-		section_headinf = soup .find(name="h3", class_="heading")     <- will search for all the h3 that have the class atribute "heading". class_ to diferentiate from the class
+		section_heading = soup .find(name="h3", class_="heading")     <- will search for all the h3 that have the class atribute "heading". class_ to diferentiate from the class
 		print(section_heading.name)
-		print(section_heading.get("class_")
+		print(section_heading.get("class_")                           <- we use class_ instead of class as class is a reserved keyword in python
 		cname = soup.select_one(selector="#name")                     <- <h1 id="name">Attila</h1>
 		print (name)
+		heading = soup.find(name="h1", id="name")
+		

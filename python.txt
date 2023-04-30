@@ -250,7 +250,7 @@ randomization  in python:
 		random.choice(mylist)
 		
    - shuffle(): we can randomly reorganiza a list with shuffle() method:
-   ex. import random
+   ex. import random                     <- from random import shuffle  #works too
 		list=["asda","dfgD","ert"]
 		random.shuffle(mylist) 		
 
@@ -454,6 +454,10 @@ strings in python:
 
    - a string can be rawstring  - it does not reat /n and other special characters like special:
    ex. b_string=r"this is a \n a string split \t \t ND TABBED"
+   
+   - we can iterate through the letters in a string:
+   ex. for i in "stretet":
+       print (i)
    
 string slicing:
 ------------------------------------------------------------
@@ -887,9 +891,11 @@ working with lists:
 
    - max(): we can found the max value element in a list with the max() function:
    ex. print(max(listname))
+        print(max(1,2,3))
    
    - min(): we can find the minimum value in a list with the min function:
    ex. print(min(listname))
+       print(min(1,2,3))
    
    - choice(): we ca nreturn a random element from a list:
    ex. import random
@@ -902,6 +908,10 @@ working with lists:
    - we can check a particular elements index position with the index() function:
    ex. names=[1,3,5,6,2,34,4]
        a=names.index(5)
+   
+   - we can join elements of a list into string:
+   ex. l = ["sdfs","sdf","GDFG"]
+       k="".join(l)   
 
 !!!- count() we can count how many times an element apears in a list:
 	ex. names=[1,3,5,6,2,34,4]
@@ -1644,6 +1654,7 @@ functions
      condition is that it has to be defined before it is called
    - functions called with different numbers of arguments give error
    - a function that returns nothing returns None
+   - a function can return something or nothing in the same time (if -> return True -> else -> Pass)
    - a functions arguments are references to  the arguments so it can be modifyed and they modifys the passed variables
    - if we dont know how many arguments will be, we add a * in front of argument name
    - in python there is no method overloading
@@ -1673,9 +1684,9 @@ functions
 	      print(a,b,c)
 	   f(*l)                          <- *l tells python that he needs to unwrap the list to the variables the function expects(l[0]=a,l[1]=b,l[3]=c
 	   
-   - we can call functions with variable keyword arguments.the argument passes like a dictionary {'name of variable':value} pairs:        
+   - we can call functions with variable keyword arguments.the argument passes like a dictionary in the function, but parameter not a dictionary {'name of variable':value} pairs:        
    ex. def funcname(**kid):
-            print(kid)
+            print(kid)                 <- kid becomes a dictionary
        funcname(name="Tobias",lname="Frank")
 	   funcname()
 	   funcname(name="Feri")  
@@ -1685,8 +1696,15 @@ functions
        for key,value in kwargs.item():
 		 print (key,value)
 		 print(kwarg[key])
+		 
    - ex. def funcname(n, **kwarg):
          funcname(5, car = green, wheels = 4)
+		 
+   - we can pass in a variable number of values and key value types:
+   ex. def myfunc(*args, **kwargs):
+		 print (args)
+		 print(kwargs)
+	   myfunc(1,2,3,fruit="orange",food="eggs")           <- 1,2,3 args tuple; fruit,food kwargs argument
 		 
    - we can pass a dictionary as a function parameter element by element
    ex. info{'start':0,'stop':1,'step':2}
@@ -1696,7 +1714,7 @@ functions
    
    - we can pass a tuple and dictionary as function parameters:
    ex. def f(a, *f, **d):                  <- a is mandatory if we have something without a *
-		print (a,t,d)                  
+		print (a,f,d)                  
        f(1,2,x=88)                          <- 2 will be treated as a tuple, x as a dictionary
    
    - we can use default parameter value - default parameter value is written in the definition of the function
@@ -1746,7 +1764,8 @@ functions
    - variables  with same name defined global and local in functions, locals will overshadow global. if we tell that glabal keyword, it will acces global
    ex: x=5
        def func(a,b):
-	     global x=3
+	     global x                <- cannot make global x = 3 ->syntax error
+		 x = 3                    <- will modify the global variables value outside of the function
 		 return x*(a+b)
 
    - we can have functions in functions:
@@ -1777,7 +1796,14 @@ functions
 	   def func(function):
 			function()
        func(add)
-	
+	   
+   - we can return a tuple from a function and unwrap it after:
+   ex. def tuplefunc():
+		 return ("Today",3)                       <- tuple
+		main():
+			day, dat = tuplefunc()
+			record = tuplefunc()          <- record is a tuple
+			
    - we can have default values in the functions:
    ex. def myfunc(a=5,b=6,c=7):
        myfunc(b=7)                           <- the function will take default arguments except b that is given, a and c will be 5 and 7
@@ -1816,8 +1842,27 @@ lambda functions
 		
    - we can create a lambda function:
    ex. x=lambda a:a+10
-       rint(x(5))             <- a==5
-   	   
+       print(x(5))             <- a==5
+	   
+Functional programming :map(), filter(), reduce() functions:
+.............................................................
+	- The map function accepts another function and a sequence of ‘iterables’ as parameters and provides output after applying the function to each iterable in the sequence:
+	  functions or lambdafunctions can be used
+	  map(function, iterables)
+	ex. mylist = [1,2,3,4]
+	    t = map(lambda x:x*x, mylist)      <- 1,4,9,16
+		
+	- The filter() function is used to generate an output list of values that return true when the function is called.functions or lambdafunctions can be used
+	  filter(function, iterables)
+	ex. mylist = [1,2,3,4,5,6]
+        t = filter(lambda x:x%2 == 0, mylist)           <- 2,4,6
+		
+	- The reduce() function applies a provided function to ‘iterables’ and returns a single value. functions or lambdafunctions can be used
+	  reduce(function, iterables)
+	ex. mylist = [1,2,3,4,5,6]
+	    t - reduce(lambda x:x==4, mylist)           <- 4
+	
+	
 Objects in python:
 -----------------------------------------------------------
    - custom abstract data types

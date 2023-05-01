@@ -182,6 +182,11 @@ data types in python and variables
 	
 	- type(): we can find the type the data of a variable with the type(var)
 	Ex. print(type('type'), type(3))               <- class'str' class 'int'
+
+    - we can check if a variable is an int:
+    Ex. a = "ert"
+        if type(a) == int:
+        if a.isdigit() == True:
 	
 	- variables are asigned values:
 	Ex. x=0                     <- x assigned an integer object
@@ -1871,6 +1876,8 @@ Objects in python:
    - generic programming(templates in c)
    - exceptions
    - a class inherits by default the "object" class
+   - if a variable is defined outside the __init__ method the it is a class variable(common to all objects), not an instance variable. 
+     it is not needed to define it with self, but when acces it then with self
    - every classs has a method __str__() that is the image of the class in string, inherited from "object" superclass but can be overriden
    - when an object is created the __new__() function is called to find space in memory, then the __init__() to initialize the object
    - functions with __x__ are special dunder functions for suporting python class mechanism:

@@ -47,6 +47,7 @@ command line arguments:
 
 modules in python:
 ---------------------------------------------------------
+   - modules are *.py scriptfile
    - modules are searched in "sys.path" - it is a list of paths where python library files are located and the current directory
    - PYTHONPATH - environment variable in windows
    
@@ -68,8 +69,8 @@ modules in python:
 			print ("Hello")
 	   person1=[1,2,3,4]
 	   in main.py we have :
-	   from happy import person1   
-	   print(person1["age"])          <- when importing with from we dont use the modulename when we adress the variable(not happy.person1[age])
+	   from happy import person1     <- a list  
+	   print(person1[0])          <- when importing with from we dont use the modulename when we adress the variable(not happy.person1[age])
 	   
    - we can import more things when we import a module:
    ex. from happy import person1 , greeting             person1 is a function, greetig is a variable, if we specify what to import then we dont need to specify 
@@ -88,6 +89,8 @@ modules in python:
 
 packages:
 ---------------------------------------------------------
+   - packages are collection of *.py scriptfiles
+   - There are many packages on PyPi.org
    - packages are installed with the pip utility 
    ex. pip command optional
        pip list --outdated
@@ -99,9 +102,14 @@ packages:
        use: import Graphics.Bmp
 	        image=Graphics.Bmp.load(
    ex. import numpy as np
-       numpy. 
-	   
-Commenting :
+       numpy.
+   
+   - if we want to make a package, we create  a folder and inside we need to have __init__.py file.that tells python that it is a package and it is more .py files in it
+     it not needs to contain any line of code, could have just a comment in it with #comment  .the folder can contain subfolders and those  need the __init__.py
+   - if we want to import a file from a package subfolder we import it with :
+   Ex. from MyMainPackage.Subfolder import mymodule        <- mymodule = mymodule.py, MymainPackage contain a folder Subfolder that has the __init__.py and mymodule.py   
+	   a = mymodule.myfunction()                 <- we call the function from the file
+ Commenting :
 ---------------------------------------------------------
    - comenting a line starts with #
    # this is a comment
@@ -2003,8 +2011,7 @@ Inheritance:
                self.age=age
        class childemployee(employee):
           def __init__(self, name, age, id):
-                self. name=named
-                self.age=age
+                employee.__init__(self,named, age)                                 or->super().__init__(named, age)
                 self.id=id	
     employ=employee("Tibi", 22)
 	
@@ -2015,30 +2022,25 @@ Inheritance:
                self.age=age
 	   class childemployee(employee):
           def __init__(self, name, age, id):
-                self. name=named
-                self.age=age
+                employee.__init__(self,named, age)                         or->super().__init__(named, age)
                 self.id=id 
 	   class childemployee2(childemployee)               <- 
 	         def __init__(self, name, age, id, salary):
-                self. name=named
-                self.age=age
-                self.id=id 
+                childemployee.__init__(self,named, age,id)                 or->super().__init__(named, age,id)
 				self.salary=salary
    
    - hierarchical inheritance enable more then one derived class to inherit properties from a parent class:
    ex. class employee():
-         def def __init__(self, name,age):
+         def __init__(self, name,age):
                self.name=named
                self.age=age
 	   class childemployee(employee):
           def __init__(self, name, age, id):
-                self. name=named
-                self.age=age
+                employee.__init__(self,name, age)                    same as-> super().__init__(named, age)
                 self.id=id 
        	class childemployee2(employee):
           def __init__(self, name, age, id):
-                self. name=named
-                self.age=age
+                employe.__init__(self,named, age)                   or-> super().__init__(named, age)
                 self.id=id 
 	 childempl1=childemployee("Tibi",22,324)
      childempl2=childemployee2("Feri",21,321)
@@ -2103,10 +2105,12 @@ Accessing methods of the objects:
 	   p1.speak()
 	   
 
-Standard built in inheritable methods:
+Standard built in inheritable methods for objects (dunder functions):
 --------------------------------------------------------------
    ex. len(p1)               <- p1.__len__()
         print(p1 is p2)      <- p1.__eq__(p2)           test de egalitate de identitate
+		print(p1)            <- __str__()            <- returns a string representation of the object by  defining __str__() and returning a string
+		del(p1)              <- __del__()            <- def __del__(): print("object deleted")
     the eq function could look like this:
 	def __eq__(self, second):
 	    return (self.nume==second.nume and self.varsta==second.varsta)
@@ -2131,7 +2135,7 @@ Method types:
 		@classmethod
 		def fun(cls, arg1,...)
 			return "class method called", cls
-	- static methods not receive implicit first argument .A static method is also a that is bound to the class and not the object of the class 
+	- static methods not receive implicit first argument .A static method is also a method that is bound to the class and not the object of the class 
 	- static methods cant modify the class state and they dont know anything about the class state
 	- static methods are utility type methods.They not operate with the classes data
 	
@@ -2189,7 +2193,7 @@ Method types:
 
 polymorphism
 ------------------------------------------------------------
-   - we can have compile time polymorphism: 
+   - we can have compile time polymorphism: it works by passing an object to a function and calling a function of the object that has to be with the same name 
     ex. class employee():
        def name(self)
 	     print("Tibi is his name)
@@ -2253,6 +2257,14 @@ Method override:
 		class Child(Parent):         
 			def show(self):
 				Parent.show()                         <- parent class name
+				
+	- we can raise an error if a parent class method was called and we did not intend the parent class method to be called 
+	  instead the method beeing overrided in the child class
+	  Ex. class Animal():
+			def speak(self):
+				raise NotImplementedError("Subclass must implement method!")
+		  d = Animal()
+		  d.speak()                   <- raises the error
 				
 encapsulation:
 -----------------------------------------------------

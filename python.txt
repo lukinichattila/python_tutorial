@@ -109,6 +109,9 @@ packages:
    - if we want to import a file from a package subfolder we import it with :
    Ex. from MyMainPackage.Subfolder import mymodule        <- mymodule = mymodule.py, MymainPackage contain a folder Subfolder that has the __init__.py and mymodule.py   
 	   a = mymodule.myfunction()                 <- we call the function from the file
+   - we can check in a file that we imported it to other .py files or we run the file directly with >python filename.py.
+	Ex. if __name__ == "__main__":                   <- if python runs a file directly it assigns the __name__ property the "__main__" string
+			#execute code that runs just when the .py file is not imported (like a main())
  Commenting :
 ---------------------------------------------------------
    - comenting a line starts with #
@@ -819,7 +822,7 @@ working with lists:
    ex. for i in list1:
           print(i)
 
-   - check if name exists in list with is in:
+   - check if name exists in list with in:
    ex. list1=["Atti","Tibi","Shivan","Gauron","Feri"]
        if "Tibi" in list:
 	      print("Tibi is in the list")
@@ -914,10 +917,11 @@ working with lists:
    ex. import random
 		list=["asda","dfgD","ert"]
 		random.choice(mylist)
-   - shuffle(): we can randomly reorganiza a list with shuffle() method:
+   - shuffle(): we can randomly reorganiza a list with shuffle() method.it reorganizes it, does not return a new list:
    ex. import random
 		list=["asda","dfgD","ert"]
 		random.shuffle(mylist) 
+		
    - we can check a particular elements index position with the index() function:
    ex. names=[1,3,5,6,2,34,4]
        a=names.index(5)
@@ -1387,7 +1391,11 @@ sorting in python:
 exceptions:
 -----------------------------------------------------------------
    - exceptions is a mechanism to treat errors in programs 
-   - it returns values, it has a global variable errno 
+   - it returns values, it has a global variable errno
+   Ex:  try:           <- block of code that can give exception
+		except:        <- what to do in case of exceptions
+		else:          <- if code did not give exception, what to execute
+		finally:        <- what code to execute regardless if it was an error or not
    - try block lets test a block for errors
    - except let us handle the error
    - else lets execute code if there is no error
@@ -1674,6 +1682,12 @@ functions
 !!!- we can specify the type of the argument a function receives and the return type :
    ex. def func(l: list, index: int) -> int:          -> return type int, arguments are list and int types
    
+   - we can assign functions to variables and call them through the variables:
+   Ex. def func():
+			return True
+	   a = func                <- a function is an object that can be passed to an other object
+	   a()                     <- calls the func method
+	   
    - functions can return values: they do with the return variable keyword
    ex. def func(n):
 		return n*n*n
@@ -2143,7 +2157,19 @@ Method types:
 		@staticmethod
 		def get_max_value(x, y):
 			return max(x, y)            <- not operates with the classes variables
-
+decorators:
+-----------------------------------------------------------------------
+   - decorators are functions that add extra functionality to functions.  Essentialy wrappers that add extra code:the decorator returns a function defined in itself that executes the passed function and extra code
+   Ex. def uppercase_decorator(func):
+          def wrapper():
+            result = func()
+            return result.upper()
+          return wrapper
+       @uppercase_decorator                       <- tells python through wich decorator function will be  passed like function argument and called
+	   def greet():
+		  return "hello"
+       print(greet())  # Output: HELLO            <- when greet will be called it will call it through the decorator function like a function pass by argument
+	   
 @property decorator:
 -----------------------------------------------------------------------
    - the property decorator allows python getter and setter methods to be called like variables:
@@ -3003,4 +3029,32 @@ Finding and selecting Particular elements with Beautifullsoup
 		cname = soup.select_one(selector="#name")                     <- <h1 id="name">Attila</h1>
 		print (name)
 		heading = soup.find(name="h1", id="name")
+		
+Test in Python with pylint:
+---------------------------------------------------------------
+   - we can run styling teststests on our file (automated) with pylint.exe. it checks if the code is commented, unused variables, function erors, etc
+   - to install pylint : pip install pylint
+   - to run a test o a file we need to type in a command prompt:
+   > pylint myfile.py
+   - to write docstrings in python we can write 
+   Ex. '''
+       This function executes with a variable
+	   '''
+   
+Unit test in Python with Unittest
+----------------------------------------------------------------
+	- to test a function "myfunc" from a file "myfile.py" we need to create a python script file (mytestfile.py)that imports the file and imports the unittest library
+	Ex. import uniitest
+	    import myfile
+		class TestCap(unittest.TestCase):             <- need to inherit the TestCase from the unittest module
+			def test_one_word(self):                  <- test function definition
+					testtext = 'python'                <- definition of the input data for the test
+					result = myfile.myfunc(testtext)    <- the function under test execution
+					self.assertEqual(result,'Python')   <- assert
+		if __name__ == "__main__":
+			uittest.main()
+	
+	- to run the test file : >python mytestfile.py
+	
+	
 		

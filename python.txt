@@ -1357,7 +1357,7 @@ generators:
 -----------------------------------------------------------------
    
    - the "yeild" keyword replaces the "return" keyword in a function , and returns a value in a collection of values, but retains the state of the function,
-     so that the function returns the next value from the iterable the next time is called
+     so that the function returns the next value from the iterable the next time is called, unlike return that returns all the values at once
 	Ex. def simple_gen():
 			for x in range (3):
 				yield x**x             <-  
@@ -1365,7 +1365,10 @@ generators:
 		for y in simple_gen():           <- simple_gen() will return value one by one, will not make a list of elements consuming memory , but it will return one element
 			z+= y
 	 
-	 
+generator comprehension:
+-----------------------------------------------------------------
+	- we can generate elements one by one with generator comprehensions:
+	Ex. g = (x for x in range(0,5) if x>3)
    
 	   
 sorting in python:
@@ -2338,7 +2341,20 @@ math module:
    x=pow(3,4)
    x=math.sqrt(64)
    x=math.floor(z)             <- rounds the number down to an integer i<= z
-   
+
+collections module:Counter
+-------------------------------------------------------
+		- we can count how many times occur distinct elements in an iterable. it returns a dictionary with the key beeing the elements and value beeing the occurence count:
+		Ex. from collections import Counter
+			mylist = [1,1,1,2,33,3,,3,3,3,4,4,55]
+			sentence = "How many times  does each word show up in this sentence?"
+			letters = "aaaaabbbbbbbbbb"
+			c = Counter(mylist)                 			-> Counter({1:3, 2:1,3:4, 33:1, 4:2,55})
+			c = Counter(sentence.lower().split())           -> Counter({"a":1, "does":1,"how":1,.......})
+			c = Counter(letters)                            -> Counter({"a":5,"b":10})
+			c.most_common(x)                                -> returns x element with most ocurences in descending order
+			list(c)                                         -> returns a list of unique elements from the collection
+  
 event listeners:
 -------------------------------------------------------
    - keyboard event listeners work by passing the key type that will be pressed  and a function that will be triggered when the key was pressed

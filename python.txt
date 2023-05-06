@@ -1352,6 +1352,21 @@ set in python:
 
     - frozenset(setname)  <- we can make a set inmutable with frozenset:
     ex. frzset = frozenset(setname)	
+
+generators:
+-----------------------------------------------------------------
+   
+   - the "yeild" keyword replaces the "return" keyword in a function , and returns a value in a collection of values, but retains the state of the function,
+     so that the function returns the next value from the iterable the next time is called
+	Ex. def simple_gen():
+			for x in range (3):
+				yield x**x             <-  
+				
+		for y in simple_gen():           <- simple_gen() will return value one by one, will not make a list of elements consuming memory , but it will return one element
+			z+= y
+	 
+	 
+   
 	   
 sorting in python:
 -----------------------------------------------------------------

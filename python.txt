@@ -268,7 +268,12 @@ randomization  in python:
    - shuffle(): we can randomly reorganiza a list with shuffle() method:
    ex. import random                     <- from random import shuffle  #works too
 		list=["asda","dfgD","ert"]
-		random.shuffle(mylist) 		
+		random.shuffle(mylist) 
+   
+   - we can use different seed to generate random numbers:
+   ex. import random
+       random.seed(101)                      <- get different list of random numbers.if we reset the seed to the same seed the list will give the same sequence of random numbers
+       random.randint(0,100)        	   
 
 strings in python:
 ----------------------------------------------------------
@@ -1573,6 +1578,9 @@ working with files
        for varos in varosok:
           print(varos,file=varosfile)
 		  
+	- os.getcwd():we can get the current working directory:
+	Ex. import os
+		a = os.getcwd()          <- get current working directory   -> "C;\\Users\\Documents"
    - os.path.isdir(): we can check if a string is a foldername with os.path.isdir()
    ex. import os
       if not os.path.isdir(folderstringname):
@@ -1586,7 +1594,40 @@ working with files
      file=r'C:\dir\file.py'                  <- raw it tels the \ sign to njot use as a command characte (\n,\f,\t, etc)
 	 file='C:/dir/file.py'
 	 path_name=rf'{folder}\{intrare}'
-   
+	 
+	- shutil.move() - we can move files from one directory to other:
+	ex. import shutil
+		shutil.move("prqctice.txt","C:\\Users\\Documents")  <- moves practice from the working directory to the C:\\Users\\Documents folder
+	
+	- os.unlink() - we can delete a file at the specified path, filename included in the string. deleted files will not get in the recycle bin
+	ex. import os
+		path = "/home / ihritik / Documents / file1.txt"
+		os.unlink(path)
+	
+	- os.rmdir() - we can remove a folder. deleted files will not get in the recycle bin
+    ex. import os
+		os.rmdir("C:\\Users\\Documents")
+		
+	- shutil.rmtree(path) - we can remove a directory tree. deleted files will not get in the recycle bin:
+	ex. import shutil
+		shutil.rmtree("C:\\Users\\Documents")
+		
+	- send2trash() - we can delete a file by sending it to the trash:
+	Ex. pip install send2trash 
+		import send2trash
+		send2trash.send2trash("practice.txt)                <- delete the practice.txt file from the current working directory
+	
+	- os.walk ()- we can get the content of the path in a tupple in the folowing order: Folder, subfolder, files:
+	Ex. import os
+		file_path = "C:\\Users\\Documents"
+	    for folder,subfolder,files in os.walk(file_path):
+			print(f"we are looking to the {folder} foler")          <- folder is the current working folder
+		for i in subfolder:
+			print (f"the subfolders are {i}")
+		for j in files:
+			print (f"the files are {j}")
+		
+		
    - exists(): we can find out if a file exist or not with exists().if there is no such file, False, else True:
    ex. from os.path import exists
        fileexists=exists(path to file)
@@ -2335,12 +2376,21 @@ abstraction:
 			 
 math module:
 -------------------------------------------------------
-   import math
-   x=min (15, 10,20)
-   x=abs(-7.2)    <- absolute number (it returns the positive number of the number getting rid of the -)
-   x=pow(3,4)
-   x=math.sqrt(64)
-   x=math.floor(z)             <- rounds the number down to an integer i<= z
+   ex. import math
+       x=min (15, 10,20)
+       x=abs(-7.2)    <- absolute number (it returns the positive number of the number getting rid of the -)
+       x=pow(3,4)
+       x=math.sqrt(64)
+       x=math.floor(z)             <- rounds the number down to an integer i<= z
+	   x = math.ceil(z)            <- rounds the number up to the first integer
+	   x = math.round(4.35)        <- rounds to the most closest integer (up or down)
+	   x = math.pi                 <- 3.1415926
+	   x = math.inf                <- inf
+	   x = math.nan                <- not a number
+	   x = math.log(math.e)        <- 1         e is 2.71
+	   x = math.log(100,10)        <- 2
+	   x = math.sin(10)              
+	   math.radians(180)           <- 3.14926
 
 collections module:Counter
 -------------------------------------------------------
@@ -2831,12 +2881,28 @@ smtplib and python(sending mail from python)
    
 python date and time module:
 ----------------------------------------------------------------------
-   - we can use the date and time modules and functions by importing date time:
-   ex. import datetime as dt
+   the datetime.time module deals with the time part, the datetime.date deals with the date part of datetime module
+   - we can set the time:
+   ex. mytime = datetime.time(13,20,1,20)
+       print(mytime.minute)        <- 20
+	   print(mytime)               <- 13:20:01.000020 
+	   
+   - we can set the date:
+   ex. 	mydate = datetime.date(1974, 12,20)           <- we can set the date (year, month,day as argument)
+		print(datetime.date.today(),datetime.date.today().year,datetime.date.today().month, datetime.date.today().day)   - we can use the date and time modules and functions by importing date time:
+
+   - we can set the date and time :
+   ex. from datetime import datetime
+		datetime.datetime(2021,10,3,14,20,1)      2021 oct 3, 14:20 and 1 seconds
    
    - datetime.now() we can find out the date and time now:
-   ex. now=dt.datetime.now()    <- prints out the date and time in this moment, date.time type of object
+   ex. import datetime as dt
+       now=dt.datetime.now()    <- prints out the date and time in this moment, date.time type of object
    
+   - replace: we can replace a field in the date with an updated one:
+   ex. mydatetime = datetime.datetime.now()
+       mydatetime.replace(year=2020)        changes the year to 2020. same with month and day
+	   
    - year: we can find out the year , returning int type:
    ex. now=dt.datetime.now()
        print(now.year)
@@ -2845,7 +2911,8 @@ python date and time module:
    ex. now=dt.datetime.now()
 	   print(now.minute)
 	   print(now.month)
-  
+  - we can find the time in ctime format:
+  ex. print(today.ctime()               <- "Fri Jun 12 00:00:00 2020"
   - weekday() we can find the day we are 
    ex. dayofweek = now.weekday()           <- returns an integer, monday = 1
    
@@ -2868,6 +2935,20 @@ python date and time module:
 					  %p - Am/Pm
 					  %M - minute 0-59
 					  %S - second 0-59
+	
+	- we can perform aritmetic on a datetime object:
+	ex. from datetime import date
+		date1 = date (2020,12,24)
+		date2 = date (2021,3,4)
+		result = date1 - date2
+		print (result.days)
+	
+	- we can find the difference between 2 datetime objects:
+	Ex. datetime1 = datetime(2020,23,3,13,45,23)
+	    datetime2 = datetime(2021,3,5,22,34,2)
+	    timeelapsed = datetime2-datetime1
+		print(timeelapsed.days)            <- prints the elapsed days
+		print(timelapsed.hours)            <- prints the elapsed hours
    
 python webbrowser module:
 ----------------------------------------------------------------------

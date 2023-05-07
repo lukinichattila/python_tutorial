@@ -264,8 +264,12 @@ randomization  in python:
    ex. import random
 		list=["asda","dfgD","ert"]
 		random.choice(mylist)
+	
+	- random.choices(): - we can generate a list of random items with choices
+	ex. list=["asda","dfgD","ert"]
+	    rand-list_elements = random.choices(list,2)                  <- ["asda","ert"] selects 2 random elements from the list and returns a list
 		
-   - shuffle(): we can randomly reorganiza a list with shuffle() method:
+   - shuffle(): we can randomly reorganiza a list with shuffle() method.it shuffles the lists items, does not return a new list:
    ex. import random                     <- from random import shuffle  #works too
 		list=["asda","dfgD","ert"]
 		random.shuffle(mylist) 
@@ -273,8 +277,20 @@ randomization  in python:
    - we can use different seed to generate random numbers:
    ex. import random
        random.seed(101)                      <- get different list of random numbers.if we reset the seed to the same seed the list will give the same sequence of random numbers
-       random.randint(0,100)        	   
+       random.randint(0,100) 
+   
+   - random.sample() - we can select random unique elements from a list, so when an element is taken out it will not be generated again when randomized again 	
+   ex. list=["asda","dfgD","ert"]
+       n = random.sample(list, 2)              <- generates a list of 2 random elements frokm "list" that will be not drawn again if we randomize the list again 
 
+   - random.uniform() - we can generate random floating values that have the same chance of beeing drawn when randoms are generated:
+   ex. a = random.uniform(a=0,b=100)          <- generates from from 0 to 100
+   
+Debugger in python:
+----------------------------------------------------------
+   - we can import with the pdb module the debugger module
+   ex. pdb.set_trace()                 <- the program will stop at this line and we can start the debugging
+   
 strings in python:
 ----------------------------------------------------------
    - strings are inmutable meaning  we can read the string char by char however we cant change the elements value with string[pos]="c"
@@ -490,6 +506,22 @@ string slicing:
 	   print(s[1:])     <- bcd....
 	   print(s[1:7:2])  <- bdf   <- range with steep
 	   print(s[::-1])    <- reverse iterator from begining to end
+
+REGEX or regular expressions in python:
+------------------------------------------------------------
+   - we can search for a pattern in a string:
+   ex. import re
+       test = "the phone is not home.I lost the phone"
+	   pattern = "phone"
+	   re.search(pattern, test)               <- searches for regex pattern in the test string
+	   
+	- span :we can find the start and end position of a substring in a string
+	ex. import re
+	    test = "the phone is not home.I lost the phone"
+		pattern = "phone"
+		match = re.search(pattern, test)       <- the result is stored in an object
+		if (match):
+		    print(match.span())                <- we aply the span method on the match object to find the start and end indices of the match
 	   
 conversions:
 ------------------------------------------------------------

@@ -509,19 +509,83 @@ string slicing:
 
 REGEX or regular expressions in python:
 ------------------------------------------------------------
-   - we can search for a pattern in a string:
+   - search() we can search for a pattern in a string, returns just the first occurence of the pattern:
    ex. import re
        test = "the phone is not home.I lost the phone"
-	   pattern = "phone"
-	   re.search(pattern, test)               <- searches for regex pattern in the test string
+	   pattern = r"phone"                     <- r means it is raw string literal, interprets escape characters as are
+	   re.search(pattern, test)               <- searches for regex pattern in the test string, returns just the first occurence
+	   
+	- findall()we can search for all ocurences of the regex pattern in a string, returns a list with all the occurences
+    ex. import re
+        test = "the phone is not home.I lost the phone"
+        pattern = r"phone"                       <- r means it is raw string literal, interprets escape characters as are
+		mylist = re.findall(pattern, test)       <- ["phone","phone"]
+	
+    - finditer() - we can find the pattern in an iterable.it returns an iterable:
+    ex. import re
+	    test = "the phone is not home.I lost the phone"
+        pattern = r"phone"                       <- r means it is raw string literal, interprets escape characters as are
+        for a in re.finditer(pattern, test):
+           print (a.group())		
 	   
 	- span :we can find the start and end position of a substring in a string
 	ex. import re
 	    test = "the phone is not home.I lost the phone"
-		pattern = "phone"
+		pattern = r"phone"                     <- r means it is raw string literal, interprets escape characters as are
 		match = re.search(pattern, test)       <- the result is stored in an object
 		if (match):
 		    print(match.span())                <- we aply the span method on the match object to find the start and end indices of the match
+	
+	- group() - we can find the regex that matched the pattern. it returns a string
+	ex. import re
+	    test = "the phone is not home.I lost the phone"
+		pattern = r"phone"                     <- r means it is raw string literal, interprets escape characters as are
+		a = re.search(pattern,test)
+		a.group()                     <- "phone"
+	- () we can group together regex expressions with ()
+    ex. import re
+        test = "the phone is not home.I lost the phone.Phone nr is 323-432-345"
+        patern = r"\d{3}-\d{3}-\d{3}"
+		groupedpattern = r"(\d{3})-(\d{3})-(\d{3})"
+        find = re.search(pattern,test)             <- gives the whole number
+        find = re.search(groupedpattern, tst)		<- group(1) = 323, group(2) = 432
+	
+	- compile()   compile a regular expression pattern into a regular expression object.can then be used to perform matching operations on text.
+	ex.  import re
+        test = "the phone is not home.I lost the phone.Phone nr is 323-432-345"
+        patern = re.compile(r"(\d{3})-(\d{3})-(\d{3})")
+		result = re.search(patern, test)
+		print(result.group())            <- 323-432-345
+		print(result.group(1))           <- 323
+		print(result.group(3))           <- 345
+	
+	Regex patterns:
+	\d    - a digit          (0-9)
+	\w    - alfanumeric      (A-Z, a-z,0-9, "_")
+	\s    - white space             " "
+	\D    - non digit               not [0-9]
+	\W    - non-alfanumeric         not (A-Z, a-z,0-9, "_")
+	\S    - non-whitespace          not " "
+	\t    - tab
+	\n    - matches newline
+	\r    - matches return
+	\b    - matches only the begining or end of the word
+	.     - matches any single character except newline
+	+     - preceeding character ocurs one or more time   Vers 1_1          Vers \w+         +comes after the eleemnt to search
+	-     - used for range of characters                  [0-9], [a-d]
+	{3}   - preceeding character ocurs 3 times            abc               \D{3}
+	{2,4} - preceeding character occurs 2 or 4 times      abc                \d{2,4}
+	{3,}  - preceeding character occurs 3 or more         abc               \d(3,)
+	*     - preceeding character occurs 0 or more times   AAACC             A*B*C*
+    ?     - preceeding character apears once or None      plurals?          plural
+	^     - begining of a string                          Eat me Billy      r"^Eat.*"     <- begins with Eat
+	$     - matches end of string                         Where is my Cake  r"$Cake"      <- ends with Cake
+	[abc] - matches a or b or c     
+	[a-zA-Z0-9] - matches any letter or number
+	[^are]
+	
+	
+	
 	   
 conversions:
 ------------------------------------------------------------

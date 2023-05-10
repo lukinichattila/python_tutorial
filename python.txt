@@ -542,6 +542,12 @@ REGEX or regular expressions in python:
 		pattern = r"phone"                     <- r means it is raw string literal, interprets escape characters as are
 		a = re.search(pattern,test)
 		a.group()                     <- "phone"
+		
+	- .sub(pattern,repl,string,count) - we can return a string with replaced values
+    ex. s = "i am human beeing"
+	    res1 = re.sub("a","x",s)     <- i xm humxn beeing
+		res2 = re.sub('[a,i] ,"x",s)  <- x xm humxn beeing
+	
 	- () we can group together regex expressions with ()
     ex. import re
         test = "the phone is not home.I lost the phone.Phone nr is 323-432-345"
@@ -571,18 +577,22 @@ REGEX or regular expressions in python:
 	\r    - matches return
 	\b    - matches only the begining or end of the word
 	.     - matches any single character except newline
-	+     - preceeding character ocurs one or more time   Vers 1_1          Vers \w+         +comes after the eleemnt to search
-	-     - used for range of characters                  [0-9], [a-d]
-	{3}   - preceeding character ocurs 3 times            abc               \D{3}
-	{2,4} - preceeding character occurs 2 or 4 times      abc                \d{2,4}
-	{3,}  - preceeding character occurs 3 or more         abc               \d(3,)
-	*     - preceeding character occurs 0 or more times   AAACC             A*B*C*
-    ?     - preceeding character apears once or None      plurals?          plural
-	^     - begining of a string                          Eat me Billy      r"^Eat.*"     <- begins with Eat
-	$     - matches end of string                         Where is my Cake  r"$Cake"      <- ends with Cake
+	+     - preceeding character ocurs one or more time           Vers 1_1          Vers \w+         +comes after the eleemnt to search
+	-     - used for range of characters                          [0-9], [a-d]
+	{3}   - preceeding character ocurs 3 times                    abc               \D{3}
+	{2,4} - preceeding character occurs 2 or 4 times              abc                \d{2,4}
+	{3,}  - preceeding character occurs 3 or more                 abc               \d(3,)
+	*     - preceeding character occurs 0 or more times           AAACC             A*B*C*
+    ?     - preceeding character apears once or None              plurals?          plural
+	^     - folowing stringpattern  is begining of a string       Eat me Billy      r"^Eat.*"     <- begins with Eat
+	$     - preceeding stringpattern matches end of string        Where is my Cake  r"Cake$"      <- ends with Cake
+	[]    - find sub group() inside group()  that satisfy what is inside the bracket  
+	()    - group options inside the colons                       caterpillar,catfish    r"cat(fish|nap|erpillar)"
 	[abc] - matches a or b or c     
 	[a-zA-Z0-9] - matches any letter or number
-	[^are]
+	[^are] - exclude are from the search
+	[^.?!]+ - excludes .!? from the string no matter how many times apear
+	[\w]+-[\w]+  - finds all the words that have - in midle like hypen-words 
 	
 	
 	
@@ -3045,7 +3055,47 @@ python date and time module:
 	    timeelapsed = datetime2-datetime1
 		print(timeelapsed.days)            <- prints the elapsed days
 		print(timelapsed.hours)            <- prints the elapsed hours
-   
+
+time and timeit module:
+----------------------------------------------------------------------
+   - we can get time in our code with time from time module:
+   ex. import time
+       start_time  = time.time()     <- gives time in very small increments
+       s = "10"
+       print(s)
+       end_time = time.time()
+       elapsed_time = start_time-end_time
+	   
+   - we can time small code snippets:
+   ex. import timeit
+       s = "func(10)"
+       z= """def func(n):
+	           print(n)
+  	   """
+	   timeit.timeit(s,z,1000)          <- executes 1000 times the function provided by string s described in  string z
+
+Compressing and decompresing zip files in Python
+----------------------------------------------------------------------
+   - we can zip  files in python:
+   ex. import zip
+       with open ("ert.txt",w) as myfile:             <- create new file and write text in it
+          myfile.write("this is a text")
+	   comp_file = zipfile.ZipFile("compfile.zip","w")                   <- creates an empty zipfile
+	   compfile.write(ert.txt", compress_type = zipfile.ZIP_DEFLATED)    <- compress and add file to the zip file 
+	   comp_file.close()                                                 <- close file 
+       
+	- we can unzip files in python:
+    ex. import zipfile
+        zip_obj = zipfile.ZipFile("comp_file.zip","r")               <- open zipfile in read mode
+        zip_obj.extractall("extracted_content"))                     <- it extractsto thesame folder as the zip file in
+		
+    - we can zip an entire directory with shutil module
+	ex. import shutil
+	    dir_to_zip = "C:\\Documents\\Myfolder"
+		output_filename = "documentsarhive"
+		shutil.make_archive(output_filename,"zip", dir_to_zip)      <- zips to output_filename the dir_to_zip folder with compression type "zip" 
+		shutil.unpack_archive(example.zip", "final_unzip","zip")    <- it will unzip all the files from example.zip to "final_unzip" folder with the zip compression type
+ 		
 python webbrowser module:
 ----------------------------------------------------------------------
    ex. import webbrowser
@@ -3157,7 +3207,7 @@ put request:
        response = request.put (url=updateendpoint, json= newpixeldata, headers=hders)
        print(response.text)
 	   
-delte request:
+delete request:
 --------------------------------------------------------------
    - we can delete from the pixela:
    ex. deleteendpoint=f"{pixelaendpoint}/{username}/graphs/{graphid}/{today.strftime("%Y%m%d")}"

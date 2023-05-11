@@ -3255,6 +3255,8 @@ Python Anywhere environment variables:
 Parsing HTML with Beautiful_Soup
 -------------------------------------------------------------
    - crummy.com/software/BeautifulSoup/bs4/doc   <- beautiful soup library page
+   - www.toscrap.com <- page made for testing scraping
+   
    ex. from bs4 import BeautifulSoup
 		with open ("website.html") as file:
 			contents = file.read()
@@ -3267,6 +3269,33 @@ Parsing HTML with Beautiful_Soup
 		
 	- the soup object is the entire html site file
 	
+	- select() - we can retrive a page and process it with soup:
+	ex. import requests
+	    import bs4
+	    result = request.get("http://www.example.com")      <- retrives the html from the adress. the result type of data is  requests.models.Request type of object
+		print(result.text)                                  <- prints out the html response
+		soup = bs4.BeautifulSoup(result.text, "lxml")       <- it converts the data obtained with request to a formateed xml document type ready for processing
+		page_element = soup.select("title")                 <- searches through the document for the tags and finds the title tag, returns a list.can be p, body, head, etc
+		page_element = soup.select("title")[0].getText()    <- returns the first text between the 2 title tags: <title>This is a title </title>
+	
+    - we can have different select() queries 
+    ex. soup.select("div")         - all elements with "div" tag
+        soup.select("#some_id")    - elements containing id = "some_id"
+        soup.select(".some_class") - elements containing class = "some_class"
+        soup.select ("div_span")   - any element named span within a div element
+        soup.select("div>span)	   - any element named span directly within a div element, with nothing in between
+	
+    - we can download images from site
+    ex.import requests
+	    import bs4
+	    result = request.get("http://www.example.com")
+		soup = bs4.BeautifulSoup(result.text, "lxml")
+		computer = soup.select(".thumbimage")[0]
+		image_link = request.get("http:://image link")
+		with open ("image.jpg","wb") as myfile:           <- open the file for binary writing
+			myfile.write(image_link)
+		
+		
 Finding and selecting Particular elements with Beautifullsoup
 -------------------------------------------------------------
 	ex. ex. from bs4 import BeautifulSoup

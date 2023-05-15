@@ -341,10 +341,10 @@ strings in python:
    ex. print("Nr is {0:^2} and squared {1:^2}.format(2, 3))          <- center alligned
    ex. print("pi is {0:12.20f}".format(22/7))                             
    
-   - we can find the ASCII character code of a character:
+   - ord() - we can find the ASCII character code of a character:
    ex. a=ord('a') 
 
-   - we can convert ASCII code to characters:
+   - chr() - we can convert ASCII code to characters:
    ex. print(chr(120))            <- "x"
    
    - if we have a ' in the string we can use the ""
@@ -364,7 +364,7 @@ strings in python:
    - fstring: we can mix  numbers with strings with the fstring:
    ex. l=f"your score is {var:2}"                                     <- returns a string, var:2
    
-   - we can format a float number into string:
+   - format - we can format a float number into string:
    ex. amount = "{:.2f}".format(stringvar)                            <- float to string with 2 decmal precision
    
    - os.path.isdir(): we can check if a string is a directory's name or not:
@@ -452,6 +452,13 @@ strings in python:
    ex. l="sDfere"
    print(l.isupper())
    
+   - isspace() - we can find out if a string has just spaces in it
+   ex. l="sDfe re"
+       a = l.isspace()                      <- False
+	   
+   - istitle() - we can find out if a string have the title formating - first letter big?
+   ex. a = l.istitle()
+   
    - join(): we can join the elements of an iterable with character(or string?) between elements with .join() function
    ex. text = ['Python', 'is', 'a', 'fun', 'programming', 'language']
        print(' '.join(text))                                    <- Python is a fun programming language
@@ -496,7 +503,12 @@ strings in python:
        print(message.startswith(('Python','is'))               <- searches if the string starts with any element from a tuple
    
    - endsswith(): we can check if a strings ends with a string with the endsswith() method:   
-   ex. print(newstring.endswith("string)) 
+   ex. print(newstring.endswith("string")) 
+   
+   - partition() - we can partition a string after a separator.String is split to a list, first element is before the separator, element 1 is separator, 
+                   element 2 after separator.It does for the first occurence of separator, rest ignore.if separarator not found then return 2x empty string and separator in a tuple:
+   ex. s = "Holnap megyek haza"
+       a = s.partition(" ")                  <- ("Holnap"," ", "megyek haza")
    
    - title() we can make each word in a string start with uppercase with the title() function:
    ex. text = 'My favorite number is 25.'
@@ -512,6 +524,10 @@ strings in python:
    - we can iterate through the letters in a string:
    ex. for i in "stretet":
        print (i)
+	   
+   - center() - we can wrap the string around with an other string:
+   s= "hello"
+   s.center(20,"z")          "zzzzzzzhellozzzzzzzz"    - string length 20, put before and after string
    
 string slicing:
 ------------------------------------------------------------

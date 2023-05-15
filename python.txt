@@ -231,6 +231,23 @@ data types in python and variables
 	
 	- we can have a variable not initialized with None:
 	b = None
+	
+	- hex() - we can find the hexa value of a number.returns a string
+	a = hex(12)             <- "0xc"      x means hexa
+	
+	- bin () - we can find the binary representation of a number.returns a string:
+	ex. a = bine (1234)    <- 0b100010101   b means binary
+	
+	- pow() - we can raise a value to power n:
+	ex. a = pow (2,4)         <- 2^4
+	
+	- abs() - we can find the absolute value of a number:
+	ex. a = abs (-3)        <- 3
+	
+	- round() - we can round  numbers
+	ex. a = round (3.14354567, 2)              <- 3.14       
+	
+	
 
 python dynamic typing:
 --------------------------------------------------------------
@@ -561,11 +578,12 @@ REGEX or regular expressions in python:
         test = "the phone is not home.I lost the phone.Phone nr is 323-432-345"
         patern = re.compile(r"(\d{3})-(\d{3})-(\d{3})")
 		result = re.search(patern, test)
-		print(result.group())            <- 323-432-345
+		print(result.group())            <- 323-432-345    same as group(0)
 		print(result.group(1))           <- 323
 		print(result.group(3))           <- 345
 	
 	Regex patterns:
+	- special characters like ( or ) can be used in regex with a \ in front like \(
 	\d    - a digit          (0-9)
 	\w    - alfanumeric      (A-Z, a-z,0-9, "_")
 	\s    - white space             " "
@@ -592,8 +610,9 @@ REGEX or regular expressions in python:
 	[a-zA-Z0-9] - matches any letter or number
 	[^are] - exclude are from the search
 	[^.?!]+ - excludes .!? from the string no matter how many times apear
-	[\w]+-[\w]+  - finds all the words that have - in midle like hypen-words 
-	
+	[\w]+-[\w]+  - finds all the words that have - in midle like hypen-words
+	"^if.*if.*$" - matches a string that begins with an if and then has somewhere in it an other if	
+	^if(?=(.*if){2}).*$ - matches a string that begins with an if and in it there is 2 more if
 	
 	
 	   
@@ -2517,19 +2536,65 @@ event listeners:
    
 working with CSV files:
 --------------------------------------------------------
-   - we can easily work with csv files in python by importing the csv module
+   - we can easily work with csv files in python by importing the csv module.for working with excel files -> openpyxl library,to work with google sheets -> google sheets python API
    ex. import csv
    
-   - we can read in a list from a csv file with the csv.reader()
+   - we can read in a list from a csv file with the csv.reader().
    ex. import csv  
-       with open ("file.csv","r") as data file:
+       with open ("file.csv","r", encoding = "utf-8") as data file:
 	   data = csv.reader(data_file)
+	   data_lines = list(data)             <- the result is a list in a list where the lists first element is a list with the tablenames.
 	   temperatures = []
-	   for row in data:
-	      if row[1] != "temp":             <- the first line in the file might be the tablenames
+	   print(data_lines[0])                <- the first element is a list with the tablenames
+	   print(data_lines[1][2])             <- shows the third element from the first list
+	   for row in data_lines:
+	      if row[1] != "temp":             <- it takes the second element in every row that will corespond to the respective table name
 			temperatures.append(row[1])
 	   print (temperatures)
 	   
+	- writer() - we can write to a csv file with writer function:
+	ex. with open ("to save.csv", mode = "w", newline = "") as fileoutput:             <- with "w" mode we overwrite the file, for adding new lines "a" for append
+	    csv_writer = csv_writer(fileoutput, delimiter = ",")
+		csv_writer.writerow(["a","b","c"])                    <- it writes a single row to the file, number of elements shoul match the number of elements in a row(3 columns = 3 values)
+		csv_writer.writerows([["1","2","3"],["4","5","6"]])   <- it writes 2 rows to the csv file, the number of elements in a row needs to match the number of columns in the table
+
+working with pdf files in python:
+----------------------------------------------------------
+   - a scanned image in a pdf file cannot be read by python as well tables
+   - we can work with pdf files by installing and importing PyPDF2 library.there are multiple libraries that work with PyPDF2, some payed
+   - working with pdf files resumes just to read the data from it, this library does not support full writing functionality
+   - ex. pip install PyPDF2
+   ex. import PyPDF2
+       with open ("mypdf.pdf","rb") as myfile:                   <- read binary mode
+	   pdf_reader = PyPDF2.PdfFileReader(myfile)
+	   
+   - numPages -  we can see how many pages does have the document:
+   ex. import PyPDF2
+       with open ("mypdf.pdf","rb") as myfile:                   <- read binary mode
+	   pdf_reader = PyPDF2.PdfFileReader(myfile)
+	   pdf_reader.numPages
+	
+	- getPage() we can grab any page from the file .result is a string where lines are separated by \n:
+	ex. import PyPDF2
+       with open ("mypdf.pdf","rb") as myfile:                   <- read binary mode
+	   pdf_reader = PyPDF2.PdfFileReader(myfile)
+	   page_one = pdf_reader.getPage(0)
+	   page_one_text = page_one.extractText()                    <- extracts the text from the first page .the result is a string where lines are separated by \n
+	
+	- PdfFileWriter() - we can write to a pdf file .What we want to write needs to be a PyPDF2.pdf.PageObject
+    ex. import PyPDF2
+        with open ("mypdf.pdf","rb") as myfile:	
+			pdf_reader = PyPDF2.PdfFileReader(myfile)
+			page_one = pdf_reader.getPage(0)
+			pdf_writer = PyPDF2.PdfFileWriter()
+			type(page_one)                                    <- PyPDF2.pdf.PageObject
+			pdf_writer.addPage(page_one)
+		with open ("pdfoutput.pdf","wb") as pdf_output:   <- opens the file in write binary mode 
+			pdf_writer.write(pdf_output)
+	
+   
+   
+   
 pandas:
 ----------------------------------------------------------
    - we can use the functions in pandas we can import pandas library:
@@ -2968,11 +3033,11 @@ smtplib and python(sending mail from python)
    - the recomended way of sending mail is the one thaat closes the connection imediately:
    ex. import smtplib
        myemail="luky@gmail.com"
-	   with smtplib.SMTP("smtp.google.com") as connection:
+	   with smtplib.SMTP("smtp.google.com",587) as connection:                  <- 587 is the port number, 465 could be functional also
 		connection.starttls()                         <- makes an ancrypted connection, so if someone intercepts mail , it will be encrypted
        connection.connect("smtp.google.com",465)		<- not necesarily needed?
 	   connection.login(login=myemail, password="yyyyyy")
-	   connection.sendmail(from_addr=myemail, to_addrs="johny@gmail.com",msg="Subject:Hello!\n\nThis is the message!")
+	   connection.sendmail(from_addr=myemail, to_addrs="johny@gmail.com",msg="Subject:Hello!\n\nThis is the message!")  <- message and subject same line, delimited by \n
    
    - we can connet the old way (like read and write in a file) with the SMTP()
    ex. import smtplib
@@ -2981,10 +3046,42 @@ smtplib and python(sending mail from python)
 	   c  /n/n mesage start, subject: subjecttitle
 	   conneection.close()
    
+   - ehlo() - we can greet the server with the ehlo() function
+   ex. import smtplib
+       smpt_object = smtplib.SMPT("smtp.gmail.com",587)
+	   smtp_object.ehlo()                  <- prints 250, smtp.gmail.com at your service....
+   - we can read mails with the imap library:
+   ex. import imaplib
+       M = imaplib.IMAP4_SSL("imap.gmail.com")
+       import getpass
+       email = getpass.getpass()
+       password = getpass.getpass()
+       M.login(email.password)
+       M.select("inbox")        <- we select the mailbox item (inbox,sent,trash,etc)
+       type,data = M.search(None, 'SUBJECT "customsubject"'))	   <- data is the unique id of the mail
+       email_id = data[0]
+       result,email_data - M.fetch(email_id,"(RFC822)")
+       raw_email = wmail_data[0][1]
+       raw_email_string = raw_email.decode("utf-8")
+       import email
+       email_message = email.message_from_string(raw_email_string)
+       for part in email_message.walk():
+	      if part.get_content_type() == "text/plain':
+		     body = part.get_payload(decode=True)
+			 print(body)
+			 
+         	   
    
    - different providers different smtp servers: gmail:smtp.gmail.com, hotmail:smtp.live.com,yahoo:smtp.mail.yahoo.com
    - some providers(yahoo) need special password(generated in the preferences (app password))
-   
+
+Password in Python:
+----------------------------------------------------------------------
+   - we can work with passwords in Python by importing  getpass library
+   ex. import getpass
+       password = getpass.getpass("password please:")            <- everything types wild be with *****
+	   user = getpass.getuser("user please:")
+	   
 python date and time module:
 ----------------------------------------------------------------------
    the datetime.time module deals with the time part, the datetime.date deals with the date part of datetime module
@@ -3344,4 +3441,38 @@ Unit test in Python with Unittest
 	- to run the test file : >python mytestfile.py
 	
 	
+images in python:
+-----------------------------------------------------------------
+   - we need to install pillow library to work with images :
+   ex. pip install pillow
+   
+   - we can load an image from the hard drive:
+   ex. from PIL import Image
+       myimage = Image.open("image.png")
+	   print(myimage.size)                  <- displays the image size Horiz/Vert (1900,1240)               
+	    print(myimage.filename)             <- displays the files name
+		print(myimage.format_description)   <- "jpeg (ISO 10981)"
+
+	- crop() - we can crop images.the (0,0) is top left corner:
+	ex. myimage.crop(0,0,100,100)           it crops the image starting from 0.0 to 100,100
+	
+	- paste() - we can paste an image over an other:
+    ex. from PIL import Image
+       myimage = Image.open("image.png")
+       cropedimage = myimage.crop(0,0,100,100)
+	   modifimage = myimage.paste(im = cropedimage, box =(0,0)) 	  <- it pastes the croped image to the original image from pos 0,0
+	   modifimage = myimage.paste(cropedimage, box =(0,0,100,200))    <- it pastes the croped image to the original image from pos 0,0 until pos 100,200
+	   
+	- resize() we can resize an image with the resize function
+	ex. myimage.resize((3000,2000))                                    <- it needs a tupple
+	
+	- rotate() - we can rotate am image with rotate () function
+	ex. myimage.rotate(90)               <- rotates the image with 90 degree
+	
+	- putalpha() - we can add or replaces the alpha layer in an image.if the image does not have an alpha layer it converts to LA or RGBA
+	ex. from PIL import Image
+	    myImage = Image.open("myimage.jpg")
+	    myImage.putalpha(0)                  <- 0 alpha is minimum, 255 alpha is maximum
 		
+
+	

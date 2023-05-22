@@ -2144,6 +2144,12 @@ Objects in python:
    ex. p1=Persoana()
        print(p1)                 <- it calls the .__str__() function of the object that is inherited from "object" - t returns a string representation 
   
+  - a class can have class variables and instance variables.Class variables are common to all objects created , instance variables (self.) are particular of a created object
+  ex. class Monster(object):
+           name = "erfere"                                          <- class variable without self
+		   def __init__(self):
+		      self.number = 5                                       <- instance variable (with self)
+			  
   - we can assign values to variables when we create an object:
    ex. class Person:
 		 def __init__(self, name, age):
@@ -2342,6 +2348,37 @@ Accessing methods of the objects:
 
 Standard built in inheritable methods for objects (dunder functions):
 --------------------------------------------------------------
+   - are inheritable methods that can be override 
+   - __str__() - we can return a custom string when when str(objectname) is called:
+   ex. def __str__(self):
+	    return "the class is myclass"
+		
+   - __len__() - we can specify what returns the len(object) function :
+   ex. def __len__(self):
+	   return 5
+
+   - __abs__() - we can define what will the absolute value return on the object defined:
+   ex. def __len__(self):
+	   return 5
+   
+   - dir() - we can find all of the dunder methods defined on a class(by default and theones we defined):
+   ex. print(dir(object))
+   
+   - __call__()  - we can call the object like a function and it returns or not what this function does:
+   ex. class Monster(object):
+		  __call__(self):
+			print("object was called!)
+		a = Monster();
+		a()                                    <- object was called 
+	
+   - __add__()  - we can add  to the object and the summ is defined through __add__:
+   ex. class Monster(object):
+         objvalue = 12   
+         __add__(self, something):
+             return self.objvalue+something
+       a = Monster()
+	   print(a+5)	                              <- 17	   
+										 
    ex. len(p1)               <- p1.__len__()
         print(p1 is p2)      <- p1.__eq__(p2)           test de egalitate de identitate
 		print(p1)            <- __str__()            <- returns a string representation of the object by  defining __str__() and returning a string

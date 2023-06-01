@@ -198,6 +198,8 @@ data types in python and variables
     Ex. a = "ert"
         if type(a) == int:
         if a.isdigit() == True:
+		
+    Ex. if isinstance("This is a string",str):
 	
 	- variables are asigned values:
 	Ex. x=0                     <- x assigned an integer object
@@ -1681,7 +1683,23 @@ exceptions:
            print("file not found error catched!
         except KeyError as error_mesage:         
 		   print(f"{error_mesage}")
+	
+	- assert - we can stop the code with an assert type of exception:
+	ex. a = 6
+	    assert a == 5                    <- AssertionError  assert a==5
+		
 
+eval and exec:
+-------------------------------------------------------------------
+   - eval and exec are functions that translate strings into python code
+   - !!it allows users to run code in your code
+   - eval - it evaluates code - can run functions and simple operations
+   - exec - it can execute code , can create functions and variables
+   ex. print(eval ("10+3"))                            <- prints 13
+       print(eval(""test".upper()"))                   <- TEST
+	   exec("a=10")                                    <- a=10
+	   
+   
 working with files
 -------------------------------------------------------------------
    - file acces mode: r - read, a - append, w - write, x - create, t - text mode, b - binary mode
@@ -2427,20 +2445,74 @@ decorators:
 	   def greet():
 		  return "hello"
        print(greet())  # Output: HELLO            <- when greet will be called it will call it through the decorator function like a function pass by argument
+
+   - we can have multiple decorators defined on afunction:
+   ex. def uppercase_decorator(func):
+          def wrapper():
+            result = func()
+            return result.upper()
+          return wrapper
+	   def printme(func):
+		 def wrapper(func)
+	       print("this decorator")
+		   func()
+		 return wrapper
+       @uppercase_decorator                       <- tells python through wich decorator function will be  passed like function argument and called
+	   @printme                                   <- when called greet() the uppercase_decorator will be run then the printme
+	   def greet():
+		  return "hello"
+       print(greet())  # Output: HELLO            <- when greet will be called it will call it through the decorator function like a function pass by argument
 	   
+	- we can call decorators with arguments:
+	ex. def decorator(func):
+	        def wrapper(wrapperparameter):                     - could be def wrapper(*args,**kwargs):  <- can pass multiple parameters, the decorator works with any function
+			   print(f"Decoration, {wrapperparameter}")
+			   func(wrapperparameter)
+			return wrapper
+	    @decorator
+		def myfunc(a)
+	       print(f"First function{a}")
+		   
+    - we can call a decorator multiple times:
+	ex. def repetition_decorator(repetitions):
+	       def decorator(func):
+		      def wrapper():
+			     for r in range(repetitions):
+				     func()
+			  return wrapper
+            return decorator
+        @repetition_decorator(5)
+        def func():
+          print("Function")
+       #func = repetition_decorator(4)(func) this is what it is called
+       func()	   
+		   
 @property decorator:
 -----------------------------------------------------------------------
-   - the property decorator allows python getter and setter methods to be called like variables:
+   - @property allows to turn methods into attributes - the pythonic way of makeing getters and setter and deleters
+   - the property decorator is a built-in function that creates and returns a property object.allows python getter and setter methods to be called like variables:
+   - property(fget=None, fset=None, fdel=None, doc=None)               <- fget getter function, fset setter function, fdel deleter function
    - getter methods are used with the @property decorator:
    ex. class Student:
 		def __init__(self, first_name):
-			self.first_name = first_name
-		@property
+			self._first_name = first_name             _first name is private (by convention)
+		@property                                    <- indicates that it will be run through @property decorator alias property function
 		def get_name(self):
-			return self.first_name
+			return self._first_name
+			
+		@get_name.setter
+		def get_name(self,name):
+			self._first_name = name
+		
+		@get_name.deleter
+		def get_name.deleter:
+			del self._first_name
 	  
 	  student = Student("Monica")
 	  print(student.get_name)             <- no () like a function would be called . if student.get_name() would give error
+	  student.getname = "Andras"          <- sets the name to Andras
+	  del.get_name
+	  
 	  
 	- setter methods are set with the @<property_name>.setter syntax where property_name is the name of the property the setter is for:
 	ex. class Person:
@@ -2881,7 +2953,9 @@ checkbuton in tkinter:
    - we can have a checkbuton in tkinter
    ex. checkbutton = tkinter.CheckButton(parentwindow, text=="is on?", variable = checkedstate, command = checkbutonused)  <- checkbutonused a function that will be executed
        checkbutton.pack()                                                                                               variable = checkedstate   <- chackedstate is  0 or 1
-		  
+   ex. check_var = tk.IntVar()                      <- tkinter variable object. can be BooleanVar for true or false
+       check = tk.Checkbutton(window, text = "a check", command = lambda:print(check_var.get()), variable = check_var, onvalue = 10, offvalue = 5 )	     <- Checkbutton has a "variable" tkinter variable that can be assigned to a 
+	                                                                                                                                                      Tkinter variable, onvalue is the value that is returned when check is on	  
    - get() we can get the state of the checkbuton with the get ()
    ex. a = checkbutton.get()
    
@@ -2895,16 +2969,33 @@ checkbuton in tkinter:
    
 radiobutton in tkinter:
 ----------------------------------------------------------
-   - we can have a radiobutton in tkinter
-   ex. mainwindow = Tk()
+   - we can have a radiobutton in tkinter.it does not have a .get() function to get its value, instead tkinter variable is needed like IntVar() or other
+   ex.  def button_func()
+	       print(string_var.get())
+        mainwindow = Tk()
+		comonboolean = tk.BooleanVar(value = True)
+		commonstringvar = tk.StringVar(value = "A")
 		radiostate = tkinter.IntVar(mainwindow)
-		radiobutton = tkinter.Radiobutton(mainwindow,text="Option1", value=1, variable = radiostate, command=radio_used)   <-in radiostate will be  saved which button is clicked
-       radiobutton2 = tkinter.Radiobutton(mainwindow,text="Option2", value=2, variable = radiostate, command=radio_used)
+		radiobutton = tkinter.Radiobutton(mainwindow,text="Option1", value=1, variable = radiostate, command=radio_used)   <-in radiostate IntVar will be  saved which button is clicked.if radiobutton1 is integer and 2 is string then StringVar 
+       radiobutton2 = tkinter.Radiobutton(mainwindow,text="Option2", value=2, variable = radiostate, command=radio_used)   <- the radio buttons need to have different values, otherwise all will be selected
 	   radiobutton.pack(anchor = W)
 	   radiobutton2.pack(anchor = W)
-	   def radio_used:
-			print(radiostate.get())         <- print out which buton is pressed
-	   
+	   	def radio_used:
+		   print(radiostate.get())         <- print out which buton is pressed
+		   
+	ex. def printvalue():
+           print(commonstringvar.get())
+	    comonboolean = tk.BooleanVar(value = True)     <- boolean tkinter variable used to demark the state of the checkbutton if it is on or off
+		commonstringvar = tk.StringVar(value = "A")    <- tkinter variable to hold  the value of the radio button group which one is active
+	    radio1 = tk.Radiobutton(master = window,text = "radio 1", value = "A",command = lambda:print(comonboolean.get()) , variable = commonstringvar )    <- if clicked it will print out the value of the checkbox(True/False)
+		radio1.pack()
+		radio2 = tk.Radiobutton(master = window,text = "radio 2", value = "B",command = lambda:print(comonboolean.get()), variable = commonstringvar )     <- if clicked it will print out the value of the checkbox(True/False)
+		radio2.pack()
+		checkbtn = tk.Checkbutton(window,text = "a check", onvalue = 1, offvalue = 0 , command = printvalue, variable = comonboolean)                      
+		checkbtn.pack()
+
+   - radio buttons are connected through the same variable=samevar tkinter variable.this ensures that if one clicked, the status of the others are unticked, however value=something has to be different, 
+     otherwise they both will be checked or unchecked	   
    - we can get the state of the radio button: 
    ex. print(radiostate.get())
    
@@ -3090,6 +3181,24 @@ Frame in python:
 	   mybutton = Button(myframe, height = 2, width=5, text="ok", bd=2, relief=raised)    <- we can place a button over a frame (mainwindow can be window, coordonates are relative to masterwindow
 	   mybutton.place(x=20,y=20)
 	   window.mainloop()
+
+Tkinter variables:
+----------------------------------------------------------
+   - tkinter has inbuilt variables that work with widgets
+   - are automaticaly updated by the widgets
+   - they store usualy data, strings and booleans
+   - StringVar, IntVar, DoubleVar,BooleanVar - tkinter variable that stores a string, int float or boolean
+   Ex. import tkinter as tk
+	   def button_func()
+	       print(string_var.get())                                            <- will print out the string_var = tk.StringVar object
+	   window = tk.Tk()
+	   string_var = tk.StringVar(value = "start  value")                      <- StringVar Object, it is initialized with "start  value"
+	   label = tk.Label(master = window, text='label', textvariable = stringvar)
+	   label.pack()
+	   entry = tk.Entry(master = window, textvariable = string_var)          <- label and entry share the same variable string_var. whenever the first changes the variable, the second widget changes also
+	   entry.pack() 
+	   button = tk.Button(master = window, text = "button", command = button_func, text_variable = }})        <- when button push, it will print out to the console what we entered in the entry
+       window.mainloop()
 	   
 copying to the clipboard:
 ----------------------------------------------------------

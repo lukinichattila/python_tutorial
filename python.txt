@@ -2894,6 +2894,18 @@ Buttons with TKinter:
         root=Tk()
         b=MyButtons(root)
         root.mainloop()
+	
+	- we can pass a tkinter variable to the command button:
+	ex. def def printvalue(mytkinterstring):
+          def inner():                         <- command = printvalue(mytkinterstring) <- needs to return something, that is why it returns the inner function, otherwise it will not execute
+             print(mytkinterstring.get())
+             print("button was pressed!")
+          return inner
+	    mytkinterstring = tk.StringVar(value = "")
+		oneentry = tk.Entry(master = window, textvariable = mytkinterstring )
+		oneentry.pack()
+		onebutton = tk.Button(master = window, text = "Button", command = printvalue(mytkinterstring))    <- passes to the function the tkinter var StringVar as argument to the command function.it represents the entry field value
+		onebutton.pack()                                                                                     the smae can be done with command = lambda:printvalue(mytkinterstring) 
 		
    - we can change the properties anytime of the element with the .config(options)
    
@@ -2937,17 +2949,46 @@ Text with tkinter:
 	
 	- we can change the properties anytime of the element with the .config(options)
 	
-spinbox in tkinter:
+spinbox and combobox in tkinter:
 -----------------------------------------------------------
-   - we can have a spinbox
-   ex. spinbox = tkinter.Spinbox(parentwindow,from_=0 to=10, width=5, command=spinbox_used)        <- command - a function that is executed
+   - we can have a spinbox.we need a list and assign to the value property of the spinbox
+   ex. spinbox = tkinter.Spinbox(parentwindow,from_=0 to=10, width=5, command=spinbox_used)        <- command - a function that is executed.it is passed asa reference, it will get automaticaly executed
        spinbox.pack()
+	   
+   ex. def getpos(a):
+		 def b():
+            print(a.get())
+         return b
+
+	   window = tk.Tk()
+	   window.title("This")
+	   mytkinterstring = tk.StringVar(value = "")
+	   combox = tk.Spinbox(master = window,textvariable = mytkinterstring, command = lambda event:print("up") )
+	   combox.configure(values = ("12","13","14"))          <- or combox["values"] = ("12","13","14")
+	   combox.pack()
+	   combox.bind("<<Increment>>",getpos)                    <- gets triggered when we raise the value with the arrow up
+	   combox.bind("<<Decrement>>", lambda event: print("up")) <- gets triggered when the value is lowered through the arrow down
+	   window.mainloop()
 	   
    - get() we can get the value from a spinbox:
    ex. print(spinbox.get())
    
    - we can change the properties anytime of the element with the .config(options)
-   
+   - we can have a combobox: combobox = tk.Combobox(master, option=value,...) it is a dropdown menu with selectable items .We need a list to assign to the values property ofthe combobox
+    ex. import tkinter as tk
+	    window = tk.Tk()
+		window.geometry("600x400")
+		stringvar = tk.StringVar(value = "1")
+		myentry - ttk.Entry(master = window, text = "This is an entry")
+		items = (' January',' February',' March',' April',' May',' June',' July')
+		monthstring = tk.StringVar(value = items[0])                  <- equals the first element in the list
+		combo = ttk.Combobox(window, textvariable = monthstring)
+		combo["values"] = (' January',' February',' March',' April',' May',' June',' July')   <- assign the dropdown list elements
+		combo.configure(values = items)                                     <- this line same as the above
+		combo.pack()
+		combo.bind("<<ComboboxSelected>>", lambda event: print("test"))     <- this is how trigger an event when item from  combobox is selected
+		combo.bind("<<ComboboxSelected>>", lambda event: myentry.config(text = f("This is the {stringvar.get()})))
+  
 checkbuton in tkinter:
 -----------------------------------------------------------
    - we can have a checkbuton in tkinter
@@ -3047,7 +3088,7 @@ menus or  dropdowns in tkinter:
        newmenu.add_command(label="Undo", command=function1)
        root.mainloop()
 	   
- toolbar in Tkinter:
+toolbar in Tkinter:
 ---------------------------------------------------------
     ex. from tkinter import *
         def function1:
@@ -3069,7 +3110,7 @@ Status bar in tkinter
        status.pack(side=BOTTOM,fill=X)
        root.mainloop()
 	   
-Menu in tkinter:
+tkinter Menu:
 --------------------------------------------------------
    - every toplevel window can have only one menu bar
    - we can add a menu in tkinter:
@@ -3124,7 +3165,36 @@ tkinter Canvas widget:
                                                                 		places it to 0,0 with the uper left corner of the image as anchor
 		mmytext = mycanvas.create_text(100,112,text="yuhuuu",fill="white",font=("Arial",35,"bold"), width = 100)      <- fill - color in the background of the text
 		mycanvas.pack()                                                                                                  width is the text box width where the text will be fit
-		
+   - we can create a rectangle on the canvas:
+   ex. canvas = tk.Canvas(master = window, bg = "white")
+       canvas.create_rectangle((50,20,100,200), fill = "red", width = 10)             <- needs a tuple that represents the uper left and the lower right coordinates
+   - we can create a line 
+   ex. canvas.create_line((0,0,100,200), fill = "yellow")
+   
+   - we can create an oval or a circle
+   ex. canvas.create_oval((0,0,100,150), fill = "blue")
+   
+   - we can create a polygon:
+   ex.canvas.create_polygon((0,0,100,150,300,50), fill = "green")
+
+   - we can create an arc:
+   ex. canvas.create_arc((0,0,100,150), fill = "blue")   
+   
+   - we can create text:
+   ex. canvas.create_text((0,0), text = "this is a text", fill = "green", width = 10)
+   
+   - we can display widgets on the canvas:
+   ex. canvas.create_window((50,100), window = ttk.Label(window, text = "this is a text"))
+   ex. canvas.create_window((50,100), window = ttk.Button(window, text = "this is a button"))   
+   
+   - we can bind an event to the canvas to do things:
+   ex. def draw_on_canvas(event):
+         x = event.x 
+		 y = event.y
+		 canvas.create_oval((x-brushsize/2, y-brushsize/2, x+brushsize/2,y+brushsize/2)
+       brushsize = 2
+	   canvas.bind("<Motion>", draw on canvas)
+   
    - whenever we add something to the canvas, we need to specify position , middle is the position	where x and y are considered
    - itemconfig() we can modify the atributs of any widget placed on a canvas with the itemconfig()	
 	ex. mycanvas.itemconfig(mytext, text = "hulla")                      <- mytext is the widget name placed on a canvas, , text is the property changed
@@ -3199,7 +3269,46 @@ Tkinter variables:
 	   entry.pack() 
 	   button = tk.Button(master = window, text = "button", command = button_func, text_variable = }})        <- when button push, it will print out to the console what we entered in the entry
        window.mainloop()
-	   
+
+Tkinter events:
+----------------------------------------------------------
+   - we can have lots of event types like mouse press, mouse wheel, keyboard press, keyboard input, etc
+   - we can bind events to a widget:
+   ex. Widget.bind(event, function)               <- format: modifier - type - detail     : Alt - Keypress - a
+       def functionreferencetobecalled(event):    <- when the functionreference is called after the bind event happened, tkinter expect the functionreference have an argument, and it will pass the "event" parameter to it
+	       print (event.char)                     <- it will show the key pressed
+	   window = tk.Tk()
+	   window. bind("<Alt-KeyPress-a>", lambda event: print(event))            <- binds to the main window the the Alt+a key combination. tkinter will automatically insert "event" that is  info about the event to the callable method that is why lambda event 
+       window.bind("<KeyPress>") ,functionreferencetobecalled)                 <- functionreferencetobecalled is reference to the function that will be called when an event happened,  the "event" parameter will be automatically passed to the called function.
+	   window.pack()                                                              The event will be triggered after any keypress
+   ex. def getpos(event):
+			print(f"{event.x} - {event.y}")
+		def func():
+			 window = tk.Tk()
+			 window.title("This")
+			 mytkinterstring = tk.StringVar(value = "")
+			 oneentry = tk.Entry(master = window, textvariable = mytkinterstring )
+			 oneentry.pack()
+			 window.bind("<Motion>", getpos)    <- getpos is passed as a refernce, it is not called.The line tells python that whenever a mouse move is recorded, call the getpos function and the event is automatically passed to the function when it is called
+			 window.bind("<Shift-MouseWheel>", lambda event: print("Mousewheel"))           <- when shift is pressed an mousewheel rotated it will print the message
+			 window.mainloop()
+
+Tkinter Tables:
+----------------------------------------------------------
+   - we can have tables with row and columns.we need lists to populaste the tables:
+   ex. window - tk.Tk()
+       window.geometry("600,400")
+	   firstname = ["Bob","Feri","Edu"]
+	   lastname = ["Tibi","Ference", "somogyi"]
+	   table = ttk.Treeview(window, columns = ("first","last","email"))
+	   table.heading("first", text = "first name")
+	   table.heading("last", text = "last name")
+	   table.heading("email",text = "email")
+	   table.pack()
+	   table.insert(parent = "", index = 0, values = ("John","Doe","john@doe.com"))                <- insert an element in the table, parent is usually empty, tells if it goes in an intermediary parent
+	   for i in range (0,100):
+	     
+   
 copying to the clipboard:
 ----------------------------------------------------------
    - to be able to use we need to install pyperclip.

@@ -2853,7 +2853,48 @@ Graphical user interfaces with tkinter:
 	   ex. mylabel["text"] = "My button"
        - through the config method:
        ex. mylabel.config(text = "new button")
+
+Tkinter variables:
+----------------------------------------------------------
+   - tkinter has inbuilt variables that work with widgets
+   - are automaticaly updated by the widgets
+   - they store usualy data, strings and booleans
+   - StringVar, IntVar, DoubleVar,BooleanVar - tkinter variable that stores a string, int float or boolean
+   Ex. import tkinter as tk
+	   def button_func()
+	       print(string_var.get())                                            <- will print out the string_var = tk.StringVar object
+	   window = tk.Tk()
+	   string_var = tk.StringVar(value = "start  value")                      <- StringVar Object, it is initialized with "start  value"
+	   label = tk.Label(master = window, text='label', textvariable = stringvar)
+	   label.pack()
+	   entry = tk.Entry(master = window, textvariable = string_var)          <- label and entry share the same variable string_var. whenever the first changes the variable, the second widget changes also
+	   entry.pack() 
+	   button = tk.Button(master = window, text = "button", command = button_func, text_variable = }})        <- when button push, it will print out to the console what we entered in the entry
+       window.mainloop()
 	   
+Tkinter events:
+----------------------------------------------------------
+   - we can have lots of event types like mouse press, mouse wheel, keyboard press, keyboard input, etc
+   - we can bind events to a widget:
+   ex. Widget.bind(event, function)               <- format: modifier - type - detail     : Alt - Keypress - a
+       def functionreferencetobecalled(event):    <- when the functionreference is called after the bind event happened, tkinter expect the functionreference have an argument, and it will pass the "event" parameter to it
+	       print (event.char)                     <- it will show the key pressed
+	   window = tk.Tk()
+	   window. bind("<Alt-KeyPress-a>", lambda event: print(event))            <- binds to the main window the the Alt+a key combination. tkinter will automatically insert "event" that is  info about the event to the callable method that is why lambda event 
+       window.bind("<KeyPress>") ,functionreferencetobecalled)                 <- functionreferencetobecalled is reference to the function that will be called when an event happened,  the "event" parameter will be automatically passed to the called function.
+	   window.pack()                                                              The event will be triggered after any keypress
+   ex. def getpos(event):
+			print(f"{event.x} - {event.y}")
+		def func():
+			 window = tk.Tk()
+			 window.title("This")
+			 mytkinterstring = tk.StringVar(value = "")
+			 oneentry = tk.Entry(master = window, textvariable = mytkinterstring )
+			 oneentry.pack()
+			 window.bind("<Motion>", getpos)    <- getpos is passed as a refernce, it is not called.The line tells python that whenever a mouse move is recorded, call the getpos function and the event is automatically passed to the function when it is called
+			 window.bind("<Shift-MouseWheel>", lambda event: print("Mousewheel"))           <- when shift is pressed an mousewheel rotated it will print the message
+			 window.mainloop()
+			 
 padding in tkinter(making a space around an element or window border where nothing comes:
 --------------------------------------------------------------
    ex.window=tkinter.Tk()
@@ -2949,7 +2990,7 @@ Text with tkinter:
 	
 	- we can change the properties anytime of the element with the .config(options)
 	
-spinbox and combobox in tkinter:
+Spinbox and Combobox in tkinter:
 -----------------------------------------------------------
    - we can have a spinbox.we need a list and assign to the value property of the spinbox
    ex. spinbox = tkinter.Spinbox(parentwindow,from_=0 to=10, width=5, command=spinbox_used)        <- command - a function that is executed.it is passed asa reference, it will get automaticaly executed
@@ -2989,7 +3030,7 @@ spinbox and combobox in tkinter:
 		combo.bind("<<ComboboxSelected>>", lambda event: print("test"))     <- this is how trigger an event when item from  combobox is selected
 		combo.bind("<<ComboboxSelected>>", lambda event: myentry.config(text = f("This is the {stringvar.get()})))
   
-checkbuton in tkinter:
+Checkbuton in tkinter:
 -----------------------------------------------------------
    - we can have a checkbuton in tkinter
    ex. checkbutton = tkinter.CheckButton(parentwindow, text=="is on?", variable = checkedstate, command = checkbutonused)  <- checkbutonused a function that will be executed
@@ -3008,7 +3049,7 @@ checkbuton in tkinter:
    
    - we can change the properties anytime of the element with the .config(options)
    
-radiobutton in tkinter:
+Radiobutton in tkinter:
 ----------------------------------------------------------
    - we can have a radiobutton in tkinter.it does not have a .get() function to get its value, instead tkinter variable is needed like IntVar() or other
    ex.  def button_func()
@@ -3053,13 +3094,19 @@ Listbox in tkinter:
 	   listbox.pack()
 	- we can change the properties anytime of the element with the .config(options)
 
-Scale in tkinter:
+Scale (slider) in tkinter:
 ---------------------------------------------------------
    - we can have a scale in tkinter : it returns a value if we release the mouse
-   ex. def scaleused(value):
+   ex.  import tkinter as tk
+        from tkinter import ttk
+		scalefloat = tk.DoubleVar(value = 15)
+        def scaleused(value):
 			print(value)
-		scale = tkinter.Scale(masterwindow, from_=0, to =100, command=scaleused))   <- scaleused is a function that gets called when used, 
-		                                                                         master represents the master window
+		window = tk.TK()
+		
+		scale = ttk.Scale(master=window, from_=0, to =100, length = 300,orient = "horizontal",command=scaleused))   <- scaleused is a function that gets called like callback when used(no arguments needed), 
+		                                                                                                               master represents the parrent  window
+		scale2 = ttk.Scale(master=window, from_=0, to =100, length = 300,orient = "vertical", variable = scalefloat,command = lambda value: print(scalefloat.get())))
 		scale.pack()
    - we can get the return value of the scale:
    ex. scale.get()
@@ -3067,9 +3114,44 @@ Scale in tkinter:
    - we can set the scales value:
    ex. scale.set(value)
    
-   - we can change the properties anytime of the element with the .config(options)
+   - we can change the properties anytime of the element with the .config(options)     <- myscale.config(value = 5)   or myscale["value"] = 5
 
-menus or  dropdowns in tkinter:
+Progressbar in tkinter:
+---------------------------------------------------------   
+   - we can have a Progressbar :
+   ex. import tkinter as tk
+       from tkinter import ttk
+	   scalefloat = tk.DoubleVar(value = 15)
+        progress = ttk.Progressbar(master=window, maximum = 25, variable = scalefloat)              <- needs variable to move the progressbar, maximum is value at which if variable is then 100%
+        progress = ttk.Progressbar(master =window, maximum = 25, variable = scalefloat, length = 100, orient = "horizontal", mode = "determinate")     <- mode if determinate it is full green when at 100%
+
+   - we can have start() , step() and stop() methods on the progresbar object.
+   ex. progress.start(interval)     <- start moving the progressbar every intervall number of miliseconds.default is 50 ms
+       progress.stop()              <- stop moving the indicator
+	   progress.step(delta)         <- increase the indicator value by delta, default is 1 ms
+
+   - we can insert multilines : 
+   ex. window = tk.Tk()
+       scrltx= scrolledtext.ScrolledText(master = window, width = 100, height = 5,font = ("Times New Roman",15))
+       scrltx.pack()
+       scrltx.insert(tk.INSERT,
+       """\
+       This is a scrolledtext widget to make tkinter text read only.
+       Hi
+       """)
+       scrltx.configure(state ='disabled')             <- tells the scrolledtext that the widget is read only, cannot write in it
+       window.mainloop()
+   ex. scrltx.insert(tk.INSERT, "This is a scrolledtext widget to make tkinter text read only\n")                  <- with \n at the end of line it will put every line on a next line
+       scrltx.insert(tk.INSERT, "This is a scrolledtext widget to make tkinter text read only 2\n")   
+	   
+Scrolledtext in tkinter:
+---------------------------------------------------------
+   - scrolledtext is like ttk, it contains widgets. it is a frame that can hold text, and as soon as more text is then it can hold it will have scroll button on the right.it can be typed in
+   ex. from tkinter import scrolledtext
+       scrolled_text = scrolledtext.ScrolledText(master = window, width = 100, height = 5, font = ("Times New Roman",15)) )
+	   
+   
+Menus or  dropdowns in tkinter:
 ---------------------------------------------------------
    ex. from tkinter import *
        def function1:
@@ -3088,7 +3170,7 @@ menus or  dropdowns in tkinter:
        newmenu.add_command(label="Undo", command=function1)
        root.mainloop()
 	   
-toolbar in Tkinter:
+Toolbar in Tkinter:
 ---------------------------------------------------------
     ex. from tkinter import *
         def function1:
@@ -3214,7 +3296,7 @@ tkinter Canvas widget:
    - .after_cancel()we can cancel the timer setup with the cancel method:
    ex. window.after_cancel(timerpause)                         <- timerpause is the variable that the after was assigned
    
-messagebox in tkinter:
+Messagebox in tkinter:
 ----------------------------------------------------------
    - messagebox is defined in tkinter:
    ex. import from tkinter messagebox
@@ -3234,7 +3316,7 @@ messagebox in tkinter:
 
 Frame in python:
 ----------------------------------------------------------
-   - we can create a frame in a window with the frame keyword:
+   - we can create a frame in a window with the frame keyword.Frames are empty widgets that are needed to place other widgets in.first we place the widgets, then the frame:
    ex. from tkinter import *
        window = Tk()
 	   myframe = Frame(window, height=120, width = 180, bg="#234567", bd=1, relief=FLAT)     <- bd = border depth, relief - it does not have rd dimensional
@@ -3252,47 +3334,6 @@ Frame in python:
 	   mybutton.place(x=20,y=20)
 	   window.mainloop()
 
-Tkinter variables:
-----------------------------------------------------------
-   - tkinter has inbuilt variables that work with widgets
-   - are automaticaly updated by the widgets
-   - they store usualy data, strings and booleans
-   - StringVar, IntVar, DoubleVar,BooleanVar - tkinter variable that stores a string, int float or boolean
-   Ex. import tkinter as tk
-	   def button_func()
-	       print(string_var.get())                                            <- will print out the string_var = tk.StringVar object
-	   window = tk.Tk()
-	   string_var = tk.StringVar(value = "start  value")                      <- StringVar Object, it is initialized with "start  value"
-	   label = tk.Label(master = window, text='label', textvariable = stringvar)
-	   label.pack()
-	   entry = tk.Entry(master = window, textvariable = string_var)          <- label and entry share the same variable string_var. whenever the first changes the variable, the second widget changes also
-	   entry.pack() 
-	   button = tk.Button(master = window, text = "button", command = button_func, text_variable = }})        <- when button push, it will print out to the console what we entered in the entry
-       window.mainloop()
-
-Tkinter events:
-----------------------------------------------------------
-   - we can have lots of event types like mouse press, mouse wheel, keyboard press, keyboard input, etc
-   - we can bind events to a widget:
-   ex. Widget.bind(event, function)               <- format: modifier - type - detail     : Alt - Keypress - a
-       def functionreferencetobecalled(event):    <- when the functionreference is called after the bind event happened, tkinter expect the functionreference have an argument, and it will pass the "event" parameter to it
-	       print (event.char)                     <- it will show the key pressed
-	   window = tk.Tk()
-	   window. bind("<Alt-KeyPress-a>", lambda event: print(event))            <- binds to the main window the the Alt+a key combination. tkinter will automatically insert "event" that is  info about the event to the callable method that is why lambda event 
-       window.bind("<KeyPress>") ,functionreferencetobecalled)                 <- functionreferencetobecalled is reference to the function that will be called when an event happened,  the "event" parameter will be automatically passed to the called function.
-	   window.pack()                                                              The event will be triggered after any keypress
-   ex. def getpos(event):
-			print(f"{event.x} - {event.y}")
-		def func():
-			 window = tk.Tk()
-			 window.title("This")
-			 mytkinterstring = tk.StringVar(value = "")
-			 oneentry = tk.Entry(master = window, textvariable = mytkinterstring )
-			 oneentry.pack()
-			 window.bind("<Motion>", getpos)    <- getpos is passed as a refernce, it is not called.The line tells python that whenever a mouse move is recorded, call the getpos function and the event is automatically passed to the function when it is called
-			 window.bind("<Shift-MouseWheel>", lambda event: print("Mousewheel"))           <- when shift is pressed an mousewheel rotated it will print the message
-			 window.mainloop()
-
 Tkinter Tables:
 ----------------------------------------------------------
    - we can have tables with row and columns.we need lists to populaste the tables:
@@ -3301,14 +3342,51 @@ Tkinter Tables:
 	   firstname = ["Bob","Feri","Edu"]
 	   lastname = ["Tibi","Ference", "somogyi"]
 	   table = ttk.Treeview(window, columns = ("first","last","email"))
-	   table.heading("first", text = "first name")
-	   table.heading("last", text = "last name")
-	   table.heading("email",text = "email")
+	   table.heading("first", text = "first name")                                                 <- "first" is the name of the first column that we defined our table with ("first","last","email")   
+	   table.heading("last", text = "last name")                                                   <- "last" is the name of the second column that we defined our table with ("first","last","email")
+	   table.heading("email",text = "email")                                                       <- "email" is the name of the third column that we defined our table with ("first","last","email")
 	   table.pack()
 	   table.insert(parent = "", index = 0, values = ("John","Doe","john@doe.com"))                <- insert an element in the table, parent is usually empty, tells if it goes in an intermediary parent
 	   for i in range (0,100):
-	     
-   
+	     data = (firstname[i],lastname[i],email[i])
+	     table.insert(parent = "", index = i, values = data)
+       table.insert(parent = "", index = tk.END, (x,y,z))                                          <- inserts as the last element of the table tk.Endpoint
+	
+	- we can trigger events when we click on an item in the table:
+	ex. def itemselect(event):                                        <- python will automatically call it  with event as a callback
+			print(table.selection())
+			for i in table.selection():                               <- we can select multiple elements in the table and table selection gives all the rows selected from the table
+				print(table.item(i)["values"])                        <- this gives one item from the selected items from the table and the values in the row of the table
+	    table.bind("<<TreeviewSelect>>", itemselect)                  <- the table.selection() returns the row or rows selected from the table
+    
+	- we can delete rows from the table:
+	ex. def deleteitems(event):
+			print("delete")
+			for i in table.selection():                               <- from the selected row or rows in the table,  delete the row from the table that matches this row 
+				table.delete(i)
+		table.bind("<Delete>", deleteitems)                           <- binds the delete keyboard key to deleting selected rows from the table
+	
+	- another example:
+   ex.   mylist = [["hizo","Ferenc",1975],["Lukinich","Attila",1974],["Lukinich","Eduard",1976]]
+		 window = tk.Tk()
+		 mytable = ttk.Treeview(window, columns = ("1","2","3"))    <- definition of treeview with 3 columns with names
+		 mytable.heading("1",text = "first")                        <- name and displaying of the first column
+		 mytable.heading("2",text = "second")                       <- name and displaying of the second column
+		 mytable.heading("3",text = "year")                         <- name and displaying of the third column
+		 def getpos(item): 
+			  print(mytable.selection())                            <- from the selected rows from the table, print  one by one the values
+			  for i in mytable.selection():
+				   print(mytable.item(i)["values"])
+		 def mydelete(_):
+			  for i in mytable.selection():                         <- <- from the selected rows from the table, delete  one by one the values  
+				   mytable.delete(i)
+		 for i in range(len(mylist)):
+			 mytable.insert(parent = "", index = i, values = mylist[i])    <- insert into the table one by one elements from the list
+		 mytable.pack()
+		 mytable.bind("<<TreeviewSelect>>",getpos)                         <- bind the rowselect action to the getpos function
+		 mytable.bind("<Delete>", mydelete)                                <- bind the delete keyboard pressing to the mydelete  function execution
+		 window.mainloop() 	
+		 
 copying to the clipboard:
 ----------------------------------------------------------
    - to be able to use we need to install pyperclip.

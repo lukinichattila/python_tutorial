@@ -2816,8 +2816,7 @@ pandas:
        listofnames=[["Test","test@email.com",1961,12,21],["Anna","anna@gmail.com", 2018,10,21],["Andra","gruia@gmail.com",1982,3,24]]
        for i in listofnames:
           database.loc[len(database)]=i
-       database.to_csv("birthdays.csv", index=False, header=False)
-   - 
+       database.to_csv("birthdays.csv", index=False, header=False) 
        	   
 Graphical user interfaces with tkinter:
 ------------------------------------------------------------------------------
@@ -3196,10 +3195,20 @@ tkinter Menu:
 --------------------------------------------------------
    - every toplevel window can have only one menu bar
    - we can add a menu in tkinter:
+   ex. import tkinter as tk
+       from tkinter import ttk
+	   window = tk.Tk()
+	   window.title("Menu")
+	   menu = tk.Menu(master = window)
+	   filemenu = tk.Menu(master = menu, tearoff = False)
+	   filemenu.add_command(label = "New", command = lambda: print ("New file")
+	   menu.add_cascade(label = "File",menu = file_menu)
+	   window.configure(menu = menu)
+	   
    ex. from tkinter import *
 	   mainwindow=Tk()
 	   menubar=Menu(mainwindow)                                    <- creates a Menu
-	   filemenu=Menu(menubar,tearoff=0)                            <-create a filemenu whos container is menubar, tearoff means no dashed line!!!!
+	   filemenu=Menu(menubar,tearoff=0)                            <-create a filemenu whos container is menubar, tearoff means no dashed line between items!!!!
 	   filemenu.add_command(label="New", command = newmethod)      <- add elements to the menu
 	   filemenu.add_command(label="Open", command = openmethod)
 	   filemenu.add_command(label="Save", command = savemethod)
@@ -3214,6 +3223,39 @@ tkinter Menu:
 	   submenu = Menu(filemenu, tearoff=0)                               <-creates submenu with parent not main manu but the menu where it apears
 	   submenu.add_command(label="Color Themes")
 	   filemenu.add_cascade(label="Preferences", menu=submenu)           <-add submenu to filemenu and links it to filemenu
+	- there are more menu item types like: add_radiobutton(), add_checkbutton(), etc
+	
+Menubotton in tkinter:
+--------------------------------------------------------
+   -ex. menubutton - ttk.Menubutton(window, text = "Menubutton")
+        menubutton.pack()
+		buttonsubmenu = tk.Menu(menubutton, tearoff = False)
+		buttonsubmenu.add_command(label = "entry1", command = lambda: print("test"))
+		buttonsubmenu.add_checkbutton(label = "check1")
+		menubutton.configure(menu = buttonsubmenu)
+Tabs in tkinter:
+--------------------------------------------------------
+   - The Notebook widget allows you to select pages of contents by clicking on tabs:
+   ex. window = tk.Tk()
+       window.gemoetry("600x400")
+       notebook = ttk.Notebook(master = window)
+       tab1 = ttk.frame(notebook)
+       button1 = ttk.Button(tab1, text = "Buton in tab 1")
+       button1.pack()
+       tab2 = ttk.Frame(notebook)
+       button2 = ttk.Button(tab2, text = "Buton in tab 2")
+	   button2.pack()
+	   notebook.add(tab1,text = "Tab1")
+	   notebook.add(tab2, text = "Tab2")
+	   notebook.pack()
+	   window.mainloop()
+   - add(options) - with the add method we add widgets to the notebook object:
+   ex. notebook.add(tab2, text = "Tab2", image = Imageobject?)  
+   
+   - hide(tabid) - we can hide a tab to not apear in the tabs with 
+   ex. notebook.hide(tab1)        <- to make the tab apear again need to be added with notebook.add(tab1, text = "Tab1")
+
+   - forget (child) - permanently removes the specified child widget from the notebook:  
 	   
 tkinter layout managers: pack, place and grid
 --------------------------------------------------------
@@ -3316,10 +3358,10 @@ Messagebox in tkinter:
 
 Frame in python:
 ----------------------------------------------------------
-   - we can create a frame in a window with the frame keyword.Frames are empty widgets that are needed to place other widgets in.first we place the widgets, then the frame:
+   - we can create a frame in a window with the frame keyword.Frames are empty widgets(invisible) that are needed to place other widgets in.first we place the widgets, then the frame:
    ex. from tkinter import *
        window = Tk()
-	   myframe = Frame(window, height=120, width = 180, bg="#234567", bd=1, relief=FLAT)     <- bd = border depth, relief - it does not have rd dimensional
+	   myframe = Frame(window, height=120, width = 180, bg="#234567", bd=1, relief=FLAT, borderwidth = 10)     <- bd = border depth, relief - it does not have rd dimensional, relief=tk.RIDGE, RAISED,GROOVE
 	   myframe.place(x=0,y=0)                         <- x=0,y=0 is the upper left corner of the main window
        window.mainloop()	   
    ex. window = Tk()
@@ -3332,6 +3374,8 @@ Frame in python:
        myframe3.place(x=0,y=120)                       
 	   mybutton = Button(myframe, height = 2, width=5, text="ok", bd=2, relief=raised)    <- we can place a button over a frame (mainwindow can be window, coordonates are relative to masterwindow
 	   mybutton.place(x=20,y=20)
+	   myframe.pack()                    <- the size of the Frame is set by the  widgets in it even if the size is set by width and height
+	   myframe.pack_propagate(True)      <- the size of the Frame is set by the width and height property
 	   window.mainloop()
 
 Tkinter Tables:

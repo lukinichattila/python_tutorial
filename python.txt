@@ -2828,25 +2828,69 @@ Graphical user interfaces with tkinter:
 	   ..............
 	   window.mainloop()             <- this has to bee the last line in the program, before it comes al the code
    
-   - title() we can set the title of a window with title()
+   - title() - we can set the title of a window with title()
    ex. window=tkinter.Tk()
        window.title("Title of the window")
 
-   - minsize() we can set the minimum size of a window:
+   - minsize() - we can set the minimum size of a window:
    ex. window=tkinter.Tk() 
        window.minsize(width = 500, heigth = 300)
 	   
-   - we can change the tkinter logo with wm_iconbitmap("logofile.ico")
-   ex. window.wm_iconbitmap("myicon.ico")
+   - maxsize() - we can set the maxsize of the window:
+   ex. window.maxsize(width = 800,heigth = 700)
    
-   - pack() the geometry manager organizes widgets in blocks before placing them in the parent widgets
+   - geometry() - we can set the size and position of the window:   
+   ex. window.geometry("600x400+leftposition+topposition")   
+		window.geometry("600x400+0+0")               <-window starts in the  topleft
+		window.geometry("600x400+1000+0")            <- window starts from 100 pixel from left and on top
+		
+   - we can tell python if the window is resizable
+   ex. window.resizable(True,False)    <- can be resized just on the x axis
+   
+   - winfo_screenwidth() - we can find out the height of the screen(monitorwidth):
+   ex. print(window.winfo_screenwidth())
+   
+   - winfo_screenheight() - we can find out the screen height(monitorheight):
+   ex. print(window.winfo_screenwheight())
+   
+   - we can set the atribute of the window to transparent:
+   ex. window.attributes("-alpha",1)               <- set the transparence
+   
+   = we can make the window transparent:
+   ex. window.attributes("topmost" = True)     <- the window will be over other windows
+   
+   - we can bind event to the event:
+   ex. window.bind("<Escape>", lambda event: window.quit())
+
+	- fullscreen() - we can run the window fullscreen:
+	ex. window.attributes("- fullscren", True)
+	
+   - we can change the tkinter logo with iconbitmap("logofile.ico")
+   ex. window.iconbitmap("myicon.ico")
+   
+   - overrideredirect() - we can hide the titlebar:(cant resize the window)
+   ex. window.overrideredirect(True)
+
+   - the recomended way of hiding the titlebar with resizable option:
+   ex. grip = ttk.Sizegrip(window)            <- no titlebar
+       grip.place(relx = 1.0, rely = 1.0, anchor = "se")    <- the resizable handle in right lower handle(se - south east), maxsize = 1.0, minsize = 0.0 set with maxsize and minsize
+	   
+   - pack() - the geometry manager organizes widgets in blocks before placing them in the parent widgets
    - syntax:
    ex. widget.pack(pack options)                <- pack options are **kwarg,we have to specify the key value pair
          options : - expand  - when set to tru the widget expand to fill any space that it can fill
 		           - fill - Determines whether widgets fill any extra space alocated by the packer.
 				     NONE(default), Y fill horizontaly, Y - fill vertically, BOTH - fill X and Y
 				   - side - determines which side of the parent widget packs aginst:TOP, BOTTTOM, LEFT, RIGHT
-				   
+	
+    - we can place a window in a particular position and size:
+	ex. windowheight = 1400
+	    windowwidth = 600
+		displaywidth = window.winfo_screenwidth()
+		displayheight = window.winfo_screenheight()
+		left = int(displaywidth/2-windowheight/2)
+		top = int(displayheight/2-windowheight/2)
+		window.geometry(f"{windowwidth}x{windowheight}+{left}+{right}")
 	- we can acces the properties of the widgets in 2 ways:
 	   - the dictionary way:
 	   ex. mylabel["text"] = "My button"

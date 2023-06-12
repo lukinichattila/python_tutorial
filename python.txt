@@ -2955,6 +2955,7 @@ padding in tkinter(making a space around an element or window border where nothi
 	   
 Label in tkinter:
 -----------------------------------------------------------
+   - Tkinter Label is a widget that is used to implement display boxes where you can place text or images.
    - Label() - we can give a label to the window:
    ex. mylabel = tkinter.Label(text = "I am a label",fg = "#45337" font = ("Arial", 24, "bold"),width=29)    <- fg foreground color, 24 is size 
                                                                                                        <- width makes the widget this width, centering text
@@ -2964,6 +2965,8 @@ Label in tkinter:
 	   
 Buttons with TKinter:
 --------------------------------------------------------------
+   - The Button widget is used to add buttons in a Python application. These buttons can display text or images that convey the purpose of the buttons. 
+     You can attach a function or a method to a button which is called automatically when you click the button.
    - we can create a button with tkinter:
    ex.import tkinter
        def functionnametobecalled:
@@ -3008,7 +3011,7 @@ Buttons with TKinter:
    
 Entry with tkinter:
 --------------------------------------------------------------
-   - The Entry widget is used to accept single-line text strings from a user.
+   - The Entry widget is used to accept single-line text strings input from a user.
    - we can have an entry window where we input data:
    ex. import tkinter
        myentry = tkinter.Entry(framename,width = 20)           <- the frame or window where it belongs
@@ -3028,6 +3031,8 @@ Entry with tkinter:
 
 Text with tkinter:
 --------------------------------------------------------------
+   - Text Widget is used where a user wants to insert multiline text fields. This widget can be used for a variety of applications where the multiline text is required such as messaging, 
+     sending information or displaying information and many other tasks. We can insert media files such as images and links also in the Textwidget.
    - we can define a text box for multiple line entering:
 	ex. text = Text(parrentwindowname, height = 5, width = 30)                 <- textbox propertys height and width in character number and lines
 	
@@ -3044,6 +3049,7 @@ Text with tkinter:
 	
 Spinbox and Combobox in tkinter:
 -----------------------------------------------------------
+   - The Spinbox widget is a variant of the standard Tkinter Entry widget, which can be used to select from a fixed number of values.Combobox is a combination of Listbox and an entry field.
    - we can have a spinbox.we need a list and assign to the value property of the spinbox
    ex. spinbox = tkinter.Spinbox(parentwindow,from_=0 to=10, width=5, command=spinbox_used)        <- command - a function that is executed.it is passed asa reference, it will get automaticaly executed
        spinbox.pack()
@@ -3084,6 +3090,7 @@ Spinbox and Combobox in tkinter:
   
 Checkbuton in tkinter:
 -----------------------------------------------------------
+   - The Checkbutton widget is used to display a number of options to a user as toggle buttons. The user can then select one or more options by clicking the button corresponding to each option.
    - we can have a checkbuton in tkinter
    ex. checkbutton = tkinter.CheckButton(parentwindow, text=="is on?", variable = checkedstate, command = checkbutonused)  <- checkbutonused a function that will be executed
        checkbutton.pack()                                                                                               variable = checkedstate   <- chackedstate is  0 or 1
@@ -3103,6 +3110,7 @@ Checkbuton in tkinter:
    
 Radiobutton in tkinter:
 ----------------------------------------------------------
+   - This widget implements a multiple-choice button, which is a way to offer many possible selections to the user and lets user choose only one of them.
    - we can have a radiobutton in tkinter.it does not have a .get() function to get its value, instead tkinter variable is needed like IntVar() or other
    ex.  def button_func()
 	       print(string_var.get())
@@ -3137,6 +3145,7 @@ Radiobutton in tkinter:
    
 Listbox in tkinter:
 ----------------------------------------------------------
+   - The Listbox widget is used to display a list of items from which a user can select a number of items.
    - we canhave a listbox in tkinter:
    ex. listbox = tkinter.Listbox(masterwindow, height = 4)
        fruits = ["Apple","pear","orange"]
@@ -3148,6 +3157,7 @@ Listbox in tkinter:
 
 Scale (slider) in tkinter:
 ---------------------------------------------------------
+   - The Scale widget provides a graphical slider object that allows you to select values from a specific scale.
    - we can have a scale in tkinter : it returns a value if we release the mouse
    ex.  import tkinter as tk
         from tkinter import ttk
@@ -3170,6 +3180,7 @@ Scale (slider) in tkinter:
 
 Progressbar in tkinter:
 ---------------------------------------------------------   
+   - A Progressbar widget allows you to give feedback to the user about the progress of a long-running task.
    - we can have a Progressbar :
    ex. import tkinter as tk
        from tkinter import ttk
@@ -3198,29 +3209,44 @@ Progressbar in tkinter:
 	   
 Scrolledtext in tkinter:
 ---------------------------------------------------------
-   - scrolledtext is like ttk, it contains widgets. it is a frame that can hold text, and as soon as more text is then it can hold it will have scroll button on the right.it can be typed in
+   - scrolledtext is like ttk, it contains widgets. it is a frame that can hold text, and as soon as more text is then it can hold it with scroll button on the right. it can be typed in
    ex. from tkinter import scrolledtext
        scrolled_text = scrolledtext.ScrolledText(master = window, width = 100, height = 5, font = ("Times New Roman",15)) )
-	   
+   - if we want to disable writing in the widget:
+   ex: scrolled_text.configure(state ='disabled')
+   
+   - The wrap parameter determines the wrapping behavior of the ScrolledText widget. It can accept the following values:
+       tk.NONE: This value disables line wrapping. Lines longer than the width of the widget will extend beyond the visible area horizontally, and a horizontal scrollbar will be displayed to navigate the text.
+       tk.CHAR: This value enables character-level wrapping. Lines are wrapped at the last character that can be fully displayed within the width of the widget. Word breaks are not considered, so a long word may extend beyond the visible area.
+       tk.WORD: This value enables word-level wrapping. Lines are wrapped at word boundaries, ensuring that entire words fit within the width of the widget. If a word is too long to fit on a line, it is moved to the next line.
+       tk.ALL: This value enables line wrapping based on the width of the widget, similar to tk.CHAR. However, it also adjusts the wrapping behavior when the widget is resized.  
+   ex. scrolled_text = scrolledtext.ScrolledText(master = window, width = 100, height = 5, font = ("Times New Roman",15)) ,wrap=tk.WORD ) 	   
+   
+   - if we want to write something in it :text_area.insert(index, text)
+     index: The position where the text should be inserted. It can be specified in various ways:
+       tk.END: Inserts the text at the end of the current contents of the widget.
+       tk.INSERT: Inserts the text at the current cursor position within the widget.
+	   tk.INSERT1.0: indexes as the start ofthe first character position
+       the index accepts floating point type, like text_area.insert(1.0, tk.INSERT)
+   ex. scrolled_text.insert(insert,
+       """\
+		This is a scrolledtext widget to make tkinter text read only.
+		Hi
+		Geeks !!!
+		Geeks !!!
+		Geeks !!! 
+		Geeks !!!
+		Geeks !!!
+		Geeks !!!
+		Geeks !!!
+		""")
+    
+	- delete() we can clear the scrolledtext widget with scrolled_text.delete(startindex,endindex):
+    ex. scrolled_text.delete(1,0,tk.END)	
    
 Menus or  dropdowns in tkinter:
 ---------------------------------------------------------
-   ex. from tkinter import *
-       def function1:
-         print("Menu item clicked")
-       root=Tk()
-       mymenu=Menu(root)
-       root.config(menu=mymenu)      /tells the root windows who is the menu
-       submenu=Menu(mymenu)          /tells that the manu has a submenu
-       mymenu.add_cascade(label="File", menu=submenu)
-       submenu.add_command(label="Project", command=function1)
-       submenu.add_command(label="Save", command=function1)
-       submenu.add_separator()
-       submenu.add_command(label="Save", command=function1)
-       newMenu= Menu(mymenu)
-       mymenu.add_sascade(label="Edit", menu=newmenu)
-       newmenu.add_command(label="Undo", command=function1)
-       root.mainloop()
+
 	   
 Toolbar in Tkinter:
 ---------------------------------------------------------
@@ -3277,15 +3303,33 @@ tkinter Menu:
 	   submenu.add_command(label="Color Themes")
 	   filemenu.add_cascade(label="Preferences", menu=submenu)           <-add submenu to filemenu and links it to filemenu
 	- there are more menu item types like: add_radiobutton(), add_checkbutton(), etc
+	   ex. from tkinter import *
+       def function1:
+         print("Menu item clicked")
+       root=Tk()
+       mymenu=Menu(root)
+       root.config(menu=mymenu)      /tells the root windows who is the menu
+       submenu=Menu(mymenu)          /tells that the manu has a submenu
+       mymenu.add_cascade(label="File", menu=submenu)
+       submenu.add_command(label="Project", command=function1)
+       submenu.add_command(label="Save", command=function1)
+       submenu.add_separator()
+       submenu.add_command(label="Save", command=function1)
+       newMenu= Menu(mymenu)
+       mymenu.add_sascade(label="Edit", menu=newmenu)
+       newmenu.add_command(label="Undo", command=function1)
+       root.mainloop()
 	
 Menubotton in tkinter:
 --------------------------------------------------------
-   -ex. menubutton - ttk.Menubutton(window, text = "Menubutton")
+   - A menubutton is the part of a drop-down menu that stays on the screen all the time.
+   ex. menubutton - ttk.Menubutton(window, text = "Menubutton")
         menubutton.pack()
 		buttonsubmenu = tk.Menu(menubutton, tearoff = False)
 		buttonsubmenu.add_command(label = "entry1", command = lambda: print("test"))
 		buttonsubmenu.add_checkbutton(label = "check1")
 		menubutton.configure(menu = buttonsubmenu)
+		
 Tabs in tkinter:
 --------------------------------------------------------
    - The Notebook widget allows you to select pages of contents by clicking on tabs:
@@ -3309,107 +3353,7 @@ Tabs in tkinter:
    ex. notebook.hide(tab1)        <- to make the tab apear again need to be added with notebook.add(tab1, text = "Tab1")
 
    - forget (child) - permanently removes the specified child widget from the notebook:  
-	   
-tkinter layout managers: pack, place and grid
---------------------------------------------------------
-   - just one manager can be used in a program
-   - pack manager: packs each of the element next to each other in a logical manner - by default from up to down
-        -hard to position something precise
-      ex. label.pack(side = "left")      <- packs everything from left to right
-   
-   - place manager: permits the positioning much more precise of the elements
-	  ex. label.place(x=0,y=0)                         <- positions the element at 0,0 position
-	  
-   - grid manager: positions the element on a grid.the window is split on rows and columns and positions the elements on the row,column
-     coordonates
-		ex. mylabel.grid(column=3,row=2,columnspan=2, rowspan = 5, sticky="W")           <-columnspan means how many columns it will stretch
-																			  - rowspan means how many rows it will span
-               - sticky() we can position inside a grid cell with sticky  
-                label.grid(row=10, column=10, sticky="w", padx=10, pady=10)    <- positions to the left side of the grid cell(default is center), 
-				                                                                  padx,pady makes spaces in pixals before and after the widget, up or down			   
-pack() manager in tkinter:
---------------------------------------------------------
-   - widgets occupy the space needed to display the content
-   - the pack layout manager places widgets from top to bottom
-   - we can determine the placement order of the widgets: side ="left","right",top","bottom" .From where should be the first widget positioned and will go in the oposite direction
-     with the next widgets. default is top where widgets are put from top to bottom (if we put bottom the first widget will be down, then the next come upper , etc) 	
-   - every widget has options how much  it occupies in the vertical or horizontal position: expand = True, False.if side = top or bottom then it expands verticaly,
-     if left or right then horizontaly
-   - we can set how much space the widget will occupy: fill = "x","y","both",None
-     - if "None"(default), the widget will occupy the space needed to display the content of it,if "x" then it will occupy the entire horizontal, if "y" then the entire vertical 
-	   height, and if "both" then the whole window
-   - we can have different widgets placed in the same window:front,bottom,top, etc
-   - we can have a distance around a widget until the borders or other widgets with padx and pady in pixels:
-   ex. label1 = ttk.Label(master=window, text = "First label")
-		label1.pack(side = "top", expand = True, fill="both", padx = 10,pady=10)
-		
-   ex. label1 = ttk.Label(master=window, text = "First label")
-       label2 = ttk.Label(master=window, text = "Second label")
-	   label3 = ttk.Label(master=window, text = "third label")
-	   label1.pack(side = "top", expand = True, fill="both")
-	   label2.pack(side = "top", fill = "x")
-	   label3.pack(side = "top", expand = True, fill = "y")
-	   
-	- with Frames it is much easier to place widgets with pack()
-	ex. topframe = ttk.Frame(master = window)
-	    label1 = ttk.Label(master=topframe, text = "First label")
-        label2 = ttk.Label(master=topframe, text = "Second label")
-		label3 = ttk.Label(master=window, text = "third label")          <- the frame and label 3 will be the same dimension because tkinter splits them equaly.In the frame we will have 2 labels 
-		label1.pack()
-		label2.pack()
-		topframe.pack()
-		
-Grid layout in tkiner:
---------------------------------------------------------
-	- with grid layout we can set the number of rows/collumns, and set the height and width each one of them:
-	- widgets are placed inside this row/column cells and can occupy multiple cells.Thei can have padding also
-	- like with pack, the grid only determines how much space a widget occupy
-	- Sticky determines what will they be filled with
-	- sticky = "n" (north) - widget retains size but stick to the top
-	  sticky = "ns" (north-south) - widget retains width but height is height of cell
-	  sticky = "nswe"(north,south,east,west) - widget will occupy whole space 
-	- rowspan() tells tkinter how many rows will be occupied by the widget
-	- padx(), pady() - we can leave pad space between the widget and the cellborders.expands = True to expand the widget when resizing the cell.adds space around the widget
-	- ipadx(), ipady() - sets the internal space within the widget.
-	- grid() always scales with the window
-	- grid() makes the size of the cells in a row or column  not uniform if some cells are empty and others not.To make the cells equals regardless of content -> uniform = "a"   -> "all"
-	ex. label1 = ttk.Label(master=topframe, text = "First label")
-        label2 = ttk.Label(master=topframe, text = "Second label")
-		label3 = ttk.Label(master=window, text = "third label")
-		window.columnconfigure(index = 0, weight = 1,uniform = "a")         <- weight means the priority the row is treated when it comes to extra needed space
-		window.columnconfigure(index = (0,1,2), weight = 1,uniform = "a")   <- we can configure multiple columns in 1 line with the columns in a tuple (0,1,2)
-		window.columnconfigure(index = 1, weight = 1, uniform = "a")      <-  uniform makes the cells equals regardless  if they have widgets in them or not
-		window.rowconfigure (index = 0, weight =1, uniform = "a" )
-		window.rowconfigure (index = (0,1,2), weight =1, uniform = "a" )     <- we can configure multiple rows in 1 line with the rows in a tuple (0,1,2), , uniform makes the cells equals regardless  if they have widgets in them or not
-		label1.grid(row = 0, column = 0, sticky = "ew")       <- sticky will cover the entire grid from left to right
-		label2.grid(row = 1, column = 0, sticky = "w")        <- sticky will place to the left the widget
-		label3.grid(row = 1, column =0, rowspan = 2, sticky = "ew")     <- rowspan tells tkinter the label3 widget will be 2 cell wide
-		label3.grid(row = 1, column =0, rowspan = 2,columnspan = 2, sticky = "ew", padx = 5, pady=5)     <- columnspan tells tkinter the label3 widget will be 2 cell tall, 5 pixel wide between the grid border and the widget
-	    label3.grid(row = 1, column =0,sticky = "se")          <- puts the widget in the lower right corner of the cell
 
-Place layout in tkinter:
---------------------------------------------------------
-	- this layout places widgets by specifying the leftmost distance from the container left margin, the distance of the widget upper margin from the containers  uppest  margin,
-      width and height of the widget. width and height is optional(will put default size for widget).this is the absolute way of placing the widgets. 
-	- (relx, rely,relwidth,relheight) The realtive is done by having the height and width of the container from 0 to 1 (float values, 0.0,0.0 left upper corner, 1.0,1.0 the lower right corner).Specifying the upperleft 
-	  corner of the widget goes by % from the total length of the width and height which is 1, so if we have a 1000x1000 window, placing the top left coordinates at 0.1,0.1 and height and width at 0.1,0.1 means it 
-	  is 100,100 pixel from the upper left corner(anchor not specified = default "wn") and 100x100 pixel size
-	- relative placing scales with the window and it is relative to the container, but beware, we can place widgets outside of the window(1.0,1.0 if anchor = default "nw")
-	- anchor point (e,w,n,s,center)specify which refernce of the widget should be considered for the widget placement(default = "wn"): "wn"<- upperleft point, "se" <- lower right point, "ws" <- left lower point, etc
-	ex. window.geometry("1000x1000")
-	    label1 = ttk.Label(master=topframe, text = "First label")
-        label2 = ttk.Label(master=topframe, text = "Second label")
-		label3 = ttk.Label(master=window, text = "third label")
-		button1 = ttk.Button(master = window, text = "Button1")
-		label1.place(x = 0, y = 200, width =130, height = 30)             <- from the most leftest corner(0) to 200 pixel from up to down , widget's size is 130x30. absolute type of placing
-		label2.place(relx = 0, rely = 0.2,relwidth = 0.2, relheight = 0.1, anchor = "center" )       <- 0.0 pixel from the left margin of the window, 0.2 is 200 pixel from the top margin , width =200, height = 100 pixel
-
-Size of widgets in Python:
---------------------------------------------------------
-	- Size of the widgets are ambiguously set:on the widget itself and then on the layout methods
-	- the layouts overwrites the size of the widget even if set
-	ex. ttk.Label(parent, text = "label", width=50).pack(fill="x"))     fill will alter the widgets size as the width also
-	
 tkinter Canvas widget:
 --------------------------------------------------------
    - canvas allows to layer one widget over an other widget
@@ -3461,21 +3405,9 @@ tkinter Canvas widget:
 	- to specify  the upperleft corner of the image when placing we can use the anchor():
 	ex: self.canvas.create_image(0, 0, image=self.image, anchor="nw")           <- anchor="nw" means that when placing the image the upper left corner shouldbe placed at the coordinates
 
-.after() widget property:
----------------------------------------------------------
-   - .after() we can use the .after() property on a widget that waits for an amount of time and then gives a command to execute something:
-   ex. import tkinter
-       window = tkinter.Tk()
-	   timerpause = window.after(1000,dosomething,*args)       <- dosomething is a method name that will be called, *args is an argument list that
-                                                 	              will be passed to the function(can be used on main window or any other widget that needs it)
-	   def dosomething(a):
-			print(a)
-   - .after_cancel()we can cancel the timer setup with the cancel method:
-   ex. window.after_cancel(timerpause)                         <- timerpause is the variable that the after was assigned
-   
 Messagebox in tkinter:
 ----------------------------------------------------------
-   - messagebox is defined in tkinter:
+   - MessageBox Widget is used to display the message boxes in the python applications: 
    ex. import from tkinter messagebox
    
    - the folowing methods are defined in the messagebox class:
@@ -3513,7 +3445,7 @@ Frame in python:
 	   myframe.pack_propagate(True)      <- the size of the Frame is set by the width and height property
 	   window.mainloop()
 
-Tkinter Tables:
+Tables in Tkinter:
 ----------------------------------------------------------
    - we can have tables with row and columns.we need lists to populaste the tables:
    ex. window - tk.Tk()
@@ -3565,6 +3497,122 @@ Tkinter Tables:
 		 mytable.bind("<<TreeviewSelect>>",getpos)                         <- bind the rowselect action to the getpos function
 		 mytable.bind("<Delete>", mydelete)                                <- bind the delete keyboard pressing to the mydelete  function execution
 		 window.mainloop() 
+		 
+tkinter layout managers: pack, place and grid
+--------------------------------------------------------
+   - just one manager can be used in a program
+   - pack manager: packs each of the element next to each other in a logical manner - by default from up to down
+        -hard to position something precise
+      ex. label.pack(side = "left")      <- packs everything from left to right
+   
+   - place manager: permits the positioning much more precise of the elements
+	  ex. label.place(x=0,y=0)                         <- positions the element at 0,0 position
+	  
+   - grid manager: positions the element on a grid.the window is split on rows and columns and positions the elements on the row,column
+     coordonates
+		ex. mylabel.grid(column=3,row=2,columnspan=2, rowspan = 5, sticky="W")           <-columnspan means how many columns it will stretch
+																			  - rowspan means how many rows it will span
+               - sticky() we can position inside a grid cell with sticky  
+                label.grid(row=10, column=10, sticky="w", padx=10, pady=10)    <- positions to the left side of the grid cell(default is center), 
+				                                                                  padx,pady makes spaces in pixals before and after the widget, up or down			   
+pack() layout manager in tkinter:
+--------------------------------------------------------
+   - widgets occupy the space needed to display the content
+   - the pack layout manager places widgets from top to bottom
+   - we can determine the placement order of the widgets: side ="left","right",top","bottom" .From where should be the first widget positioned and will go in the oposite direction
+     with the next widgets. default is top where widgets are put from top to bottom (if we put bottom the first widget will be down, then the next come upper , etc) 	
+   - every widget has options how much  it occupies in the vertical or horizontal position: expand = True, False.if side = top or bottom then it expands verticaly,
+     if left or right then horizontaly
+   - we can set how much space the widget will occupy: fill = "x","y","both",None
+     - if "None"(default), the widget will occupy the space needed to display the content of it,if "x" then it will occupy the entire horizontal, if "y" then the entire vertical 
+	   height, and if "both" then the whole window
+   - we can have different widgets placed in the same window:front,bottom,top, etc
+   - we can have a distance around a widget until the borders or other widgets with padx and pady in pixels:
+   ex. label1 = ttk.Label(master=window, text = "First label")
+		label1.pack(side = "top", expand = True, fill="both", padx = 10,pady=10)
+		
+   ex. label1 = ttk.Label(master=window, text = "First label")
+       label2 = ttk.Label(master=window, text = "Second label")
+	   label3 = ttk.Label(master=window, text = "third label")
+	   label1.pack(side = "top", expand = True, fill="both")
+	   label2.pack(side = "top", fill = "x")
+	   label3.pack(side = "top", expand = True, fill = "y")
+	   
+	- with Frames it is much easier to place widgets with pack()
+	ex. topframe = ttk.Frame(master = window)
+	    label1 = ttk.Label(master=topframe, text = "First label")
+        label2 = ttk.Label(master=topframe, text = "Second label")
+		label3 = ttk.Label(master=window, text = "third label")          <- the frame and label 3 will be the same dimension because tkinter splits them equaly.In the frame we will have 2 labels 
+		label1.pack()
+		label2.pack()
+		topframe.pack()
+		
+grid() layout manager in tkiner:
+--------------------------------------------------------
+	- with grid layout we can set the number of rows/collumns, and set the height and width each one of them:
+	- widgets are placed inside this row/column cells and can occupy multiple cells.Thei can have padding also
+	- like with pack, the grid only determines how much space a widget occupy
+	- Sticky determines what will they be filled with
+	- sticky = "n" (north) - widget retains size but stick to the top
+	  sticky = "ns" (north-south) - widget retains width but height is height of cell
+	  sticky = "nswe"(north,south,east,west) - widget will occupy whole space 
+	- rowspan() tells tkinter how many rows will be occupied by the widget
+	- padx(), pady() - we can leave pad space between the widget and the cellborders.expands = True to expand the widget when resizing the cell.adds space around the widget
+	- ipadx(), ipady() - sets the internal space within the widget.
+	- grid() always scales with the window
+	- grid() makes the size of the cells in a row or column  not uniform if some cells are empty and others not.To make the cells equals regardless of content -> uniform = "a"   -> "all"
+	ex. label1 = ttk.Label(master=topframe, text = "First label")
+        label2 = ttk.Label(master=topframe, text = "Second label")
+		label3 = ttk.Label(master=window, text = "third label")
+		window.columnconfigure(index = 0, weight = 1,uniform = "a")         <- weight means the priority the row is treated when it comes to extra needed space
+		window.columnconfigure(index = (0,1,2), weight = 1,uniform = "a")   <- we can configure multiple columns in 1 line with the columns in a tuple (0,1,2)
+		window.columnconfigure(index = 1, weight = 1, uniform = "a")      <-  uniform makes the cells equals regardless  if they have widgets in them or not
+		window.rowconfigure (index = 0, weight =1, uniform = "a" )
+		window.rowconfigure (index = (0,1,2), weight =1, uniform = "a" )     <- we can configure multiple rows in 1 line with the rows in a tuple (0,1,2), , uniform makes the cells equals regardless  if they have widgets in them or not
+		label1.grid(row = 0, column = 0, sticky = "ew")       <- sticky will cover the entire grid from left to right
+		label2.grid(row = 1, column = 0, sticky = "w")        <- sticky will place to the left the widget
+		label3.grid(row = 1, column =0, rowspan = 2, sticky = "ew")     <- rowspan tells tkinter the label3 widget will be 2 cell wide
+		label3.grid(row = 1, column =0, rowspan = 2,columnspan = 2, sticky = "ew", padx = 5, pady=5)     <- columnspan tells tkinter the label3 widget will be 2 cell tall, 5 pixel wide between the grid border and the widget
+	    label3.grid(row = 1, column =0,sticky = "se")          <- puts the widget in the lower right corner of the cell
+
+place() layout manager in tkinter:
+--------------------------------------------------------
+	- this layout places widgets by specifying the leftmost distance from the container left margin, the distance of the widget upper margin from the containers  uppest  margin,
+      width and height of the widget. width and height is optional(will put default size for widget).this is the absolute way of placing the widgets. 
+	- (relx, rely,relwidth,relheight) The realtive is done by having the height and width of the container from 0 to 1 (float values, 0.0,0.0 left upper corner, 1.0,1.0 the lower right corner).Specifying the upperleft 
+	  corner of the widget goes by % from the total length of the width and height which is 1, so if we have a 1000x1000 window, placing the top left coordinates at 0.1,0.1 and height and width at 0.1,0.1 means it 
+	  is 100,100 pixel from the upper left corner(anchor not specified = default "wn") and 100x100 pixel size
+	- relative placing scales with the window and it is relative to the container, but beware, we can place widgets outside of the window(1.0,1.0 if anchor = default "nw")
+	- anchor point (e,w,n,s,center)specify which refernce of the widget should be considered for the widget placement(default = "wn"): "wn"<- upperleft point, "se" <- lower right point, "ws" <- left lower point, etc
+	ex. window.geometry("1000x1000")
+	    label1 = ttk.Label(master=topframe, text = "First label")
+        label2 = ttk.Label(master=topframe, text = "Second label")
+		label3 = ttk.Label(master=window, text = "third label")
+		button1 = ttk.Button(master = window, text = "Button1")
+		label1.place(x = 0, y = 200, width =130, height = 30)             <- from the most leftest corner(0) to 200 pixel from up to down , widget's size is 130x30. absolute type of placing
+		label2.place(relx = 0, rely = 0.2,relwidth = 0.2, relheight = 0.1, anchor = "center" )       <- 0.0 pixel from the left margin of the window, 0.2 is 200 pixel from the top margin , width =200, height = 100 pixel
+
+Size of widgets in Python:
+--------------------------------------------------------
+	- Size of the widgets are ambiguously set:on the widget itself and then on the layout methods
+	- the layouts overwrites the size of the widget even if set
+	ex. ttk.Label(parent, text = "label", width=50).pack(fill="x"))     fill will alter the widgets size as the width also
+	
+
+
+.after() widget property:
+---------------------------------------------------------
+   - .after() we can use the .after() property on a widget that waits for an amount of time and then gives a command to execute something:
+   ex. import tkinter
+       window = tkinter.Tk()
+	   timerpause = window.after(1000,dosomething,*args)       <- dosomething is a method name that will be called, *args is an argument list that
+                                                 	              will be passed to the function(can be used on main window or any other widget that needs it)
+	   def dosomething(a):
+			print(a)
+   - .after_cancel()we can cancel the timer setup with the cancel method:
+   ex. window.after_cancel(timerpause)                         <- timerpause is the variable that the after was assigned
+   
+
 Toggleing  widgets:
 ----------------------------------------------------------
    - sometime we need some widgets to dissapear from the screen, and toggleing does that		 

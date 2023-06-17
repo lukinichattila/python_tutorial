@@ -2921,7 +2921,7 @@ Tkinter variables:
 	   label.pack()
 	   entry = tk.Entry(master = window, textvariable = string_var)          <- label and entry share the same variable string_var. whenever the first changes the variable, the second widget changes also
 	   entry.pack() 
-	   button = tk.Button(master = window, text = "button", command = button_func, text_variable = }})        <- when button push, it will print out to the console what we entered in the entry
+	   button = tk.Button(master = window, text = "button", command = button_func }})        <- when button push, it will print out to the console what we entered in the entry
        window.mainloop()
 	   
 Tkinter events:
@@ -3228,7 +3228,7 @@ Scrolledtext in tkinter:
        tk.INSERT: Inserts the text at the current cursor position within the widget.
 	   tk.INSERT1.0: indexes as the start ofthe first character position
        the index accepts floating point type, like text_area.insert(1.0, tk.INSERT)
-   ex. scrolled_text.insert(insert,
+   ex. scrolled_text.insert(index,
        """\
 		This is a scrolledtext widget to make tkinter text read only.
 		Hi
@@ -3243,10 +3243,6 @@ Scrolledtext in tkinter:
     
 	- delete() we can clear the scrolledtext widget with scrolled_text.delete(startindex,endindex):
     ex. scrolled_text.delete(1,0,tk.END)	
-   
-Menus or  dropdowns in tkinter:
----------------------------------------------------------
-
 	   
 Toolbar in Tkinter:
 ---------------------------------------------------------
@@ -3561,6 +3557,7 @@ grid() layout manager in tkiner:
 	- ipadx(), ipady() - sets the internal space within the widget.
 	- grid() always scales with the window
 	- grid() makes the size of the cells in a row or column  not uniform if some cells are empty and others not.To make the cells equals regardless of content -> uniform = "a"   -> "all"
+		
 	ex. label1 = ttk.Label(master=topframe, text = "First label")
         label2 = ttk.Label(master=topframe, text = "Second label")
 		label3 = ttk.Label(master=window, text = "third label")
@@ -3574,7 +3571,13 @@ grid() layout manager in tkiner:
 		label3.grid(row = 1, column =0, rowspan = 2, sticky = "ew")     <- rowspan tells tkinter the label3 widget will be 2 cell wide
 		label3.grid(row = 1, column =0, rowspan = 2,columnspan = 2, sticky = "ew", padx = 5, pady=5)     <- columnspan tells tkinter the label3 widget will be 2 cell tall, 5 pixel wide between the grid border and the widget
 	    label3.grid(row = 1, column =0,sticky = "se")          <- puts the widget in the lower right corner of the cell
-
+	
+	- we can pack a widget before an other one with the before keyword(comes first in the order of automatically aranged widgets):
+	ex. label1 = ttk.Label(master=topframe, text = "First label")
+        label2 = ttk.Label(master=topframe, text = "Second label")
+		label1.pack()
+		label2.pack(before = label1)
+		
 place() layout manager in tkinter:
 --------------------------------------------------------
 	- this layout places widgets by specifying the leftmost distance from the container left margin, the distance of the widget upper margin from the containers  uppest  margin,
@@ -3583,7 +3586,7 @@ place() layout manager in tkinter:
 	  corner of the widget goes by % from the total length of the width and height which is 1, so if we have a 1000x1000 window, placing the top left coordinates at 0.1,0.1 and height and width at 0.1,0.1 means it 
 	  is 100,100 pixel from the upper left corner(anchor not specified = default "wn") and 100x100 pixel size
 	- relative placing scales with the window and it is relative to the container, but beware, we can place widgets outside of the window(1.0,1.0 if anchor = default "nw")
-	- anchor point (e,w,n,s,center)specify which refernce of the widget should be considered for the widget placement(default = "wn"): "wn"<- upperleft point, "se" <- lower right point, "ws" <- left lower point, etc
+	- anchor point (e,w,n,s,center)specify which reference of the widget should be considered for the widget placement(default = "wn"): "wn"<- upperleft point, "se" <- lower right point, "ws" <- left lower point, etc
 	ex. window.geometry("1000x1000")
 	    label1 = ttk.Label(master=topframe, text = "First label")
         label2 = ttk.Label(master=topframe, text = "Second label")
@@ -3612,10 +3615,43 @@ Size of widgets in Python:
    - .after_cancel()we can cancel the timer setup with the cancel method:
    ex. window.after_cancel(timerpause)                         <- timerpause is the variable that the after was assigned
    
+tkterminal in python:
+--------------------------------------------------------------
+   - we can have a terminal in python like a widget:
+   ex. import tkterminal
+       terminal - Terminal()
+	   terminal.shell = True
+	   terminal.linebar = True
+	   terminal.pack(expand = True, fill="both")
+	   terminal.run_command("powershell.....", "y")
+
 
 Toggleing  widgets:
 ----------------------------------------------------------
-   - sometime we need some widgets to dissapear from the screen, and toggleing does that		 
+   - sometime we need some widgets to dissapear from the screen, and toggleing does that
+   - we dont realy hide widgets, we un pack, ungrid, unplace them
+   ex. label1 = ttk.Label(master=topframe, text = "First label")
+       label.pack()
+       label.pack_forget()                     <- removes the widget from the master window/fraame, etc	.can cause problems if the widget dissapears as the others will rearange with the pack method 
+   
+   ex. def labelvisibility():
+          global labelvisibility
+		  if label_visible
+		     label_place_forget()
+			 label_visible=False
+		  else:
+		     label_visible = True
+			 label.place(relx = 0.5,rely = 0.5, anchor = "center")
+	   button = tk.Button(window, text="togglelabel", command=labelvisibility)
+	   button.place(x=10,y=10)
+       label1 = ttk.Label(master=topframe, text = "First label")
+       label1.place(x=100,y=100)
+	   label.place_forget()                  <- removes the widget from the master window/fraame, etc	
+	   
+	ex. label1 = ttk.Label(master=topframe, text = "First label")
+        label1.grid(column = 1, row=0)
+		label.grid_forget()                   <- removes the widget from the master window/fraame, etc
+        		
 Widget stacking in tkinter:
 ----------------------------------------------------------
     - widgets are always placed on top of other widgets when they are created(will be placed where it needs by the layout manager)
@@ -3628,7 +3664,114 @@ Widget stacking in tkinter:
 	
 	- we can have selectively be a widget over an other widget ifthere are multiple overlapping widgets:
 	button = ttk.Button(master = window, text = "Buton", command = lambda: label2.tkraise(aboveThis = label1))  <- when button clicked, label2 will be above label1, but under other widgets
-	
+
+Combining layouts in tkinter:
+-----------------------------------------------------------
+   - we can have different layout managers in a window, however not in the same container. It needs to be different frame or window, etc
+   ex. menu_frame2 = ttk.Frame(window)
+       menu_frame1 = ttk.Frame(window)	
+	   menu_frame1.pack()
+	   menu_frame2.pack()
+	   menubutton1 = ttk.Button(master = menu_frame1)
+	   menubutton1.place(x=100,y=50)
+	   menubutton2 = ttk.Button(master = menu_frame1)
+	   menubutton2.place(x=200,y=100)
+
+Using classes in tkinter:
+----------------------------------------------------------
+   - if we want to encapsulate the graphic interface to a class we need to create a class that inherits tk.Tk:
+   ex. import tkinter as tk
+       from tkinter import ttk
+       class App (tk.Tk):
+		   def __init__(self, title,size):
+		      super().__init__()               <- initializes the superclass, equivalent to window= tk.Tk()
+			  self.title(title)  <- <- equivalent with window.title("Combined layout")
+			  self.geometry(f{size[0]xsize[1]})    <- equivalent with window.geometry("600x600")
+			  self.minsize(size[0],size[1])       <- window.minsize(600,600)
+		      self.menu = Menu(self)
+			  self.mainloop()
+		class Menu(ttk.Frame):
+			def __init__(self,parent):
+				super().__init__(parent)
+				ttk.Label(self, background = "ewd).pack()
+				self.pack(expand=True, fill = "both")
+				self.create_widgets()
+			def createwidgets(self):
+			   menu_button = ttk.Button(self, text = "Button 1")
+			   toggle_frame = ttk.Frame(self)
+			   menu_toggle = ttk.Checkbutton(master = toggle_frame, text = "Text")
+			   self.columnconfigure((0,1,2), weight = 1, uniform = "a")
+			   self.rowconfigure((0,1,2,3,4), weight = 1, uniform = "a")
+		class Mainframe(ttk.Frame):
+			def __init__ (self, parent):
+				super().__init__(parent)
+				self.place(relx = 0.3, rely = 0, relwidth = 0.7, relheight = 1)
+				frame = ttk.Frame(self)
+				label = ttk. Label(master = frame, text = "Text")
+				button.pack(expand = True, fill = both, pady = 10)
+				frame.pack = (side = "left", expand = True, fill = "both")				
+		App("myapp", (600,600))
+		
+   ex2. class Segment (ttk.Frame):
+           def __init__(self, parent,label_text, button_text):
+		       super().__init__(m,master = parent)
+			   self.rowconfigure(0, weight = 1)
+			   self.columnconfigure((0,1,2), weight =1 , uniform = "a")
+			   ttk.Label(master = self, text = label_text).grid(row=0,column=0, sticky= nsew)                     <- the master of the Label is self(the frame)
+			   ttk.Button(master = self, text = button_text).grid(row=0, column = 1, sticky= nsew)                <- the button's master will be self, the class itself(the frame)
+			   self. pack(expand = True, fill = "both", padx =  10,pady=10)                         <- we pack the elements to the frame
+			   
+	   window = tk.Tk()
+       window.title("widgets and return")
+       Segment(window, "label","button1")
+       Segment(window, "label1","button2")	 
+       window.mainloop()		
+
+Creating custom widgets in tkinter with return:
+----------------------------------------------------------
+   - a more simpler aproach to create widgets is create a function that returns a widget, and make a single class where we create the widgets with  function calls
+   ex. def create_segment(parent, label_text, button_text):
+          frame = ttk.Frame(master = parent)
+		  frame.rowconfigure(0, weight = 1)
+		  frame.columnconfigure((0,1,2), weight =1 , uniform = "a")
+          ttk.Label(master = frame, text = label_text).grid(row=0,column=0, sticky= nsew)                     <- the master of the Label is self(the frame)
+		  ttk.Button(master = frame, text = button_text).grid(row=0, column = 1, sticky= nsew)	
+          return frame
+       	window = tk.Tk()
+        window.title("widgets and return")	  
+		create_segment(window, "label", "button").pack(expand = True, fill = "both", padx = 10, pady = 20)
+		window.mainloop()
+		
+Responsive layouts in tkinter:
+----------------------------------------------------------
+   - we can build a layout that have different layout aspect when we resize it:
+   ex. class App(tk.Tk):
+         def __init__(self, startsize):
+		    super().__init__()
+			self.title("Responsive layout")
+			self.geometry(f"{startsize[0]}x{startsize[1]")
+		    SizeNotifier(self, {600:self.createmediumlayout,300:self.createsmalllayout })
+            self.mainloop()	
+         def createsmalllayout(self):
+         def createmediumlayout(self):
+         class SizeNotifier:
+           def __init__(self, window, sizedict):
+               self.window = window
+               self.sizedict = {key: value for key,value in sorted(sizedict.items())}
+			   minheight = self.window.winfo_width()
+			   minwidth = list(self.sizedict)[0]
+               self.window.bind("<Configure>", self.checksize)
+           def checksize(self, event):
+             windowwidth = event.width
+             checkedsize = None
+             for minsize in self.sizedict:
+               delta = windowwidth - minsize
+               if delta>=0:
+                   checkedsize = minsize
+             if checkedsize!= self.currentminsize:
+                self.currentminsize = checkedsize 
+                self.sizedict[self.currentminsize]()
+				
 copying to the clipboard:
 ----------------------------------------------------------
    - to be able to use we need to install pyperclip.
@@ -4085,6 +4228,30 @@ images in python:
 	ex. from PIL import Image
 	    myImage = Image.open("myimage.jpg")
 	    myImage.putalpha(0)                  <- 0 alpha is minimum, 255 alpha is maximum
-		
-
-	
+			
+Subprocess in Python:
+---------------------------------------------------------------
+   - we can run external programs in python
+       - returnval = subprocess.run(args, *, stdin=None, input=None, stdout=None, stderr=None, capture_output=False, text=False, shell=False, check=False, timeout=None, cwd=None, encoding=None, errors=None, env=None, universal_newlines=None)
+	   - args (required): This is a list or string containing the command or script to be executed. If it's a string, the shell parameter (explained below) should be set to True.
+       - capture_output: When set to True, it captures the command's stdout and stderr. You can access the captured output via the stdout and stderr attributes of the returned CompletedProcess object.
+       - text: When set to True, it decodes the captured output as a string. If False, the output will be in bytes.
+       - input: This allows you to pass input to the command as a string. It can be useful for interactive commands or providing input from a file.
+       - shell: When set to True, the command is executed through the shell, allowing shell-specific syntax and behavior. Use with caution and avoid passing untrusted input.
+       - check: When set to True, it raises a CalledProcessError if the command returns a non-zero exit code, indicating an error.
+       - timeout: Sets a maximum time in seconds for the command to run before it's terminated.
+       - cwd: Specifies the working directory in which the command should run.
+       - encoding: Sets the character encoding to be used for the command's input, output, and error streams.
+       - env: Allows you to set environment variables for the command's execution.
+	 ex. import subprocess
+         result = subprocess.run(["powershell","-c",r"cd c:/tools"], capture_output=True, text=True)
+         print(result.stdout)
+		 
+Threads in python:
+-----------------------------------------------------------------
+   - we can run a function in a new thread by creating a thread and running the function through it
+   ex. import threading
+       def functorun():
+	      print("this runs on a new thread")
+       newthread = threading.Thread(target = functorun)
+	   

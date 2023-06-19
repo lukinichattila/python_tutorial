@@ -2935,6 +2935,15 @@ Tkinter events:
 	   window. bind("<Alt-KeyPress-a>", lambda event: print(event))            <- binds to the main window the the Alt+a key combination. tkinter will automatically insert "event" that is  info about the event to the callable method that is why lambda event 
        window.bind("<KeyPress>") ,functionreferencetobecalled)                 <- functionreferencetobecalled is reference to the function that will be called when an event happened,  the "event" parameter will be automatically passed to the called function.
 	   window.pack()                                                              The event will be triggered after any keypress
+   - we can unbind an event if it was bind:
+   ex: self.canvas.unbind_all("<MouseWheel>")
+		Widget.bind(event, function)               <- format: modifier - type - detail     : Alt - Keypress - a
+       def functionreferencetobecalled(event):    <- when the functionreference is called after the bind event happened, tkinter expect the functionreference have an argument, and it will pass the "event" parameter to it
+	       print (event.char)                     <- it will show the key pressed
+	   window = tk.Tk()
+	   window. bind("<Alt-KeyPress-a>", lambda event: print(event))            <- binds to the main window the the Alt+a key combination. tkinter will automatically insert "event" that is  info about the event to the callable method that is why lambda event 
+       window.unbind_all("<KeyPress>")                                         <- we can remove the event from the widget
+	   window.pack()       
    ex. def getpos(event):
 			print(f"{event.x} - {event.y}")
 		def func():
@@ -3744,34 +3753,127 @@ Creating custom widgets in tkinter with return:
 		
 Responsive layouts in tkinter:
 ----------------------------------------------------------
-   - we can build a layout that have different layout aspect when we resize it:
+   - we can build a layout that have different layout aspect when we resize it.when we resize it a bind will call a method that :
    ex. class App(tk.Tk):
          def __init__(self, startsize):
 		    super().__init__()
 			self.title("Responsive layout")
 			self.geometry(f"{startsize[0]}x{startsize[1]")
+			self.frame = ttk.Frame(self)
+			self.frame.pack(expand = True, fill = "both")
 		    SizeNotifier(self, {600:self.createmediumlayout,300:self.createsmalllayout })
             self.mainloop()	
          def createsmalllayout(self):
+		      self.frame.pack_forget()                       <- destroyes the previous layout and will create the new layout
+		      self.frame = ttk.Frame(self)
+			  ttk.Label(master = frame, text = "Label2").grid(row=0,column=0, sticky= nsew)                    
+		      ttk.Button(master = frame, text = "Button2").grid(row=0, column = 1, sticky= nsew)
+			  self.frame.pack()
+			  
          def createmediumlayout(self):
+		    self.frame.pack_forget()                     <- destroyes the previous layout and will create the new layout
+			self.frame = ttk.Frame(self)
+            self.frame.pack()
+            ttk.Label(master = frame, text = "Label1").grid(row=0,column=0, sticky= nsew)                    
+		    ttk.Button(master = frame, text = "Button1").grid(row=0, column = 1, sticky= nsew)		
          class SizeNotifier:
            def __init__(self, window, sizedict):
                self.window = window
                self.sizedict = {key: value for key,value in sorted(sizedict.items())}
-			   minheight = self.window.winfo_width()
-			   minwidth = list(self.sizedict)[0]
-               self.window.bind("<Configure>", self.checksize)
+			   self.currentminsize = None
+			   self.window.bind("<Configure>", self.checksize)          <- if we resize the window the bind calls the checksize .if this line is after the next one, the checksize funcion will not be called
+			   self.window.update()                                
+			   minheight = self.window.winfo_height()
+			   minwidth = list(self.size_dict)[0]
+			   self.window.minsize(minwidth, minheight)
+
            def checksize(self, event):
-             windowwidth = event.width
-             checkedsize = None
-             for minsize in self.sizedict:
-               delta = windowwidth - minsize
-               if delta>=0:
-                   checkedsize = minsize
-             if checkedsize!= self.currentminsize:
-                self.currentminsize = checkedsize 
-                self.sizedict[self.currentminsize]()
-				
+             if event.widget = self.window:           <- the code will execute when the event happens  just on the window ; event.widget returns the widget thats callback called this function(the line with the bind)
+			    windowwidth = event.width
+                checkedsize = None
+                for minsize in self.sizedict:
+                  delta = windowwidth - minsize
+                  if delta>=0:
+                      checkedsize = minsize
+                if checkedsize!= self.currentminsize:
+                   self.currentminsize = checkedsize 
+                   self.sizedict[self.currentminsize]()
+				   
+Scrolling with tkinter(Scrollbar):
+----------------------------------------------------------
+   - in tkinter there are 3 widgets that can be scrolled: Canvas, Text and Treeview
+   ex. canvas = tk.Canvas(window, bg = "red", scrollregion = (0,0,2000, 5000))      <- scrollregion creates a canvas that is larger then the window and is scrollable. the arguments represents the size
+       canvas.create_line(0,0,2000,5000, fill = "green", width=10)      <- for the scrool to appear we need content
+	   canvas.pack(expand = True, fill = "both")
+	   scrollbar = ttk.Scrollbar(window, orient = "vertical", command = canvas.yview)   <-  screate a scrollbar widget and set its command to the text widget y position
+	   canvas.configure (yscrollcommand = scrollbar.set)                                <- sets the position in the canvas to the position of the scrollbar
+	   scrollbar.place(relx =1, rely=0,relheight = 1, anchor = "ne")                    
+
+Creating a scrolable frame:
+----------------------------------------------------------
+   - 
+   ex. class ListFrame(ttk.Frame):
+       def __init__(self,parent, textdata,itemheight):
+			super().__init__(master = parent)
+			self.pack(expand = True, fill="both")
+			self.textdata = textdata
+			self.itemnumber = len(textdata)
+			self.listheight = self.itemnumber*itemheight
+			self.canvas = tk.Canvas(self, background = "red", scrollregion = (0,0,self.winfo_width(), self.list_height()))
+			self.canvas.pack(expand = True, fill = "both")
+			self.frame = ttk.Frame(self)
+			ttk.Label(self.frame, text = "A label")).pack()
+			for index,item in enumerate(self.textdata)
+				self.create_item(index, item).pack(expand = True, fill="both", pady=4,padx = 4)
+			self.canvas.create_window((0,0). window = self.frame, anchor = "nw", width = 200, height = 400)
+			self.canvas.bind_all("<MouseWheel>", lambda event:self.canvas.yview_scroll(-int(event.delta/60)))
+			self.bind("<Configure>", self.update_size)
+		def update_size(self, event):
+			if self.list_height>self.winfo_height():
+				height = self.list_height
+				self.canvas.bind_all("<MouseWheel>", lambda event:self.canvas.yview_scroll(-int(event.delta/60))
+			else:
+				height = self.winfo_height()
+				self.canvas.unbind_all("<MouseWheel>")
+			self.canvas.create_window((0,0), window = self.frame, anchor = "nw", width = self.winfo_width(),height = self.list_height)
+			
+		def createitem(self,index,item):
+			frame = ttk.Frame(self.frame)
+			frame.rowconfigure(0,weight = 1)
+			frame.columnconfigure((0,1,2,3,4), weight = 1 , uniform= "a")
+			ttk.Label(frame, text = f"#{index}").grid(row=0,column=0)
+			ttk.Label(frame, text = f"{item[0]}").grid(row=0,column =1)
+			ttk.Button(frame, text = f"{item[1]}").grid(row = 0, column = 2, columnspan = 3, sticky = "nsew")
+		window = tk.Tk()
+		window.geometry("500x400")
+		textlist = [("label,"button"),("label1","button1")]
+		
+Working with multiple windows:
+-------------------------------------------------------------
+   - we can open a new window whenever we clicl a button or any other event:
+      - messagebox for specialised windows: alerts, yes/no windows,etc
+	  - tk.Toplevel for a completely new window
+   ex. import tkinter as tk
+       from tkinter import ttk
+	   from tkinter import messagebox          <- for messagebox it is needed this module
+	   def ask_yes_no():
+	      answer = messagebox.showinfo("window Title","info Body")        <- has just an ok button 
+		  answer = messagebox.showwarning("window Title","warning Body")     <- it has just an ok button, has the waring sign on it and the message
+		  answer = messagebox.showerror("window Title","error Body")       <- it has just an ok button, has the error sign on it with the message
+		  answer = messagebox.askquestion("window Title","question Body")     <- returns "yes" or "no" 
+		  answer = messagebox.askokcancel("window Title","question Body")     <- returns "ok" or "cancel"
+		  answer = messagebox.askretrycancel("window Title","question Body")  <- returns "retry" or "cancel"
+		  answer = messagebox.askyesno("window Title","question Body")        <- returns "yes" or "no"
+		  answer = messagebox.askyesnocancel("window Title","question Body")  <- returns "yes", "no" or "cancel"
+	   window = tk.Tk()
+	   button1 = ttk.Button(master = window, text="Button1")
+	   button1.pack()
+	   button2 = ttk.Button(master = window, text="Button2", command = ask_yes_no)
+	   button2.pack()
+	   window.mainloop()
+	   
+   
+   
 copying to the clipboard:
 ----------------------------------------------------------
    - to be able to use we need to install pyperclip.

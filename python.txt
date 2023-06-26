@@ -3430,7 +3430,8 @@ Messagebox in tkinter:
 
 Frame in python:
 ----------------------------------------------------------
-   - we can create a frame in a window with the frame keyword.Frames are empty widgets(invisible) that are needed to place other widgets in.first we place the widgets, then the frame:
+   - we can create a frame in a window with the frame keyword.Frames are empty widgets(invisible) that are needed to place other widgets in.
+   - first we place the widgets, then the frame:   !!!! very important  ,the last operation is connecting the frame with the window he is in after the widgets are placed in it
    ex. from tkinter import *
        window = Tk()
 	   myframe = Frame(window, height=120, width = 180, bg="#234567", bd=1, relief=FLAT, borderwidth = 10)     <- bd = border depth, relief - it does not have rd dimensional, relief=tk.RIDGE, RAISED,GROOVE
@@ -3609,20 +3610,6 @@ Size of widgets in Python:
 	- Size of the widgets are ambiguously set:on the widget itself and then on the layout methods
 	- the layouts overwrites the size of the widget even if set
 	ex. ttk.Label(parent, text = "label", width=50).pack(fill="x"))     fill will alter the widgets size as the width also
-	
-
-
-.after() widget property:
----------------------------------------------------------
-   - .after() we can use the .after() property on a widget that waits for an amount of time and then gives a command to execute something:
-   ex. import tkinter
-       window = tkinter.Tk()
-	   timerpause = window.after(1000,dosomething,*args)       <- dosomething is a method name that will be called, *args is an argument list that
-                                                 	              will be passed to the function(can be used on main window or any other widget that needs it)
-	   def dosomething(a):
-			print(a)
-   - .after_cancel()we can cancel the timer setup with the cancel method:
-   ex. window.after_cancel(timerpause)                         <- timerpause is the variable that the after was assigned
    
 tkterminal in python:
 --------------------------------------------------------------
@@ -3850,16 +3837,16 @@ Creating a scrolable frame:
 		
 Working with multiple windows:
 -------------------------------------------------------------
-   - we can open a new window whenever we clicl a button or any other event:
+   - we can open a new window whenever we click a button or any other event:
       - messagebox for specialised windows: alerts, yes/no windows,etc
 	  - tk.Toplevel for a completely new window
    ex. import tkinter as tk
        from tkinter import ttk
 	   from tkinter import messagebox          <- for messagebox it is needed this module
 	   def ask_yes_no():
-	      answer = messagebox.showinfo("window Title","info Body")        <- has just an ok button 
-		  answer = messagebox.showwarning("window Title","warning Body")     <- it has just an ok button, has the waring sign on it and the message
-		  answer = messagebox.showerror("window Title","error Body")       <- it has just an ok button, has the error sign on it with the message
+	      answer = messagebox.showinfo("window Title","info Body")            <- has just an ok button 
+		  answer = messagebox.showwarning("window Title","warning Body")      <- it has just an ok button, has the waring sign on it and the message
+		  answer = messagebox.showerror("window Title","error Body")          <- it has just an ok button, has the error sign on it with the message
 		  answer = messagebox.askquestion("window Title","question Body")     <- returns "yes" or "no" 
 		  answer = messagebox.askokcancel("window Title","question Body")     <- returns "ok" or "cancel"
 		  answer = messagebox.askretrycancel("window Title","question Body")  <- returns "retry" or "cancel"
@@ -3871,9 +3858,157 @@ Working with multiple windows:
 	   button2 = ttk.Button(master = window, text="Button2", command = ask_yes_no)
 	   button2.pack()
 	   window.mainloop()
+	- creating a new window and destroy it   
+	ex. class Extra(tk.Toplevel):
+	        def __init__(self ):
+			  super().__init__()
+                self.title("extra window")
+				   ttk.Label(self, text = "A button").pack()
+				   ttk.Button(self, text = "A button").pack()
+		def create_window():
+		    global extra_window                    <- not necessary global, can maybe passed like an argument to the function
+			extra_window = Extra()
+		def close_window():
+		    extra_window.destroy()
+		window = tk.Tk()
+		button1 = ttk.Button(master = window, text="Button1", command = create_window)
+		button1.pack(expand= True)
+		window.mainloop()
 	   
+Styling with tkinter:
+----------------------------------------------------------
+   - tkinter offers some degree of customization, however external modules are better
+   ex. 
+       label = ttk.Label(master = window, text = "Label", background = "red", foreground = "white", font = ("Times New Roman", 20), justify = "center", fg = ")   
+       style = ttk.Style()
+	   print(style.theme.names())                 <- prints all the styles available
+	   style.theme_use("classic")                 <- select from available styles
+	   style.configure("new.TButton", foreground = "green")    <- sets all the TBuytton color to green
+	   style.map("new.Button", foreground = [("pressed","red"), ("disabled","yellow")], background = [("pressed","green"), ("disabled","red")] )
+	   style.configure("TFrame", background = "pink")          <- styliz the frame type of widget from under
+	   frame = ttk.Frame(window, height = 200, width = 100)
+
+Using themes in tkinter:
+-----------------------------------------------------------
+   - we can use a downloadable theme by:
+   ex. tk.call("source", "Azure/azure.tcl")     <- the tcl file of the downloaded theme with the path to it
+       tk.call("set_theme", "dark")             <- name ofthe style of the theme 
+	   
+Using colors in tkinter:
+------------------------------------------------------------
+    - we can use custom colors in tkinter using hexa numbers.
+      - if the hexa number is with 3 digits then first hexa is the red, green and then blue value
+	  - if the hexa number is of 6 digits then we have 2 digits for every base color
+	ex. ttk.Label(window, background = "#08F")                  <- 0 is red, 8 is green, F is blue quantyty.0F0 is pure green, F00 pure red, or FF0000 if it is 6 digits long
+
+Custom styling in tkinter with customtkinter:
+----------------------------------------------------------
+   - there are 2 customizer: customtkinter and ttkbootstrap
+   - to use customtkinter pip install customtkinter
+   - customtkinter widgets can be combined with tkinter widgets
+   - customtkinter has its on variables:
+   ex. string_var = ctk.StringVar(value = "a custom string")
+   ex. import customtkinter as ctk                      <- customtkinter inherits the Tk and ttk from the main class
+       window = ctk.CTk()
+	   window.title("custom tkinter app")
+	   ctk.set_apearence_mode("dark")             <- or "light"  can set the theme's appearence
+	   label = ctk.CTkLabel(window, text = "A ctk label", fg_color ="red", bg_color = "#123456", text_color = "white", corner_radius = 10)   <- we can set the radius of the corner
+       button = ctk.CTkButton(master = window, text = "A button", fg_color = "#FF0", text_coor = "#000", hover_color = "#AA0, command = lambda: print " i pressed a button")
+	   frame = cTKFrame(master = window, fg_color = "transparent", )
+	   slider = ctk.CTkSlider(master = window).pack(padx = 20, pady = 10)
+	   switch = ctk.cTkSwitch(window, text = "Exercise switch", fg_color = ("blue","red"), progress_color = "pink",
+	            button_color + "green",button_hover_color = "yellow", switch_width = 10, switch_height = 20, corner_radius = 2 )     <- fg color is the 2 state of the switch
+	   checkbox = ctk.CTkCheckBox(master = window, text = "checkbox")
+	   entry = ctk.CTkEntry(master = window)
+
+Custom styling in tkinter with ttkbootstrap
+----------------------------------------------------------
+   - to install ttkbootstrap : pip install ttkbootstrap
+   - ttkbootstrap has a ttkcreator theme editor
+   - the usage of tkbootstrap is like tkinter, same name for widgets, etc
+   ex. import ttkbootstrap as ttk                    <- we dont need to import tkinter
+       window = ttk.Window(themename = "journal")    <- the window creation is different then in ttk, instead of tk.Tk() it is ttk.Window(themname = "")
+	   button = ttk.Button(master = window, text = "warning", bootstyle = "warning")
+   - ttkbootstrap has aditional widgets then ttk:
+   ex. from ttkbootstrap.scrolled import ScrolledFrame
+       from ttkbootstrap.toast import ToastNotification
+	   from ttkbootstrap.tooltip import Tooltip
+	   from ttkbootstrap.widgets import DateEntry, Floodgauge, Meter
+       scroll_frame = ScrolledFrame(window)
+       scroll_frame.pack()
+	   toast = ToastNotification(title = "Message title", message = "message", duration = 2000,bootstyle = warning, position = (0,0, "sw")))    (0,0,) where the top left  corner is
+	   button = ttk.Button(master= window, text = "tooltip button", bootstyle = "warning")
+	   Tooltip(button, text = "This does something", bootstyle = "danger - inverse")            <- creates a tooltip when we hover over a button
+	   calendar = DateEntry(master=window)                                                      <- calendar picker
+	   calendar.pack()
+	   buton = ttk.Button(window, text = "button", command = lambda: print(calendar.entry.get())).pack()
+	   progressint = tk.IntVar(value = 50)
+	   progress = ttk.Floodgauge(master = window, text = "progress").pack(pady = 10, fill="x", variable = progressint, mask = "mask {}%") progress bar
+	   meter = ttk.Meter(master= window,amounttotal = 100, amountused = 10, interactive = True, metertype = "semi", subtext = "sometext", bootstyle = "danger" .pack())                 <- meter
+	   
+Animating widgets in tkinter:
+-------------------------------------------------------------
+   - for animations we dont have defined variables  or actions, but we can make our own by updateing the position and size of the buttons and frames and etc
+   - for animateing the widgets the best layout manager is place because it can resize pixel by pixel  
+   ex. import customtkinter as ctk 
+       def move_button():
+	          global button_x
+			  button_x +=0.05
+			  button.place(relx = button_x, rely=0.5, relheight = button_x, anchor = "center")
+	   window = ctk.CTk()   
+	   button_x = 0.5
+	   button = ctk.CTkButton(window, text = "button", command = move_button)
+	   button.place(relx = button_x, rel_y = 0.5, relheight = button_x, anchor = "center")
+	   window.mainloop()
+   - .after() we can use the .after() property on a widget that waits for an amount of time and then gives a command to execute something.it can call istself recursively:
+   ex. import tkinter
+       window = tkinter.Tk()
+	   timerpause = window.after(1000,dosomething,*args)       <- dosomething is a method name that will be called in the infinit mainloop after it is placed in a que after 1000ms,
+                                                            	   *args is an argument list that will be passed to the function(can be used on main window or any other widget that needs it)
+	   def dosomething(a):
+			print(a)
+   - .after_cancel()we can cancel the timer setup with the cancel method:
+   ex. window.after_cancel(timerpause)                         <- timerpause is the variable that the after was assigned
+   ex. i=10
+		def butonchange():
+			global i
+			i+=1
+			button.place(x=i*3, y=i*3 )
+			button.after(10, butonchange)      <- recursively call itself
+		window = ctk.CTk()
+		window.minsize(width = 800, height = 600)
+		button = ctk.CTkButton(master= window, text = "1",width = 100, height = 100)
+		button.after(200, butonchange)
+		button.place (x=1,y=1)
+		window.title("Build Tool")
+		window.mainloop()
+		
+Images on buttons in tkinter:
+--------------------------------------------------------------
+  - we can use images in python after we import the pillow library:
+   ex. pip install pillow
    
-   
+   - we can use the image library (PIL - Python image library)
+   ex. from PIL import Image, ImageTk
+		window = tk.Tk()
+		imageoriginal = Image.open("racoon.jpg") 
+		image_tk=ImageTk.PhotoImage(imageoriginal)
+		pythondark = Image.open("ptdark.png").resize((30,30))
+		button = ttk.Button(master = window, text = "Button",image = pythondark, compound = "left")        <- image is the image, compound is where to put theimage beside the text from the button(compound = left right
+		imgctk = ctk.CTkImage(light_image = Image.open("lighimage.png"), dark_image = Image.open("darkimage.png"))   <- for customtkinter we need 2 images dependeing on the theme used(dark or light)
+		button = ctk.CTk_Button(master = window, text = "Button",image = imagectk, compound = "right")
+    - we can use image in a canvas:
+    ex. canvas = tk.Canvas(master = window, background = "black", bd=0)	
+	    canvas.grid(column = 1, columnspan = 3, row = 0, sticky = "nsew")
+		canvas.create_image(0,0,image = imagetk, anchor = "nw")
+		
+		
+destroying widgets in tkinter:
+--------------------------------------------------------------
+   - to destroy a widget we can use the destroy keyword:
+   ex. buton = ttk.Button(master= window)
+       button.destroy
+	   
 copying to the clipboard:
 ----------------------------------------------------------
    - to be able to use we need to install pyperclip.
@@ -4300,8 +4435,18 @@ Unit test in Python with Unittest
 	
 images in python:
 -----------------------------------------------------------------
-   - we need to install pillow library to work with images :
+   - we can use images in python after we import the pillow library:
    ex. pip install pillow
+   
+   - we can use the image library (PIL - Python image library)
+   ex. from PIL import Image, ImageTk
+		window = tk.Tk()
+		imageoriginal = Image.open("racoon.jpg") 
+		image_tk=ImageTk.PhotoImage(imageoriginal)
+		pythondark = Image.open("ptdark.png").resize((30,30))
+		button = ttk.Button(master = window, text = "Button",image = pythondark, compound = "left")        <- image is the image, compound is where to put theimage beside the text from the button(compound = left right
+		imgctk = ctk.CTkImage(light_image = Image.open("lighimage.png"), dark_image = Image.open("darkimage.png"))   <- for customtkinter we need 2 images dependeing on the theme used(dark or light)
+		button = ctk.CTk_Button(master = window, text = "Button",image = imagectk, compound = "right")
    
    - we can load an image from the hard drive:
    ex. from PIL import Image
@@ -4320,7 +4465,7 @@ images in python:
 	   modifimage = myimage.paste(im = cropedimage, box =(0,0)) 	  <- it pastes the croped image to the original image from pos 0,0
 	   modifimage = myimage.paste(cropedimage, box =(0,0,100,200))    <- it pastes the croped image to the original image from pos 0,0 until pos 100,200
 	   
-	- resize() we can resize an image with the resize function
+	- resize() we can resize an image with the resize function.Images not resize by default in tkinter
 	ex. myimage.resize((3000,2000))                                    <- it needs a tupple
 	
 	- rotate() - we can rotate am image with rotate () function

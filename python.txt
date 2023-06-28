@@ -4002,7 +4002,26 @@ Images on buttons in tkinter:
 	    canvas.grid(column = 1, columnspan = 3, row = 0, sticky = "nsew")
 		canvas.create_image(0,0,image = imagetk, anchor = "nw")
 		
-		
+create animations on buttons in tkinter:
+--------------------------------------------------------------
+   - we can have animations on buttons by displaying succesive images on a button
+   ex. frameindex = 0
+       button = CTk.Button()
+       def buttonanimate():
+	     frameindex += 1
+		 button.configure(image = listwithpathnamestopicturesinorderofanimation[frrameindex])
+		 ifframeindex<len(listwithpathnamestopicturesinorderofanimation):
+			button.after(20, butonanimate()
+
+changing the color of the titlebar in tkinter:
+--------------------------------------------------------------
+   - we can change the color of the titlebar by getting acces to windows system variables:
+   ex. import customtkinter as ctk
+	   from ctypes import windll, byref,sizeof,c_int
+	   app = ctk.CTk()
+	   HWND = windll.user32.GetParent(app.info_id())      <- app.info_id() returns the id of the window we return, getparent will return the  current window handle (windows sees it)
+	   windll.dwmapi.DmSetWindoewAttribute(HWND,0x00BBAA11, byref(c_int(0x00FFCCAA)) )        <- this function is from the windows microsoft app development documentationn (microsoft site)(color is inverted TBGR)
+	   
 destroying widgets in tkinter:
 --------------------------------------------------------------
    - to destroy a widget we can use the destroy keyword:

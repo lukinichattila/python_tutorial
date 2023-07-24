@@ -94,8 +94,9 @@ modules in python:
 		installed = {pkg.key for pkg in pkg_resources.working_set}
 		missing = required - installed
 		if missing:
-			python = sys.executable
+			python = sys.executable     <- gives the path to the executable python interpreter with executable included
 			subprocess.check_call([python, '-m', 'pip', 'install', *missing], stdout=subprocess.DEVNULL)
+			
 packages:
 ---------------------------------------------------------
    - packages are collection of *.py scriptfiles
@@ -1674,7 +1675,10 @@ exceptions:
 			work()
 		except ValueError as err:
 			print ("exception caught", err)
-	- we have base exception, and any custm exception needs to inherit from BaseException!! 
+	- we have base exception(superclass of all exceptions), and any custom exception needs to inherit from BaseException!! 
+	ex. try:
+	    except Exceptions as error:
+		   print(error)                           <- will print out the exception message if dont know what type of exception was thrown
     
 	- error mesages can be catched with the as keyword:
 	ex. try:
@@ -1792,6 +1796,9 @@ working with files
 	ex. import os
 		path = "/home / ihritik / Documents / file1.txt"
 		os.unlink(path)
+		
+	- os.chdir() we can change the directory 
+	ex. os.chdir('C:\Users\Lenovo\Downloads\Works\')
 	
 	- os.rmdir() - we can remove a folder. deleted files will not get in the recycle bin
     ex. import os
@@ -3030,7 +3037,7 @@ Entry with tkinter:
    ex. myentry.get()
    
    - we can change the properties anytime of the element with the .config(options)
-   - we can hve a blinking cursor in it with the focus() method:
+   - we can have a blinking cursor in it with the focus() method:
    ex. myentry.focus()
    -.insert(index, text) we can insert a text in the entry that will be in the box(email sign in a email box): index can be 0, END
    ex.myentry.insert(0, "aloha@aloha.com") 
@@ -3055,6 +3062,14 @@ Text with tkinter:
 	ex. text.get("1,0", END)               <- get the current value in the textbox at line 1, character 0, until the END of the textline
 	
 	- we can change the properties anytime of the element with the .config(options)
+	
+	- we can delete the content of the Text widget:
+	ex. text.delete("1.0","end")               <- deletes from the begining till the end
+	
+	- we can insert a tagged textinto the textbox:
+	ex. text = Text(parrentwindowname, height = 5, width = 30)
+        text.tag_configure("error", foreground = "black", background = "yellow")
+        text.insert(tk.END, text, ("error")          <- will insert the text with the error tag colors		
 	
 Spinbox and Combobox in tkinter:
 -----------------------------------------------------------
@@ -3610,9 +3625,26 @@ Size of widgets in Python:
 	- Size of the widgets are ambiguously set:on the widget itself and then on the layout methods
 	- the layouts overwrites the size of the widget even if set
 	ex. ttk.Label(parent, text = "label", width=50).pack(fill="x"))     fill will alter the widgets size as the width also
+
+Resizing windows in tkinter:
+---------------------------------------------------------
+	- resizable() - we can disable resizing in tkinter 
+	ex. root = tk.Tk()
+	    root.resizable(False,False)       sets resizability for the X and the Y coordonate of the window
+	
+	- we can add a sizegrip handle to a window to help r4esize a window easyer
+	ex. window = tk.Tk()
+	    window.rowconfigure(index = 0, weight = 1, uniform = "a")
+		window.rowconfigure(index = 1, weight = 0)
+		displayFrame = ttk.Frame(master = window)
+		sizeGripFrame = ttk.Frame(master = window)
+		sizeGrip = ttk.Sizegrip(master = window)
+		displayFrame.grid(row = 0, column = 0, sticky = "ewns")
+		sizeGripFrame.grid(row = 1, column = 0, sticky = "ewns")
+		sizeGrip.grid(row = 1, column = 0, sticky = "ne"))
    
 tkterminal in python:
---------------------------------------------------------------
+---------------------------------------------------------
    - we can have a terminal in python like a widget:
    ex. import tkterminal
        terminal - Terminal()
@@ -3620,6 +3652,13 @@ tkterminal in python:
 	   terminal.linebar = True
 	   terminal.pack(expand = True, fill="both")
 	   terminal.run_command("powershell.....", "y")
+    - we can emulate a terminal in python:
+	ex. terminaltext = tk.Text(window, )
+		terminaltext.pack()
+		msg = subprocess.Popen("command to execute", stdout= subprocess.PIPE, stderr = subprocess.STDOUT, shell = True, bufsize = 1, universal_newlines = True)
+	    while msg.poll() is None:
+			line = msg.stdout.readline().strip()
+			self.terminalText.insert(tk.END, line+"\n")
 
 
 Toggleing  widgets:
@@ -3840,6 +3879,12 @@ Working with multiple windows:
    - we can open a new window whenever we click a button or any other event:
       - messagebox for specialised windows: alerts, yes/no windows,etc
 	  - tk.Toplevel for a completely new window
+	ex. class DocuWindow():
+		def __init__(self,master: tk.Tk):
+			self.newDocuWindow = tk.Toplevel(master)
+			self.newDocuWindow.title("Documentation selection")                  <- creates a new window when the class is created
+			self.docuFrame = ttk.Frame(master = self.newDocuWindow)              <- atacjes a frame to the newly created frame
+				
    ex. import tkinter as tk
        from tkinter import ttk
 	   from tkinter import messagebox          <- for messagebox it is needed this module
@@ -3874,6 +3919,18 @@ Working with multiple windows:
 		button1 = ttk.Button(master = window, text="Button1", command = create_window)
 		button1.pack(expand= True)
 		window.mainloop()
+
+Destroying a tkinter widget:
+----------------------------------------------------------
+	- we can destroy windows, buttons and any other tkinter widget with the destroy tkinter function:
+	ex: root = Tk()  
+        btn1 = Button(root, text ="Button 1")
+        btn1.pack(pady = 10)
+		btn1.destroy()
+		btn2 = Button(root, text ="Button 2")
+        btn2.pack(pady = 10)
+		btn3 = Button(root, text ="Button 3", command = btn2.destroy)
+        btn3.pack(pady = 10)
 	   
 Styling with tkinter:
 ----------------------------------------------------------
@@ -4513,6 +4570,21 @@ Subprocess in Python:
          result = subprocess.run(["powershell","-c",r"cd c:/tools"], capture_output=True, text=True)
          print(result.stdout)
 		 
+	 ex. subprocess.check_call(cmd, shell=True)     <- returns without waiting for the grandchild background python process.
+	 ex. subprocess.check_output(cmd, shell=True)   <- If the output is read (it is redirected and the grandchild python process inherits the stdout pipe)
+	 
+	 - we can redirect sys.stdout.write to a function that accepts an argument:
+	 ex. localstringvar = tk.StringVar("")
+	     def assignstringtovar(x):
+			localstringvar = x
+		 sys.stdout.write = assignstringtovar
+
+sys module in python:
+-----------------------------------------------------------------
+   - we can find the path to the python interpreter:
+   ex. import sys
+       python = sys.executable                 <- gives the absolute path to the executable binary for the python interpreter(with the executable file included)
+	   
 Threads in python:
 -----------------------------------------------------------------
    - we can run a function in a new thread by creating a thread and running the function through it
@@ -4520,4 +4592,5 @@ Threads in python:
        def functorun():
 	      print("this runs on a new thread")
        newthread = threading.Thread(target = functorun)
+	   newthread.start()
 	   

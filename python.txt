@@ -1859,6 +1859,13 @@ working with files
    ex. import os
        os.rmdir("sample data") 
    
+   - we can find a list of the directorys in the current path:
+   ex. f = os.listdir(path = "x")                         <- f is a list of the directorys in the path folder.not including . and ..,, current directory is "." 
+   
+   - we can have an iterator of os.DirEntry objects in the path given by argument
+   ex. f = os.scandir(path = "path")                        <- current directory = ".", returns filetype and file attributes propertys unlike listdir. 
+       scandir.close()                                      <- closes the iterator and free resource
+   
    - we can have relative and absolute paths:
       - relative path:      <- it is relative to the position we are currently
 	  	  ./Project/readme.txt    <-  we are going down in the project folder and then we find the file readme.txt
@@ -1867,7 +1874,15 @@ working with files
 		 /This/Project/readme.txt        <- in the same drive as the script is in
    - we can go up in directory and then down:
 	  - ../../Projet/readme.txt         <- we going up 2 levels and then going down the project folder to the readme.txt
-	  
+	
+	- os.walk() -  we can have a list of all the files and directorys in a given path: os.walk("path", topdown=True, onerror=None, followlinks=False)
+	  topdown means it visits the directory structure from the upper directorys(if we want to delete the parsing directorys in directorys we need to put False as an upper directory cannot be deleted if the under directory is not empty
+	  it returns a tuple in form of root,dirs,files.root is the folder where the files are , root beeing succesively all the folders in the current path , recursively entering subfolders, dirs beeing the sub irectorys in the root 
+	ex. from os.path import join,getsize
+	    for root,dirs,files in os.walk("path"):
+		print(sum(getsize(join(root,name)) for name in files, end = " ")
+		print("bytes in: ", len (files), "non directory files")
+			
    - in python the current path is the path where we launched the script
    - we can write binary data to a file:
    ex. with open("binary",'bw') as binfile:
@@ -1936,7 +1951,7 @@ functions
    - in python there is no method overloading
 !!!- we can specify the type of the argument a function receives and the return type :
    ex. def func(l: list, index: int) -> int:          -> return type int, arguments are list and int types
-   
+   -> int: means the expected return type is an int
    - we can assign functions to variables and call them through the variables:
    Ex. def func():
 			return True
@@ -4551,7 +4566,20 @@ images in python:
 	ex. from PIL import Image
 	    myImage = Image.open("myimage.jpg")
 	    myImage.putalpha(0)                  <- 0 alpha is minimum, 255 alpha is maximum
-			
+	
+	- save(pathandfilename) - we can save an image:
+	ex. myimage = Image.open("image.png")
+	    myimage.save("c:/temp/myfile.png")
+
+Generating QR Code in python:
+---------------------------------------------------------------
+	- to install:
+    pip3 install qrcode	
+	- to import:
+     import qrcode
+	 raw_image = qrcode.make("text to be made qr code")
+	 tk_image = ImageTk.PhotoImage(raw_image)
+	 
 Subprocess in Python:
 ---------------------------------------------------------------
    - we can run external programs in python
@@ -4578,13 +4606,31 @@ Subprocess in Python:
 	     def assignstringtovar(x):
 			localstringvar = x
 		 sys.stdout.write = assignstringtovar
+		 
+	- sys.platform.startswith () - we can find out which operating system we are running
+	ex. import sys
+        if sys.platform.startswith('win'):
+           subprocess.Popen(["start", "cmd"], shell = True)                   <- if it is windows it opens the powershell
+        elif sys.platform.startswith('linux'):        
+           subprocess.Popen(['xterm'])                                        <- if is is linux it opens the xterminal
+        else:
+           print("Operating system is not Windows or Linux.")
 
 sys module in python:
 -----------------------------------------------------------------
    - we can find the path to the python interpreter:
    ex. import sys
        python = sys.executable                 <- gives the absolute path to the executable binary for the python interpreter(with the executable file included)
-	   
+
+	- sys.platform.startswith () - we can find out which operating system we are running
+	ex. import sys
+        if sys.platform.startswith('win'):
+           subprocess.Popen(["start", "cmd"], shell = True)                   <- if it is windows it opens the powershell
+        elif sys.platform.startswith('linux'):        
+           subprocess.Popen(['xterm'])                                        <- if is is linux it opens the xterminal
+        else:
+           print("Operating system is not Windows or Linux.")	
+		   
 Threads in python:
 -----------------------------------------------------------------
    - we can run a function in a new thread by creating a thread and running the function through it

@@ -716,6 +716,22 @@ if else:
        else:
             print ("nr este 0")
 
+match condition:
+------------------------------------------------------------
+	- like switch in C#
+	ex. parameter = 1
+		match parameter:   
+			case 1  : 
+				do_something(1)     
+			case 2 | 3:                 <- second or third
+				do_something(2)         
+			case 4 : 
+				do_something(4)
+			case 5 if age > 3:
+				do_something(5)
+			case _  :                               <- _ means when nothing is matched (default)
+				nothing_matched_function()
+				
 ternary operator:
 ------------------------------------------------------------
     - it is a shortened if else:
@@ -2892,6 +2908,14 @@ Graphical user interfaces with tkinter:
    
    - we can bind event to the event:
    ex. window.bind("<Escape>", lambda event: window.quit())
+   
+   - we can bind any key to the event:
+   ex. window.bind('<Key>', self.get_input)
+	def get_input(self, event):
+			match event.keycode:
+				case 37: print ("left")
+				case 36: print ("up")
+				case 35: print ("down")
 
 	- fullscreen() - we can run the window fullscreen:
 	ex. window.attributes("- fullscren", True)

@@ -51,6 +51,10 @@ modules in python:
    - modules are searched in "sys.path" - it is a list of paths where python library files are located and the current directory
    - PYTHONPATH - environment variable in windows
    
+   - we can search for an environment variable in Python:
+   ex. import os
+       print(os.environ['HOME'])      <- prints the "HOME" environment variable value
+   
    - we can insert a new path folder in sys.path:
    ex. sys.path.insert(0,'c:/myscript')                  <- sys.path is a list where we can insert elements 
    
@@ -248,7 +252,7 @@ data types in python and variables
 	a = hex(12)             <- "0xc"      x means hexa
 	
 	- bin () - we can find the binary representation of a number.returns a string:
-	ex. a = bine (1234)    <- 0b100010101   b means binary
+	ex. a = bin (1234)    <- 0b100010101   b means binary
 	
 	- pow() - we can raise a value to power n:
 	ex. a = pow (2,4)         <- 2^4
@@ -646,7 +650,7 @@ REGEX or regular expressions in python:
 	   
 conversions:
 ------------------------------------------------------------
-   - we can convert one type to another with they type(variablename)
+   - we can convert one type to another with the type(variablename)
    Ex. varsta=input("ce varsta ai?")
        b=int(varsta)                     <- converts string to int
 	
@@ -755,9 +759,9 @@ python operators:
 	 * - multiplication - x*y
 	 / - division - x/y
 	 % - modulus - x%y
-	 ** - exponential - x**you
+	 ** - exponential - x**y
 	 ** - square root - 100 ** 0.5
-	 // - floor division  x//you
+	 // - floor division  x//y
    - Assignment operators:
      = - equal - x=5
      += - plus equal - x=x+5
@@ -984,7 +988,7 @@ iterators:
 	ex. my_string=["a","b","c","d","e","f","g"]
         iteratorom=iter(my_string)
         for i in range (0, len(my_string)):
-            print(next(iteratorom))                            /prints: a b  d e f g
+            print(next(iteratorom))                            /prints: a b  c d e f g
 			
 working with lists:
 ----------------------------------------------------------	   
@@ -1034,7 +1038,7 @@ working with lists:
 	   
    - clear(): we can clear all the elements from a list with :
    ex. list1=["Atti","Tibi","Shivan","Gauron","Feri"]
-       list1.clear()                                       <- he list becomes empty
+       list1.clear()                                       <- the list becomes empty
 	   
    - copy(): we can make a copy of a list with :
    ex. list1=["Atti","Tibi","Shivan","Gauron","Feri"] 
@@ -1087,7 +1091,7 @@ working with lists:
    ex. print(min(listname))
        print(min(1,2,3))
    
-   - choice(): we ca nreturn a random element from a list:
+   - choice(): we can return a random element from a list:
    ex. import random
 		list=["asda","dfgD","ert"]
 		random.choice(mylist)

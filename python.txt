@@ -1408,7 +1408,7 @@ dictionary comprehension:
    ex. newdict = {newkey:newvalue for (key,value) in dict.items()}            <- dict.items() are the pair of key values from the dictionaries 
        newdict = {newkey:newvalue for (key,value) in dict.items() if condition True} 
    ex. names = ['Alex","Feri","Tibi"]
-       student_score = {student:random:randint(1,100) for student in names}
+       student_score = {student:random.randint(1,100) for student in names}
    
    ex. student_score = {"Alex":24,"Tibi":34,"Feri":12}
        passed_student = {student:scores for (student,score) in student_score.items() if score>=15)   
@@ -1855,7 +1855,7 @@ working with files
       os.path.getsize(pathwithfilename)
    ex. for intrare in os.listdir(folder):
           path_name =f'{folder}/{intrare}'
-		  if(os.path.isfile(path_name):
+		  if os.path.isfile(path_name):
 			size=os.path.getsize(pathname)
 			print(f'{contor:3},{intrare:5},{size<6}')
    
@@ -2224,7 +2224,7 @@ Objects in python:
 		 def __init__(self, name, age):
 		    self.name=named
 			self.age=age
-		def __str__(self)"
+		def __str__(self):
 			return ("T%his is the class")         <- when print(p1) it will return and print "This is the class"
 		 def speak(self)
 		    print("{self.name} aloha")
@@ -2383,8 +2383,8 @@ Inheritance:
 		 def speak(self)
 		    print("aloha")
 			
-	  class Student(Persona):
-	     pas
+	  class Student(Person):
+	     pass
    - when a class inherits an other it gets the other classes properties and methods
    
    - we can initialize the parent class when we inherit with the super keyword:
@@ -2436,7 +2436,7 @@ Standard built in inheritable methods for objects (dunder functions):
    - __call__()  - we can call the object like a function and it returns or not what this function does:
    ex. class Monster(object):
 		  __call__(self):
-			print("object was called!)
+			print("object was called!")
 		a = Monster();
 		a()                                    <- object was called 
 	
@@ -2467,16 +2467,16 @@ Standard built in inheritable methods for objects (dunder functions):
 			
 Method types:
 ------------------------------------------------------------------
-   - classmethods are built in decorators that that receives the class as an implicit first argument .
+   - classmethods are built in decorators that receives the class as an implicit first argument .
    - class methods are bound to the class and not the object of it
    - they have acces to the state of the class as it points to the class and takes a class parameter that points to the class
-   - it can modify a class state that that would apply across all the instances(objects) of the class.ex it can modify a variable that will be apliable to  all the objects
-   - class methods are used to create factory methods.A factory method returns class objects
+   - it can modify a class state that would apply across all the instances(objects) of the class. Ex. it can modify a variable that will be apliable to  all the objects
+   - class methods are used to create factory methods. A factory method returns class objects
    ex. class C(object):
 		@classmethod
-		def fun(cls, arg1,...)
-			return "class method called", cls
-	- static methods not receive implicit first argument .A static method is also a method that is bound to the class and not the object of the class 
+		def fun(self, arg1,...)
+			return "class method called", self
+	- static methods not receive implicit first argument. A static method is also a method that is bound to the class and not the object of the class 
 	- static methods cant modify the class state and they dont know anything about the class state
 	- static methods are utility type methods.They not operate with the classes data
 	
@@ -2486,7 +2486,7 @@ Method types:
 			return max(x, y)            <- not operates with the classes variables
 decorators:
 -----------------------------------------------------------------------
-   - decorators are functions that add extra functionality to functions.  Essentialy wrappers that add extra code:the decorator returns a function defined in itself that executes the passed function and extra code
+   - decorators are functions that add extra functionality to functions. Essentialy wrappers that add extra code: the decorator returns a function defined in itself that executes the passed function and extra code
    Ex. def uppercase_decorator(func):
           def wrapper():
             result = func()
@@ -2497,7 +2497,7 @@ decorators:
 		  return "hello"
        print(greet())  # Output: HELLO            <- when greet will be called it will call it through the decorator function like a function pass by argument
 
-   - we can have multiple decorators defined on afunction:
+   - we can have multiple decorators defined on a function:
    ex. def uppercase_decorator(func):
           def wrapper():
             result = func()
@@ -2603,12 +2603,12 @@ polymorphism
    - we can have compile time polymorphism: it works by passing an object to a function and calling a function of the object that has to be with the same name 
     ex. class employee():
        def name(self)
-	     print("Tibi is his name)
+	     print("Tibi is his name")
 	   def salary(self)
-	     print("his slary is 350")
+	     print("his salary is 350")
       class employee2():
         def name(self)
-	      print("Zoli is his name)
+	      print("Zoli is his name")
 	    def salary(self)
 	      print("his slary is 250")
       def func(obj):
@@ -2629,11 +2629,11 @@ polymorphism
         
 		class childemployee1(employee):
            def earn(self):    runtime polimoprphism
-                print(:no money")
+                print("no money")
         
 		class childemployee2(employee):
            def earn(self):    runtime polimoprphism
-                print(:has money")
+                print("has money")
         c=childemployee1
 		c.earn(employee)                     <- acces the function from the parentclass, error if not
 		d=childemployee2
@@ -2682,7 +2682,7 @@ encapsulation:
 		        self.__maxearn=10
 	     def earning(self):                        
 		     print(f"earning: {self.__maxearn}")
-	     def setmaxearn((self, earn):              <- setter method
+	     def setmaxearn(self, earn):              <- setter method
 		     self.__maxearn=earn
 			 
 abstraction:
@@ -2733,9 +2733,9 @@ event listeners:
    
 working with CSV files:
 --------------------------------------------------------
-   - we can easily work with csv files in python by importing the csv module.for working with excel files -> openpyxl library,to work with google sheets -> google sheets python API
+   - we can easily work with csv files in python by importing the csv module. for working with excel files -> openpyxl library,to work with google sheets -> google sheets python API
    ex. import csv
-   
+      
    - we can read in a list from a csv file with the csv.reader().
    ex. import csv  
        with open ("file.csv","r", encoding = "utf-8") as data file:
@@ -2758,7 +2758,7 @@ working with CSV files:
 working with pdf files in python:
 ----------------------------------------------------------
    - a scanned image in a pdf file cannot be read by python as well tables
-   - we can work with pdf files by installing and importing PyPDF2 library.there are multiple libraries that work with PyPDF2, some payed
+   - we can work with pdf files by installing and importing PyPDF2 library. there are multiple libraries that work with PyPDF2, some payed
    - working with pdf files resumes just to read the data from it, this library does not support full writing functionality
    - ex. pip install PyPDF2
    ex. import PyPDF2
@@ -2861,6 +2861,7 @@ pandas:
 	   #loop through rows of a data frame:
 	   for (index,rows) in student_data_frame.iterrows():
 	       print(rows.student)                           <- or rows["student"]
+        
    - loc() we can add new rows to a DataFrame with the loc function:
    ex. import pandas
        database = pandas.read_csv("birthdays.csv")
@@ -2872,7 +2873,7 @@ pandas:
 Graphical user interfaces with tkinter:
 ------------------------------------------------------------------------------
    - we can find tkinter related information on tcl.tk  
-  - we can invoke the graphic user interface with tkinter
+   - we can invoke the graphic user interface with tkinter
    ex. import tkinter
        window = tkinter.Tk()         <- invoke the windows creation
 	   windows.config(background = "Red")
@@ -2907,7 +2908,7 @@ Graphical user interfaces with tkinter:
    - we can set the atribute of the window to transparent:
    ex. window.attributes("-alpha",1)               <- set the transparence
    
-   = we can make the window transparent:
+   - we can make the window transparent:
    ex. window.attributes("topmost" = True)     <- the window will be over other windows
    
    - we can bind event to the event:
@@ -2922,7 +2923,7 @@ Graphical user interfaces with tkinter:
 				case 35: print ("down")
 
 	- fullscreen() - we can run the window fullscreen:
-	ex. window.attributes("- fullscren", True)
+	ex. window.attributes("- fullscreen", True)
 	
    - we can change the tkinter logo with iconbitmap("logofile.ico")
    ex. window.iconbitmap("myicon.ico")
@@ -2937,7 +2938,7 @@ Graphical user interfaces with tkinter:
    - pack() - the geometry manager organizes widgets in blocks before placing them in the parent widgets
    - syntax:
    ex. widget.pack(pack options)                <- pack options are **kwarg,we have to specify the key value pair
-         options : - expand  - when set to tru the widget expand to fill any space that it can fill
+         options : - expand  - when set to True the widget expand to fill any space that it can fill
 		           - fill - Determines whether widgets fill any extra space alocated by the packer.
 				     NONE(default), Y fill horizontaly, Y - fill vertically, BOTH - fill X and Y
 				   - side - determines which side of the parent widget packs aginst:TOP, BOTTTOM, LEFT, RIGHT
@@ -2964,14 +2965,14 @@ Tkinter variables:
    - StringVar, IntVar, DoubleVar,BooleanVar - tkinter variable that stores a string, int float or boolean
    Ex. import tkinter as tk
 	   def button_func()
-	       print(string_var.get())                                            <- will print out the string_var = tk.StringVar object
+	       print(string_var.get())                                            <- will print out the string_var = tk.StringVar object in text format
 	   window = tk.Tk()
 	   string_var = tk.StringVar(value = "start  value")                      <- StringVar Object, it is initialized with "start  value"
-	   label = tk.Label(master = window, text='label', textvariable = stringvar)
+	   label = tk.Label(master = window, text='label', textvariable = string_var)
 	   label.pack()
 	   entry = tk.Entry(master = window, textvariable = string_var)          <- label and entry share the same variable string_var. whenever the first changes the variable, the second widget changes also
 	   entry.pack() 
-	   button = tk.Button(master = window, text = "button", command = button_func }})        <- when button push, it will print out to the console what we entered in the entry
+	   button = tk.Button(master = window, text = "button", command = button_func )        <- when button push, it will print out to the console what we entered in the entry
        window.mainloop()
 	   
 Tkinter events:
@@ -2991,7 +2992,7 @@ Tkinter events:
        def functionreferencetobecalled(event):    <- when the functionreference is called after the bind event happened, tkinter expect the functionreference have an argument, and it will pass the "event" parameter to it
 	       print (event.char)                     <- it will show the key pressed
 	   window = tk.Tk()
-	   window. bind("<Alt-KeyPress-a>", lambda event: print(event))            <- binds to the main window the the Alt+a key combination. tkinter will automatically insert "event" that is  info about the event to the callable method that is why lambda event 
+	   window. bind("<Alt-KeyPress-a>", lambda event: print(event))            <- binds to the main window the Alt+a key combination. tkinter will automatically insert "event" that is  info about the event to the callable method that is why lambda event 
        window.unbind_all("<KeyPress>")                                         <- we can remove the event from the widget
 	   window.pack()       
    ex. def getpos(event):
@@ -3006,7 +3007,7 @@ Tkinter events:
 			 window.bind("<Shift-MouseWheel>", lambda event: print("Mousewheel"))           <- when shift is pressed an mousewheel rotated it will print the message
 			 window.mainloop()
 			 
-padding in tkinter(making a space around an element or window border where nothing comes:
+padding in tkinter(making a space around an element or window border where nothing comes):
 --------------------------------------------------------------
    ex.window=tkinter.Tk()
        window.config(padx=100,pady=100)            <- safespace from the border of the window 
@@ -3032,17 +3033,18 @@ Buttons with TKinter:
 		print("i got clicked")
       mybutton = tkinter.Button(framename,text = "Klick me!", command = functionnametobecalled)             <- command calls the functioname when clicked on it
 	  mybutton.pack(anchor = CENTER)                                    <- puts the button in the center of the frame
+   
    - we can change the label after the creation with 
    ex. mybuton.config(text="fgdF")
    
    ex. from tkinter import *
        class MyButtons:
-        def --init--(self, rootone):
+        def __init__(self, rootone):
           frame=Frame(rootone)
           frame.pack()
           self.printbutton=Button(frame,text="Click here", command=self.printmessage)
           self.printbutton.pack()
-          self.quitbuttton=Button(frame, text="Exit", command=frame.quit)                         /frame.quit  kimehy a windowbol
+          self.quitbuttton=Button(frame, text="Exit", command=frame.quit)                         /frame.quit  kimegy a windowbol
           self.quitbutton.pack(side=LEFT)
         def printmessage(self):
           print("Button clicked")
@@ -3051,7 +3053,7 @@ Buttons with TKinter:
         root.mainloop()
 	
 	- we can pass a tkinter variable to the command button:
-	ex. def def printvalue(mytkinterstring):
+	ex. def printvalue(mytkinterstring):
           def inner():                         <- command = printvalue(mytkinterstring) <- needs to return something, that is why it returns the inner function, otherwise it will not execute
              print(mytkinterstring.get())
              print("button was pressed!")
@@ -3060,7 +3062,7 @@ Buttons with TKinter:
 		oneentry = tk.Entry(master = window, textvariable = mytkinterstring )
 		oneentry.pack()
 		onebutton = tk.Button(master = window, text = "Button", command = printvalue(mytkinterstring))    <- passes to the function the tkinter var StringVar as argument to the command function.it represents the entry field value
-		onebutton.pack()                                                                                     the smae can be done with command = lambda:printvalue(mytkinterstring) 
+		onebutton.pack()                                                                                     the same can be done with command = lambda:printvalue(mytkinterstring) 
 		
    - we can change the properties anytime of the element with the .config(options)
    

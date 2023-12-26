@@ -1,5 +1,5 @@
    
-!!!- pythontutor.com
+!!!- pythontutor.com!!
    - 2 types of languages: - interpreted and compiled
      - c, C++ <- compiled
 	 - python, java, javascript <- interpreted
@@ -40,7 +40,7 @@ command line arguments:
     ex. try:
 	      myargument=argv[1]
 		except:
-		   print("we have no arguments!"
+		   print("we have no arguments!")
 		   exit()
 	- we can read all the arguments after the filename
 	ex. for filename in sys.argv[1:]:   <- all the arguments after the filename
@@ -935,7 +935,7 @@ python lists:
    Ex. l=[4,'casa',True, [33,12],0]
    
    
-range of indexes - list slicing (
+range of indexes - list slicing 
 ----------------------------------------------------------
    - we can specify a range of indexes by specifying where to start and where to end the range
 !!!- when specifying a range, the return value will be a new list with the specified items
@@ -1080,8 +1080,8 @@ working with lists:
 	   
    - if we want to find a string in a list:
    ex. l=["wer","dffg","erty"]
-       if("wer" in l:                 <- true because wer is an element in language
-	   if("w" in l:                   <- false because w is not an element in l(it is part of an element in l)
+       if "wer" in l:                 <- true because wer is an element in language
+	   if "w" in l:                   <- false because w is not an element in l(it is part of an element in l)
 
    - max(): we can found the max value element in a list with the max() function:
    ex. print(max(listname))
@@ -2130,6 +2130,14 @@ functions
 	- in python overriding method is defining the same name method in the subclass
 	- if we want to refer to the super class methodname we can call it with super
 	ex. super().metodanem(argument)
+
+    - @staticmethod - static function inside a class can be called without instantiateing the class:
+    ex. class Funcex():
+            @staticmethod
+            def printVar(self,a):
+                print(a)
+        Funcex.printVar(5)
+
 	   
 lambda functions
 ------------------------------------------------------------------
@@ -2455,7 +2463,14 @@ Standard built in inheritable methods for objects (dunder functions):
     the eq function could look like this:
 	def __eq__(self, second):
 	    return (self.nume==second.nume and self.varsta==second.varsta)
-		
+
+	- __and__() -  method implements the built-in Bitwise AND & operation
+    ex. class Data:        
+            def __and__(self, other):
+                return '... my result of AND ...'
+        a = Data()
+        b = Data()
+        print(a & b)
 		
    class Circle:
 		def __lt__(self, second):              <- defining the less then function like comparison operator
@@ -2484,6 +2499,12 @@ Method types:
 		@staticmethod
 		def get_max_value(x, y):
 			return max(x, y)            <- not operates with the classes variables
+    - @staticmethod - static function inside a class can be called without instantiateing the class:
+    ex. class Funcex():
+            @staticmethod
+            def printVar(self,a):
+                print(a)
+        Funcex.printVar(5)
 decorators:
 -----------------------------------------------------------------------
    - decorators are functions that add extra functionality to functions. Essentialy wrappers that add extra code: the decorator returns a function defined in itself that executes the passed function and extra code
@@ -3006,6 +3027,14 @@ Tkinter events:
 			 window.bind("<Motion>", getpos)    <- getpos is passed as a refernce, it is not called.The line tells python that whenever a mouse move is recorded, call the getpos function and the event is automatically passed to the function when it is called
 			 window.bind("<Shift-MouseWheel>", lambda event: print("Mousewheel"))           <- when shift is pressed an mousewheel rotated it will print the message
 			 window.mainloop()
+    
+    ex. self.bind('<Key>', self.get_input)
+        def get_input(self, event):
+            match event.keycode:
+                case 37: print("left")
+                case 38: print("up")
+                case 39: print("right")
+                case 40: print("down")
 			 
 padding in tkinter(making a space around an element or window border where nothing comes):
 --------------------------------------------------------------
@@ -4660,6 +4689,10 @@ sys module in python:
            subprocess.Popen(['xterm'])                                        <- if is is linux it opens the xterminal
         else:
            print("Operating system is not Windows or Linux.")	
+    
+    - sys.exit() - we can exit a python aplication 
+    ex. from sys import exit
+        exit()
 		   
 Threads in python:
 -----------------------------------------------------------------
@@ -4669,4 +4702,114 @@ Threads in python:
 	      print("this runs on a new thread")
        newthread = threading.Thread(target = functorun)
 	   newthread.start()
-	   
+
+
+Object oriented design patterns:
+----------------------------------------------------------------------------------
+    - Single responsibility principle
+    - open closed principle:
+        - a class should be open to extension and closed for modification aka id we want to add additional functionality, we extend the class with another class
+       ex. # Abstract base class (closed for modification)
+            class Shape:
+                @abstractmethod
+                def area(self):
+                    pass
+            # Concrete classes (open for extension)
+            class Square(Shape):
+                def __init__(self, side):
+                    self.side = side    
+                def area(self):
+                    return self.side * self.side
+            class Circle(Shape):
+                def __init__(self, radius):
+                    self.radius = radius    
+                def area(self):
+                    return 3.14 * self.radius * self.radius
+            # New shape without modifying existing code (open for extension)
+            class Triangle(Shape):
+                def __init__(self, base, height):
+                    self.base = base
+                    self.height = height    
+                def area(self):
+                    return 0.5 * self.base * self.height
+            # Client code
+            def calculate_area(shape):
+                return shape.area()
+            # Usage
+            square = Square(5)
+            circle = Circle(3)
+            triangle = Triangle(4, 6)
+            print("Square Area:", calculate_area(square))
+            print("Circle Area:", calculate_area(circle))
+            print("Triangle Area:", calculate_area(triangle))
+        
+    - Liskov substitution principle:
+        - objects of a superclass should be able to be replaced with objects of a subclass without affecting the correctness of the program. 
+          In other words, if a class S is a subclass of class T, an object of class T should be replaceable with an object of class S without affecting the correctness of the program. ex The inheriting classes should not modify the number of parameters of functions, etc
+        ex. # Base class
+            class Shape:
+                @abstractmethod
+                def area(self):
+                    pass
+            # Subclasses
+            class Square(Shape):
+                def __init__(self, side):
+                    self.side = side    
+                def area(self):
+                    return self.side * self.side
+            class Circle(Shape):
+                def __init__(self, radius):
+                    self.radius = radius    
+                def area(self):
+                    return 3.14 * self.radius * self.radius
+            # Function using the Liskov Substitution Principle
+            def print_area(shape):
+                print("Area:", shape.area())
+            # Usage
+            square = Square(5)
+            circle = Circle(3)
+    
+    - Interface segregation principal
+        -  a class should not be forced to implement interfaces it does not use. 
+           In other words, it's better to have several small, specific interfaces rather than a large, general one.
+           Instead of having a class with lots of propertys and functions (the inheriting classes maybe will not use all of the classes propertys and functions)
+           better have more small classes with propertys and functions that will be inherited if needed
+        ex. class Printer:
+                @abstractmethod
+                def printing(self, document)
+                    pass
+            class Scanner:
+                @abstractmethod
+                def scan (self, document)
+                    pass
+            class Myprinter (Printer, Scanner):       
+                def printing(self, document):
+                    print(document)
+                def scan(self, document):
+                    print (document)
+
+    - dependency inversion principle
+        - high level modules should not depende directly on lower level modules, instead they should depend on abstractions(abstract classes, methods)
+            If a class has some business with a second  class, better have an abstract class that is inherited by the secon class and the first class 
+            calls the abstract class method that is implemented in the lower level class
+        ex. # Base class
+            class Shape:
+                @abstractmethod
+                def area(self):
+                    pass
+            # Subclasses
+            class Square(Shape):
+                def __init__(self, side):
+                    self.side = side    
+                def area(self):
+                    return self.side * self.side
+            class Circle(Shape):
+                def __init__(self, radius):
+                    self.radius = radius    
+                def area(self):
+                    return 3.14 * self.radius * self.radius
+            class Userclass:
+                def calcarea(self, shape)            
+                    self.area = shape.area()   <- better call a function declared in an abstract class that we know it is implemented in a lower level class then work with a lower levels class atribute that will break if the implementation  of the lower level class will change
+
+            

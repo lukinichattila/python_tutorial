@@ -4811,5 +4811,58 @@ Object oriented design patterns:
             class Userclass:
                 def calcarea(self, shape)            
                     self.area = shape.area()   <- better call a function declared in an abstract class that we know it is implemented in a lower level class then work with a lower levels class atribute that will break if the implementation  of the lower level class will change
-
+    - builder                 
+        - creational design pattern that separates the construction of a complex object from its representation, allowing the same construction process to create different representations.
+          - Initialization of members of the created object falls to responsability of an other class (object) that returns an object initialized in the requested manner
+          - aka. creates a director class that gets as an argument a builder  class that has implemented and returns a class that returns an object where member variables are initialized in a way indicated by the director class
+            the director class is not necessary, the builder object can be created and those initializer functions called that initializes an object the way we want and returns the created object from inside of it
+        ex. class Computer:
+                def __init__(self, CPU, memory, storage, GPU):
+                    self.CPU = CPU
+                    self.memory = memory
+                    self.storage = storage
+                    self.GPU = GPU
+                def __str__(self):
+                    return f"Computer: CPU={self.CPU}, Memory={self.memory}, Storage={self.storage}, GPU={self.GPU}"
+            # Abstract Builder interface
+            class ComputerBuilder:
+                def build_CPU(self, CPU):
+                    pass
+                def build_memory(self, memory):
+                    pass
+                def build_storage(self, storage):
+                    pass
+                def build_GPU(self, GPU):
+                    pass
+                def get_computer(self):
+                    pass
+            # Concrete Builder class implementing the Builder interface
+            class DesktopBuilder(ComputerBuilder):
+                def __init__(self):
+                    self.computer = Computer("Desktop CPU", "8GB", "1TB HDD", "Integrated GPU")
+                def build_CPU(self, CPU):
+                 self.computer.CPU = CPU
+                def build_memory(self, memory):
+                   self.computer.memory = memory
+                def build_storage(self, storage):
+                    self.computer.storage = storage
+                def build_GPU(self, GPU):
+                    self.computer.GPU = GPU
+                def get_computer(self):
+                   return self.computer
+            # Director class that orchestrates the construction using the builder
+            class Director:
+                def construct(self, builder):
+                    builder.build_CPU("Laptop CPU")
+                    builder.build_memory("16GB")
+                    builder.build_storage("512GB SSD")
+                    builder.build_GPU("Dedicated GPU")
+            # Client code
+            if __name__ == "__main__":
+                desktop_builder = DesktopBuilder()
+                director = Director()
+                # Construct a desktop computer
+                director.construct(desktop_builder)
+                desktop_computer = desktop_builder.get_computer()
+                print(desktop_computer)
             

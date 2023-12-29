@@ -1733,7 +1733,7 @@ eval and exec:
 	   exec("a=10")                                    <- a=10
 	   
    
-working with files
+working with files. os module
 -------------------------------------------------------------------
    - file acces mode: r - read, a - append, w - write, x - create, t - text mode, b - binary mode
    - open(): we can open a file with the open function: open mode: w - write, r- read, t- text     - more on help
@@ -1794,6 +1794,7 @@ working with files
 	- os.getcwd():we can get the current working directory:
 	Ex. import os
 		a = os.getcwd()          <- get current working directory   -> "C;\\Users\\Documents"
+		
    - os.path.isdir(): we can check if a string is a foldername with os.path.isdir()
    ex. import os
       if not os.path.isdir(folderstringname):
@@ -1842,9 +1843,22 @@ working with files
 			print (f"the subfolders are {i}")
 		for j in files:
 			print (f"the files are {j}")
+	
+	- we can issue git commands in a repository:
+	ex. def execute():
+		os.chdir (r"d:/temp/") 
+		print(os.getcwd())
+		d = subprocess.call(['git', 'clone', 'git@github.com:lukinichattila/statictest.git'])
+		print (d,"\n")
+		os.chdir (r"d:/temp/statictest/")
+		d = subprocess.call(['git', 'clone', 'git@github.com:lukinichattila/python_tutorial.git'])
+		d = subprocess.call(['git', 'config', '--global', 'safe.directory', '*'])                   - needed to not give error: fatal: detected dubious ownership in repository at
+		os.chdir (r"d:/temp/statictest/python_tutorial/")
+		d = subprocess.call(['git', 'checkout', '84fd96a'])
+		os.chdir (r"d:/temp/statictest/")
+		d = subprocess.call(['git', 'checkout', '54cf090'])		
 		
-		
-   - exists(): we can find out if a file exist or not with exists().if there is no such file, False, else True:
+   - os.path.exists(): we can find out if a file exist or not with exists().if there is no such file, False, else True:
    ex. from os.path import exists
        fileexists=exists(path to file)
    ex. import os.path
@@ -1871,18 +1885,18 @@ working with files
 		for cnt,t in enumerate(sortate,1):                     enumerate(sortate,1)   <- starts with element 1
 		   print(f'{cnt:3},{t[1]:22}, {t[0]:4}')
 
-   - we can delete a file: 
+   - os.remove - we can delete a file: 
    ex. import os
        os.remove("myfile.txt")
    
-   - we can delete a folder:
+   - os.rmdir _ we can delete a folder:
    ex. import os
        os.rmdir("sample data") 
    
-   - we can find a list of the directorys in the current path:
+   - os.listdir - we can find a list of the directorys in the current path:
    ex. f = os.listdir(path = "x")                         <- f is a list of the directorys in the path folder.not including . and ..,, current directory is "." 
    
-   - we can have an iterator of os.DirEntry objects in the path given by argument
+   - os.scandir - we can have an iterator of os.DirEntry objects in the path given by argument
    ex. f = os.scandir(path = "path")                        <- current directory = ".", returns filetype and file attributes propertys unlike listdir. 
        scandir.close()                                      <- closes the iterator and free resource
    
@@ -1908,6 +1922,7 @@ working with files
    ex. with open("binary",'bw') as binfile:
        for i in range(17):
          binfile.write(bytes([i])                              /must be converted to binary otherwise error
+
    - we can read binary data from a file:
    ex. with open("binary",'br')as binfile:
        or b in binfile:
@@ -2134,7 +2149,7 @@ functions
     - @staticmethod - static function inside a class can be called without instantiateing the class:
     ex. class Funcex():
             @staticmethod
-            def printVar(self,a):
+            def printVar(a):        <- no self, because the class is not instantiated into an object!!!!!!
                 print(a)
         Funcex.printVar(5)
 
@@ -4865,4 +4880,101 @@ Object oriented design patterns:
                 director.construct(desktop_builder)
                 desktop_computer = desktop_builder.get_computer()
                 print(desktop_computer)
-            
+				
+	- factory method creational design pattern
+		- usually it creates classes that inherit the same abstract class
+		- we have an abstract create class that has a method that will create the objects but not implemented.Then the inheriting classes implement the abstract class and the method returns an object of the desired type
+		  then we will have a method that will receive the abstract class type object but it will call the implemented function that (polymorphic behaviour)
+		ex. class Animal:
+				def speak(self):
+					pass
+			# Concrete products
+			class Dog(Animal):
+				def speak(self):
+					return "Woof!"
+			class Cat(Animal):
+				def speak(self):
+					return "Meow!"
+			# Factory interface
+			class AnimalFactory:
+				def create_animal(self):
+					pass
+			# Concrete factories
+			class DogFactory(AnimalFactory):
+				def create_animal(self):
+					return Dog()
+			class CatFactory(AnimalFactory):
+				def create_animal(self):
+					return Cat()
+			# Client code
+			def get_animal_sound(factory):
+				animal = factory.create_animal()
+				return animal.speak()
+			# Example usage
+			if __name__ == "__main__":
+				dog_factory = DogFactory()
+				cat_factory = CatFactory()
+                dog_sound = get_animal_sound(dog_factory)
+				cat_sound = get_animal_sound(cat_factory)
+				print(f"Dog says: {dog_sound}")
+				print(f"Cat says: {cat_sound}")
+				
+	- abstract factory creational design pattern
+		- The Abstract Factory Design Pattern provides an interface for creating families of related or dependent objects without specifying their concrete classes. 
+		  It's an extension of the Factory Method pattern, where you have multiple factories, each producing different types of objects.
+		- basicly we have more factorys that inherit the abstract factory , each creating a different instance  of the same classes that inherit the same abstract classes
+		Ex. from abc import ABC, abstractmethod
+			# Abstract products
+			class Animal(ABC):
+				@abstractmethod
+				def speak(self):
+					pass
+			class Color(ABC):
+				@abstractmethod
+				def fill(self):
+					pass
+			# Concrete products
+			class Dog(Animal):
+				def speak(self):
+					return "Woof!"
+			class Cat(Animal):
+				def speak(self):
+					return "Meow!"
+			class Brown(Color):
+				def fill(self):
+					return "Brown color filled"
+			class Black(Color):
+				def fill(self):
+					return "Black color filled"
+			# Abstract factory interface
+			class AbstractFactory(ABC):
+				@abstractmethod
+				def create_animal(self):
+					pass
+				@abstractmethod
+				def create_color(self):
+					pass
+			# Concrete factories
+			class DogFactory(AbstractFactory):
+				def create_animal(self):
+					return Dog()
+				def create_color(self):
+					return Brown()
+			class CatFactory(AbstractFactory):
+				def create_animal(self):
+					return Cat()
+				def create_color(self):
+					return Black()
+			# Client code
+			def get_pet_and_color(factory):
+				animal = factory.create_animal()
+				color = factory.create_color()
+				return f"{animal.speak()} - {color.fill()}"
+			# Example usage
+			if __name__ == "__main__":
+				dog_factory = DogFactory()
+				cat_factory = CatFactory()
+				dog_info = get_pet_and_color(dog_factory)
+				cat_info = get_pet_and_color(cat_factory)
+				print(f"Dog: {dog_info}")
+				print(f"Cat: {cat_info}")

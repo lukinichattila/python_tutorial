@@ -903,7 +903,19 @@ colections:
     - key - value pairs
     - speed
     - unnique keys
-   - list - mutable/unmutable	   
+   - list - mutable/unmutable	 
+
+enumerations:
+----------------------------------------------------------
+	- in python, enumeration can be simulated with the Enum abstract class:
+	ex. from enum import Enum, auto
+		class Color(Enum):
+			RED = auto()      <- The auto() function is used to automatically assign values to the members of an enumeration, starting from 1 and incrementing by 1 for each subsequent member.
+			GREEN = auto()
+			BLUE = auto()
+		print(Color.RED)    # Output: Color.RED
+		print(Color.GREEN)  # Output: Color.GREEN
+		print(Color.BLUE)   # Output: Color.BLUE
 
 python lists:
 ----------------------------------------------------------
@@ -2258,6 +2270,12 @@ Objects in python:
 	  p1.age=15
       print(p1.__dict__)    <- __dict__ is a dictionary and prints all the elements of the object like a dictionary
 	  
+	- we can verify if two classes are the same instance:
+	ex. a = Turtle()
+		b = Turtle()
+		if a is b:
+			print("the 2 classes are the same)
+	  
 !!!- self parameter is a reference to the current instance of the class and is used to acces variables and functions that belong to the class(this in java and c++)
      it does not need to be called self, but needs to be the first parameter of any method of a class
    ex. class Person:
@@ -2725,7 +2743,8 @@ abstraction:
 ------------------------------------------------------
   - we can abstractize the methods of a class with a pass
   - the subclasses needs to implement the parent class abstract method:
-  ex. class employee(ABC):
+  ex. from abc import ABC                 <- to use the Abstract Base class we need to import it from a module
+      class employee(ABC):                <- ABC means Abstract Base Class
          def emp_id(self, id, name, age):         <- abstraction
 		     pass
 	  class childemployee(employee)
@@ -4978,3 +4997,807 @@ Object oriented design patterns:
 				cat_info = get_pet_and_color(cat_factory)
 				print(f"Dog: {dog_info}")
 				print(f"Cat: {cat_info}")
+				
+	- prototype design pattern
+		- creational design pattern that allows you to create new objects by copying an existing object, known as the prototype. 
+		  This pattern is useful when the cost of creating a new object is more expensive or complex than copying an existing one.
+		  This design pattern uses the deepcopy(..) method from the copy module in python
+		Ex. from copy import deepcopy
+			# Prototype class
+			class AnimalPrototype:
+				def clone(self):
+					pass
+			# Concrete prototype classes
+			class Dog(AnimalPrototype):
+				def __init__(self, name):
+					self.name = name
+				def clone(self):
+					return deepcopy(self)
+				def speak(self):
+					return f"{self.name} says Woof!"
+			class Cat(AnimalPrototype):
+				def __init__(self, name):
+					self.name = name
+				def clone(self):
+					return deepcopy(self)
+				def speak(self):
+					return f"{self.name} says Meow!"
+			# Client code
+			if __name__ == "__main__":
+				dog_prototype = Dog(name="Buddy")
+				cat_prototype = Cat(name="Whiskers")
+				# Cloning objects
+				new_dog = dog_prototype.clone()
+				new_cat = cat_prototype.clone()
+				# Testing the cloned objects
+				print(new_dog.speak())  # Output: Buddy says Woof!
+				print(new_cat.speak())  # Output: Whiskers says Meow!
+	
+	- Singleton design pattern:
+		- used when there is only one need for an object
+		ex. class Database:
+				_instance = {}
+				def __new__(self, *args, **kwargs):
+					if self not in self._instance:
+						self._instance[self] = super(Database, self).__new__(self, *args, **kwargs)
+					return self._instance[self]
+	
+	- Adapter design patern
+		- allows the interface of an existing class to be used as another interface. 
+		  It is often used to make existing classes work with others without modifying their source code.
+		  It is a class that inherits the class that it needs to be adapted to and adapts its member and functions to the old class that needs adaptation
+		Ex. class Target:
+				def request(self):
+					pass
+			# Adaptee (the class to be adapted)
+			class Adaptee:
+				def specific_request(self):
+					return "Adaptee's specific request"
+			# Adapter (adapts Adaptee to the Target interface)
+			class Adapter(Target):
+				def __init__(self, adaptee):
+					self.adaptee = adaptee
+				def request(self):
+					return f"Adapter: {self.adaptee.specific_request()}"
+			# Client code using the Target interface
+			def client_code(target):
+				return target.request()
+			# Example usage
+			if __name__ == "__main__":
+				adaptee = Adaptee()
+				adapter = Adapter(adaptee)
+				print("Adaptee: ", adaptee.specific_request())
+				print("Adapter: ", adapter.request())
+				# Using the client code with the Adapter
+				result = client_code(adapter)
+				print("Client Code: ", result)
+	
+	- Bridge design pattern
+		- structural pattern that separates abstraction from implementation so that the two can vary independently. 
+		  This pattern involves an interface (abstraction) and a set of concrete classes (implementations) that can be independently developed and extended.
+		  - Usualy it comprises of a class that has a member an other class that through polymorphism is assigned to an internal variable through a function parameter or constructor.
+		    Then the polymorphic class member functions are called over elements of the class that got this class at runtime
+		ex. # Abstraction
+			class Shape:
+				def __init__(self, color):
+					self.color = color
+				def draw(self):
+					pass
+			# Implementor
+			class Color:
+				def fill_color(self):
+					pass
+			# Concrete Implementors
+			class RedColor(Color):
+				def fill_color(self):
+					return "Red"
+			class GreenColor(Color):
+				def fill_color(self):
+					return "Green"
+			# Refined Abstractions
+			class Square(Shape):
+				def draw(self):
+					return f"Drawing a Square with color {self.color.fill_color()}"
+			class Circle(Shape):
+				def draw(self):
+					return f"Drawing a Circle with color {self.color.fill_color()}"
+			# Client Code
+			if __name__ == "__main__":
+				red_color = RedColor()
+				green_color = GreenColor()
+				square = Square(red_color)
+				circle = Circle(green_color)
+				print(square.draw())
+				print(circle.draw())
+				
+	- Composite design patterns
+		- structural pattern that allows you to compose objects into tree structures to represent part-whole hierarchies. 
+		  It lets clients treat individual objects and compositions of objects uniformly.
+		ex. from abc import ABC, abstractmethod
+			# Component
+			class Graphic(ABC):
+				@abstractmethod
+				def draw(self):
+					pass
+			# Leaf
+			class Circle(Graphic):
+				def __init__(self, name):
+					self.name = name
+				def draw(self):
+					return f"Drawing Circle {self.name}"
+			# Leaf
+			class Square(Graphic):
+				def __init__(self, name):
+					self.name = name
+				def draw(self):
+					return f"Drawing Square {self.name}"
+			# Composite
+			class Picture(Graphic):
+				def __init__(self):
+					self.graphics = []
+				def add(self, graphic):
+					self.graphics.append(graphic)
+				def remove(self, graphic):
+					self.graphics.remove(graphic)
+				def draw(self):
+					result = []
+					for graphic in self.graphics:
+						result.append(graphic.draw())
+					return "\n".join(result)
+			# Client Code
+			if __name__ == "__main__":
+				circle1 = Circle("1")
+				circle2 = Circle("2")
+				square1 = Square("1")
+				square2 = Square("2")
+				picture = Picture()
+				picture.add(circle1)
+				picture.add(square1)				
+				sub_picture = Picture()
+				sub_picture.add(circle2)
+				sub_picture.add(square2)
+				picture.add(sub_picture)
+				print("Drawing Picture:")
+				print(picture.draw())
+				
+	- Decorator design pattern
+		- structural pattern that allows behavior to be added to an individual object, either statically or dynamically, 
+		  without affecting the behavior of other objects from the same class.
+		- we construct a new class that takes the wraped class as a member through ploymorfism at initialization or as a parameter to  a function
+		  Then this function is called inside the wrapped class and ads aditional functionality to this wraped class
+		ex. # Component
+			class Coffee:
+				def cost(self):
+					return 5
+			# Decorator
+			class CoffeeDecorator:
+				def __init__(self, coffee):
+					self._coffee = coffee
+				def cost(self):
+					return self._coffee.cost()
+			# Concrete Decorators
+			class MilkDecorator(CoffeeDecorator):
+				def cost(self):
+					return self._coffee.cost() + 2
+			class SugarDecorator(CoffeeDecorator):
+				def cost(self):
+					return self._coffee.cost() + 1
+			# Client Code
+			if __name__ == "__main__":
+				simple_coffee = Coffee()
+				print(f"Cost of Simple Coffee: ${simple_coffee.cost()}")
+				milk_coffee = MilkDecorator(simple_coffee)
+				print(f"Cost of Coffee with Milk: ${milk_coffee.cost()}")
+				sugar_milk_coffee = SugarDecorator(milk_coffee)
+				print(f"Cost of Coffee with Milk and Sugar: ${sugar_milk_coffee.cost()}")
+	
+	- Facade design pattern:
+		- structural pattern that provides a simplified interface to a set of interfaces in a subsystem, making it easier to use. 
+		  It involves a single class, known as the facade, which provides a unified and simplified interface to a set of interfaces in a subsystem.
+		Ex. # Subsystem 1
+			class Subsystem1:
+				def operation1(self):
+					return "Subsystem 1: Operation 1"
+				def operation2(self):
+					return "Subsystem 1: Operation 2"
+			# Subsystem 2
+			class Subsystem2:
+				def print1(self):
+					return "Print 1: Operation 1"
+				def print2(self):
+					return "Print 2: Operation 2"
+			# Facade
+			class Facade:
+				def __init__(self):
+					self.subsystem1 = Subsystem1()
+					self.subsystem2 = Subsystem2()
+				def operation(self):
+					result = []
+					result.append(self.subsystem1.operation1())
+					result.append(self.subsystem1.operation2())
+					result.append(self.subsystem2.print1())
+					result.append(self.subsystem2.print2())
+					return "\n".join(result)
+			# Client Code
+			if __name__ == "__main__":
+				facade = Facade()
+				result = facade.operation()
+				print(result)
+				
+	- Flyweight design pattern
+		- structural pattern that is used to minimize memory usage or computational expenses by sharing as much as possible with related objects. 
+		  It is particularly useful when a large number of similar objects need to be created, and the overhead of creating each instance individually is significant.
+		- We have a class that holds a list of objects A, and a factory that makes objects B(the object  that has members oftype A).The factory checks if in the object A pool there is already 
+		  a needed object A already created , and constructs an object B with a reference to this object pool, if not then makes a new object A in the pool and constructs an object B from this reference
+		  
+		ex. from abc import ABC, abstractmethod
+			# Flyweight interface
+			class Flyweight(ABC):
+				@abstractmethod
+				def operation(self, extrinsic_state):
+					pass
+			# Concrete Flyweight
+			class ConcreteFlyweight(Flyweight):
+				def operation(self, extrinsic_state):
+					print(f"ConcreteFlyweight: {extrinsic_state}")
+			# Flyweight Factory
+			class FlyweightFactory:
+				def __init__(self):
+					self.flyweights = {}
+				def get_flyweight(self, key):
+					if key not in self.flyweights:
+						self.flyweights[key] = ConcreteFlyweight()
+					return self.flyweights[key]
+			# Client
+			class Client:
+				def __init__(self, key):
+					self.flyweight = FlyweightFactory().get_flyweight(key)
+					self.extrinsic_state = None
+				def operation(self, extrinsic_state):
+					self.extrinsic_state = extrinsic_state
+					self.flyweight.operation(self.extrinsic_state)
+			# Usage
+			client1 = Client("shared")
+			client2 = Client("shared")
+			client1.operation("state for client 1")
+			client2.operation("state for client 2")
+			
+	- proxy design pattern:
+		- structural pattern that involves the use of a surrogate or placeholder object to control access to another object.
+		  This is useful in scenarios where you want to add an extra layer of control, such as lazy loading, access control, or logging, without modifying the actual object
+		- it comprises by an abstract class ABS that is inherited by class A or B or C that have different behaviour defined for the same member functions. We have a Proxy class that 
+		  that inherits same abstract class that implements same methods but has a member of the same type , however when the member function called it will call the function of the same type member class
+		- it is similar to the decorator
+		ex. from abc import ABC, abstractmethod
+			# Subject interface
+			class Subject(ABC):
+				@abstractmethod
+				def request(self):
+					pass
+			# RealSubject class
+			class RealSubject(Subject):
+				def request(self):
+					print("RealSubject: Handling request")
+			# Proxy class
+			class Proxy(Subject):
+				def __init__(self, real_subject):
+					self.real_subject = real_subject
+				def request(self):
+					# Additional control or functionality can be added here
+					print("Proxy: Checking access before forwarding request")
+					self.real_subject.request()
+			# Client
+			def client_code(subject):
+				subject.request()
+			# Example usage
+			real_subject = RealSubject()
+			proxy = Proxy(real_subject)
+			print("Client: Directly accessing the real subject:")
+			client_code(real_subject)
+			print("\nClient: Accessing the subject through a proxy:")
+			client_code(proxy)
+			
+	- chain of responsibility design pattern:
+		- behavioral pattern that allows an object to pass a request along a chain of handlers. 
+		  Each handler in the chain decides either to process the request or to pass it to the next handler in the chain. 
+		  This pattern decouples the sender of the request and its receivers.
+		- usually it is implemented in a client class that has members handler classes that inherit  abstract classes with smae methodnames. The handler classes have a reference to the next handler object
+		  that is assigned in the client class. If in the chain of handler classes a handler recognizes it is not for him, it passes to the next in chain
+		ex. from abc import ABC, abstractmethod
+			# Handler interface
+			class Handler(ABC):
+				@abstractmethod
+				def set_successor(self, successor):
+					pass
+				@abstractmethod
+				def handle_request(self, request):
+					pass
+			# ConcreteHandlerA class
+			class ConcreteHandlerA(Handler):
+				def __init__(self):
+					self.successor = None
+				def set_successor(self, successor):
+					self.successor = successor
+				def handle_request(self, request):
+					if request == "A":
+						print("ConcreteHandlerA: Handling request A")
+					elif self.successor:
+						print("ConcreteHandlerA: Passing request to successor")
+						self.successor.handle_request(request)
+			# ConcreteHandlerB class
+			class ConcreteHandlerB(Handler):
+				def __init__(self):
+					self.successor = None
+				def set_successor(self, successor):
+					self.successor = successor
+				def handle_request(self, request):
+					if request == "B":
+						print("ConcreteHandlerB: Handling request B")
+					elif self.successor:
+						print("ConcreteHandlerB: Passing request to successor")
+						self.successor.handle_request(request)
+			# Client
+			class Client:
+				def __init__(self):
+					self.handler_chain = ConcreteHandlerA()
+					handler_b = ConcreteHandlerB()
+					self.handler_chain.set_successor(handler_b)
+				def make_request(self, request):
+					print(f"Client: Making request {request}")
+					self.handler_chain.handle_request(request)
+			# Example usage
+			client = Client()
+			client.make_request("A")
+			client.make_request("B")
+			client.make_request("C")
+			
+	- command design pattern:
+		- behavioral pattern that turns a request into a stand-alone object. 
+		  This object contains all the information about the request, allowing for parameterization of clients with different requests, 
+		  queuing of requests, and logging of the requests.
+		- it is usually implemented by having a command  class that inherits an abstracct class and has a method that calls a member classes method that has the implementation of the command,
+		  (and is asigned at initialization or not by the Client code).The Command class is operated through the master class that is passed by reference
+          		
+		ex. from abc import ABC, abstractmethod
+			# Command interface
+			class Command(ABC):
+				@abstractmethod
+				def execute(self):
+					pass
+			# ConcreteCommand class
+			class LightOnCommand(Command):
+				def __init__(self, light):
+					self.light = light
+				def execute(self):
+					self.light.turn_on()
+			# Receiver class
+			class Light:
+				def turn_on(self):
+					print("Light is ON")
+			# Invoker class
+			class RemoteControl:
+				def __init__(self):
+					self.command = None
+				def set_command(self, command):
+					self.command = command
+				def press_button(self):
+					self.command.execute()
+			# Client
+			light = Light()
+			light_on_command = LightOnCommand(light)
+			remote_control = RemoteControl()
+			remote_control.set_command(light_on_command)
+			# Press the button
+			remote_control.press_button()
+			
+	- interpreter design pattern
+		-  behavioral pattern that defines a grammar for interpreting a language and provides an interpreter to interpret sentences in that language. 
+		  It is used when you need to interpret sentences of a language and represent them as abstract syntax trees.
+		ex. from abc import ABC, abstractmethod
+			# Context class
+			class Context:
+				def __init__(self):
+					self.variables = {}
+				def set_variable(self, variable, value):
+					self.variables[variable] = value
+				def get_variable(self, variable):
+					return self.variables.get(variable)
+			# Abstract Expression class
+			class AbstractExpression(ABC):
+				@abstractmethod
+				def interpret(self, context):
+					pass
+			# Terminal Expression class
+			class TerminalExpression(AbstractExpression):
+				def __init__(self, variable):
+					self.variable = variable
+				def interpret(self, context):
+					return context.get_variable(self.variable)
+			# Nonterminal Expression class
+			class NonterminalExpression(AbstractExpression):
+				def __init__(self, left, right):
+					self.left = left
+					self.right = right
+				def interpret(self, context):
+					return self.left.interpret(context) + self.right.interpret(context)
+			# Client
+			if __name__ == "__main__":
+				context = Context()
+				context.set_variable("x", 10)
+				context.set_variable("y", 5)
+				expression = NonterminalExpression(TerminalExpression("x"), TerminalExpression("y"))
+				result = expression.interpret(context)
+				print(f"Result: {result}")
+				
+	- iterator design pattern
+		- behavioral pattern that provides a way to access the elements of a collection sequentially without exposing its underlying representation. 
+		It involves defining a common interface for iterating over different types of collections. 
+		ex. from abc import ABC, abstractmethod
+			# Iterator interface
+			class Iterator(ABC):
+				@abstractmethod
+				def has_next(self):
+					pass
+				@abstractmethod
+				def next(self):
+					pass
+			# ConcreteIterator class
+			class ConcreteIterator(Iterator):
+				def __init__(self, collection):
+					self.collection = collection
+					self.index = 0
+				def has_next(self):
+					return self.index < len(self.collection)
+				def next(self):
+					if self.has_next():
+						value = self.collection[self.index]
+						self.index += 1
+						return value
+					else:
+						raise StopIteration("No more elements in the collection")
+			# Aggregate interface
+			class Aggregate(ABC):
+				@abstractmethod
+				def create_iterator(self):
+					pass
+			# ConcreteAggregate class
+			class ConcreteAggregate(Aggregate):
+				def __init__(self):
+					self.elements = []
+				def add_element(self, element):
+					self.elements.append(element)
+				def create_iterator(self):
+					return ConcreteIterator(self.elements)
+			# Client
+			if __name__ == "__main__":
+				aggregate = ConcreteAggregate()
+				aggregate.add_element("Element 1")
+				aggregate.add_element("Element 2")
+				aggregate.add_element("Element 3")
+				iterator = aggregate.create_iterator()
+				while iterator.has_next():
+					element = iterator.next()
+					print(f"Element: {element}")
+					
+	- mediator design pattern:
+		- behavioral pattern that defines an object that centralizes communication between components in a system. 
+		  Instead of components directly communicating with each other, they communicate through a mediator object. 
+		  This promotes loose coupling between components and helps organize complex communication patterns.
+		ex. from abc import ABC, abstractmethod
+			# Mediator interface
+			class Mediator(ABC):
+				@abstractmethod
+				def notify(self, sender, event):
+					pass
+			# ConcreteMediator class
+			class ConcreteMediator(Mediator):
+				def __init__(self, component1, component2):
+					self.component1 = component1
+					self.component2 = component2
+					# Set the mediator reference in components
+					self.component1.set_mediator(self)
+					self.component2.set_mediator(self)
+				def notify(self, sender, event):
+					if sender == self.component1:
+						print(f"Mediator receives event '{event}' from Component1")
+						self.component2.handle_event(event)
+					elif sender == self.component2:
+						print(f"Mediator receives event '{event}' from Component2")
+						self.component1.handle_event(event)
+			# Colleague interface
+			class Colleague(ABC):
+				def __init__(self, mediator):
+					self.mediator = mediator
+				def set_mediator(self, mediator):
+					self.mediator = mediator
+				@abstractmethod
+				def send_event(self, event):
+					pass
+				@abstractmethod
+				def handle_event(self, event):
+					pass
+			# ConcreteColleague1 class
+			class ConcreteColleague1(Colleague):
+				def send_event(self, event):
+					print(f"Component1 sends event '{event}' to Mediator")
+					self.mediator.notify(self, event)
+				def handle_event(self, event):
+					print(f"Component1 handles event '{event}'")
+			# ConcreteColleague2 class
+			class ConcreteColleague2(Colleague):
+				def send_event(self, event):
+					print(f"Component2 sends event '{event}' to Mediator")
+					self.mediator.notify(self, event)
+				def handle_event(self, event):
+					print(f"Component2 handles event '{event}'")
+			# Client
+			if __name__ == "__main__":
+				mediator = ConcreteMediator(ConcreteColleague1(), ConcreteColleague2())
+				component1 = mediator.component1
+				component2 = mediator.component2
+				component1.send_event("A")
+				component2.send_event("B")
+				
+	- Memento design pattern:
+		- behavioral pattern that provides the ability to restore an object to its previous state (undo functionality) without exposing its internal implementation details. 
+		  This pattern is particularly useful when you need to implement an undo feature in your application.
+		- it is implemented by returning an object that is initialized with the object to undo  state .This object contains the data to be undoed.Also there is implementation to redo,
+		  that is implemeted as a function that takes as a reference a memento object and restores from it the objects state
+		ex. class Originator:
+				def __init__(self, state):
+					self._state = state
+				def get_state(self):
+					return self._state
+				def set_state(self, state):
+					self._state = state
+				def create_memento(self):
+					return Memento(self._state)
+				def restore_from_memento(self, memento):
+					self._state = memento.get_state()
+			# Memento class: Represents the state to be saved
+			class Memento:
+				def __init__(self, state):
+					self._state = state
+				def get_state(self):
+					return self._state
+			# Caretaker class: Manages and keeps track of multiple mementos
+			class Caretaker:
+				def __init__(self):
+					self._mementos = []
+				def add_memento(self, memento):
+					self._mementos.append(memento)
+				def get_memento(self, index):
+					return self._mementos[index]
+			# Example usage
+			if __name__ == "__main__":
+				# Create an originator with an initial state
+				originator = Originator("Initial State")
+				# Create a caretaker to manage mementos
+				caretaker = Caretaker()
+				# Save the initial state
+				caretaker.add_memento(originator.create_memento())
+				# Modify the state
+				originator.set_state("New State")
+				# Save the modified state
+				caretaker.add_memento(originator.create_memento())
+				# Restore to the initial state
+				originator.restore_from_memento(caretaker.get_memento(0))
+				print("Current State:", originator.get_state())  # Output: Current State: Initial State
+				
+	- the observer design pattern:
+		- behavioral pattern where an object, known as the subject, maintains a list of dependents, known as observers, that are notified of any changes to the subject's state. 
+		  This pattern is useful when you want to establish a one-to-many dependency between objects so that when one object changes state, all its dependents are notified and updated automatically.
+		- it is implemented as an object tha has a list of other objects called observers that implement the same abstract class (have a notify method that nwill be called once the object's state will change)
+		ex. # Subject class: Represents the object being observed
+			class Subject:
+				def __init__(self):
+					self._observers = []
+				def add_observer(self, observer):
+					if observer not in self._observers:
+						self._observers.append(observer)
+				def remove_observer(self, observer):
+					self._observers.remove(observer)
+				def notify_observers(self, message):
+					for observer in self._observers:
+						observer.update(message)
+			# Observer interface: Represents the interface for the observers
+			class Observer:
+				def update(self, message):
+					pass
+			# ConcreteObserver class: Implements the Observer interface
+			class ConcreteObserver(Observer):
+				def __init__(self, name):
+					self._name = name
+				def update(self, message):
+					print(f"{self._name} received message: {message}")
+			# Example usage
+			if __name__ == "__main__":
+				# Create a subject
+				subject = Subject()
+				# Create observers
+				observer1 = ConcreteObserver("Observer 1")
+				observer2 = ConcreteObserver("Observer 2")
+				# Attach observers to the subject
+				subject.add_observer(observer1)
+				subject.add_observer(observer2)
+				# Notify observers of a change in state
+				subject.notify_observers("State updated!")
+				# Output:
+				# Observer 1 received message: State updated!
+				# Observer 2 received message: State updated!
+	
+	- state design pattern:
+		- behavioral pattern that allows an object to alter its behavior when its internal state changes. 
+		  The pattern encapsulates states into separate classes and delegates the state-specific behavior to these classes. 
+		  This makes it easier to add new states without modifying the main object's code.
+		- It is implemented as a class that is passed  an object that is derived from an abstract class and have behaviour methodnames in common with other classes that can be passed as an argument.
+          Changing the state of this class means changing the object by reference which gives other functionality to this class by one of its methods.		  
+		ex. # Context class: Represents the object whose behavior changes based on its internal state
+			class Context:
+				def __init__(self, state):
+					self._state = state
+				def set_state(self, state):
+					self._state = state
+				def request(self):
+					self._state.handle()
+			# State interface: Defines an interface for encapsulating the behavior associated with a particular state
+			class State:
+				def handle(self):
+					pass
+			# ConcreteState classes: Implement the State interface for specific states
+			class ConcreteStateA(State):
+				def handle(self):
+					print("Handling request in State A")
+			class ConcreteStateB(State):
+				def handle(self):
+					print("Handling request in State B")
+			# Example usage
+			if __name__ == "__main__":
+				# Create context with an initial state
+				context = Context(ConcreteStateA())
+				# Make requests with the current state
+				context.request()
+				# Change the state and make another request
+				context.set_state(ConcreteStateB())
+				context.request()
+				# Output:
+				# Handling request in State A
+				# Handling request in State B
+				
+	- the strategy design pattern:
+		- behavioral pattern that defines a family of algorithms, encapsulates each algorithm, and makes them interchangeable. 
+		  It allows the client to choose an algorithm from a family of algorithms at runtime without altering the client's code. 
+		  This pattern promotes the "composition over inheritance" principle.
+		- it is implemented as a Context class that is pased by reference and offers behaviour to this Context class.changing this class by reference means changing behaviour of the Context class
+	ex. # Context class: Maintains a reference to the strategy object and allows switching between strategies
+			class Context:
+				def __init__(self, strategy):
+					self._strategy = strategy
+				def set_strategy(self, strategy):
+					self._strategy = strategy
+				def execute_strategy(self):
+					return self._strategy.execute()
+			# Strategy interface: Declares an interface common to all supported algorithms
+			class Strategy:
+				def execute(self):
+					pass
+			# ConcreteStrategy classes: Implement the Strategy interface with specific algorithms
+			class ConcreteStrategyA(Strategy):
+				def execute(self):
+					return "Executing strategy A"
+			class ConcreteStrategyB(Strategy):
+				def execute(self):
+					return "Executing strategy B"
+			# Example usage
+			if __name__ == "__main__":
+				# Create context with an initial strategy
+				context = Context(ConcreteStrategyA())
+				# Execute the current strategy
+				result = context.execute_strategy()
+				print(result)  # Output: Executing strategy A
+				# Switch to a different strategy
+				context.set_strategy(ConcreteStrategyB())
+				# Execute the new strategy
+				result = context.execute_strategy()
+				print(result)  # Output: Executing strategy B
+	- template method design pattern:
+		- behavioral pattern that defines the skeleton of an algorithm in the superclass but lets subclasses 
+		  override specific steps of the algorithm without changing its structure. 
+		  This pattern promotes code reusability and allows for variations in behavior through method overriding.
+		- it is implemented through an abstract class that defines a succesion of method  calls, but the methods are undefined. Thet will be defined in the classes
+		  that will derive from it(override)
+		ex. # AbstractClass: Defines the template method with a series of steps
+			class AbstractClass:
+				def template_method(self):
+					self.step_one()
+					self.step_two()
+					self.step_three()
+				# Abstract methods to be implemented by subclasses
+				def step_one(self):
+					pass
+				def step_two(self):
+					pass
+				def step_three(self):
+					pass
+			# ConcreteClassA and ConcreteClassB: Implement specific steps of the algorithm
+			class ConcreteClassA(AbstractClass):
+				def step_one(self):
+					print("ConcreteClassA: Step One")
+				def step_two(self):
+					print("ConcreteClassA: Step Two")
+				def step_three(self):
+					print("ConcreteClassA: Step Three")
+			class ConcreteClassB(AbstractClass):
+				def step_one(self):
+					print("ConcreteClassB: Step One")
+				def step_two(self):
+					print("ConcreteClassB: Step Two")
+				def step_three(self):
+					print("ConcreteClassB: Step Three")
+			# Example usage
+			if __name__ == "__main__":
+				# Create instances of concrete classes
+				concrete_a = ConcreteClassA()
+				concrete_b = ConcreteClassB()
+				# Execute the template method for each concrete class
+				print("Executing Template Method for ConcreteClassA:")
+				concrete_a.template_method()
+				print("\nExecuting Template Method for ConcreteClassB:")
+				concrete_b.template_method()
+				
+	- visitor design pattern:
+		- behavioral pattern that allows defining a new operation on a collection of objects without changing the structure of those objects. 
+		  It separates the algorithm from the objects on which it operates.
+		ex. # Element interface: Declares an accept method that takes a visitor as an argument
+			class Element:
+				def accept(self, visitor):
+					pass
+			# ConcreteElement classes: Implement the Element interface
+			class ConcreteElementA(Element):
+				def accept(self, visitor):
+					visitor.visit_concrete_element_a(self)
+			class ConcreteElementB(Element):
+				def accept(self, visitor):
+					visitor.visit_concrete_element_b(self)
+			# Visitor interface: Declares a visit method for each ConcreteElement type
+			class Visitor:
+				def visit_concrete_element_a(self, element_a):
+					pass
+				def visit_concrete_element_b(self, element_b):
+					pass
+			# ConcreteVisitor classes: Implement the Visitor interface with specific operations
+			class ConcreteVisitor1(Visitor):
+				def visit_concrete_element_a(self, element_a):
+					print("ConcreteVisitor1 is visiting ConcreteElementA")
+				def visit_concrete_element_b(self, element_b):
+					print("ConcreteVisitor1 is visiting ConcreteElementB")
+			class ConcreteVisitor2(Visitor):
+				def visit_concrete_element_a(self, element_a):
+					print("ConcreteVisitor2 is visiting ConcreteElementA")
+				def visit_concrete_element_b(self, element_b):
+					print("ConcreteVisitor2 is visiting ConcreteElementB")
+			# ObjectStructure class: Holds a collection of Element objects and allows visitors to access them
+			class ObjectStructure:
+				def __init__(self):
+					self._elements = []
+				def add_element(self, element):
+					self._elements.append(element)
+				def accept_visitor(self, visitor):
+					for element in self._elements:
+						element.accept(visitor)
+			# Example usage
+			if __name__ == "__main__":
+				# Create concrete elements
+				element_a = ConcreteElementA()
+				element_b = ConcreteElementB()
+				# Create object structure and add elements
+				object_structure = ObjectStructure()
+				object_structure.add_element(element_a)
+				object_structure.add_element(element_b)
+				# Create concrete visitors
+				visitor1 = ConcreteVisitor1()
+				visitor2 = ConcreteVisitor2()
+				# Accept visitors and perform operations
+				object_structure.accept_visitor(visitor1)
+				object_structure.accept_visitor(visitor2)
+	

@@ -2366,6 +2366,18 @@ Inheritance:
                 self.id=id	
     employ=employee("Tibi", 22)
 	
+	- we can use the super class constructor the folowing way:
+	ex. class Parent:
+			def __init__(self, name):
+				self.name = name
+		class Child(Parent):
+			def __init__(self, name, age):
+				super(Child, self).__init__(name)                      <- specifys for the superclass that the class is this class(Child) and passes the self brecause it expects a reference to the current object
+				self.age = age
+		child_instance = Child("John", 25)
+		print(child_instance.name)  # Output: John
+		print(child_instance.age)   # Output: 25
+	
    - multi level inheritance enables a derived class to inherit properties from an imediate parent class that inherits from a parent class
    ex. class employee():
          def def __init__(self, name,age):
@@ -5075,7 +5087,7 @@ Object oriented design patterns:
 	- Bridge design pattern
 		- structural pattern that separates abstraction from implementation so that the two can vary independently. 
 		  This pattern involves an interface (abstraction) and a set of concrete classes (implementations) that can be independently developed and extended.
-		  - Usualy it comprises of a class that has a member an other class that through polymorphism is assigned to an internal variable through a function parameter or constructor.
+		  - Usualy it comprises of a class that has a class that through polymorphism is assigned to an internal variable through a function parameter or constructor.
 		    Then the polymorphic class member functions are called over elements of the class that got this class at runtime
 		ex. # Abstraction
 			class Shape:

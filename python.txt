@@ -1054,7 +1054,7 @@ working with lists:
 	   
    - copy(): we can make a copy of a list with :
    ex. list1=["Atti","Tibi","Shivan","Gauron","Feri"] 
-       list2.copy(list1)                                   <- list 2 will have the elements of list1
+       list2=list1.copy()                                   <- list 2 will have the elements of list1
 
    - extend(): we can extend our list (add an other lists elements to the lists end, (unique elements)) with the :
    ex. list1=["Atti","Tibi","Shivan","Gauron","Feri"]

@@ -5916,3 +5916,49 @@ Feature scaling
 		sc = StandardScaler()
 		X_train[:, 3:] = sc.fit_transform(X_train[:, 3:])
 		X_test[:, 3:] = sc.transform(X_test[:, 3:])
+		
+		Simple Linear regression
+		==========================================
+		y = b0+b1x1   2 input output data should be enough but if we have more then 2 measuremement we can determine with Ordinary least squares
+		              this finds a best a and b value so that SUM(yimeasured - ypredictedaftertheecuationsolution)^2 is minimized (^2 needed because - or + values squared ar positive)
+Data preprocessing and linear regression prediction:
+==================================================
+	- linear regression is used when - there is a linear relationship between y and each x
+	                                 - there is equal variance between y and each X
+									 - there is normality of error distribution
+									 - there is independence of observation 
+									 - predictors are not correlated with each other
+									 - there are no certain values that fall way off the graphic
+		
+	ex. import numpy as np
+		import matplotlib.pyplot as plt
+	    import pandas as pd
+		from sklearn.model_selection import train_test_split
+		dataset = pd.read_csv('Salary_Data.csv')
+		x = dataset.iloc[:, :-1].values
+		y = dataset.iloc[:, -1].values
+		X_train, X_test, y_train, y_test = train_test_split(x, y test_size = 0.2, random_state = 0 )
+		regressor = LinearRegression()
+		regressor.fit(X_train, y_train)              <- the fit method is the one that train the neural networks X_train is the features the independent variables, y_train is the dependable variable vector
+		LinearRegression(copy_X = True, fit_intercept = True, n_jobs = None, normalize = False)
+		y_pred = regressor.predict(X_test)                 <- returns a vectors of predictions that we will compare to the test result dependable variables to see the deviations
+		y_pred_12_years_salary = regressor.predict([[12]])    <- predicts just for one value . [[]] the predict method expects 2D arrays as argument
+		b1 = regressor.coef_                 <- b0+b1*x       <- returns the b1 from the predicted ecuation
+		b0 = regressor.intercept_            <- b0+b1*x       <- returns the b0 from the predicted ecuation
+		plt.scatter(X_train, y_train, color = 'red')
+		plt.plot(X_train, regressor.predict(X_train), color = 'blue')   <- graf that plots the function between the train independent variables and the predictions of it (it will give y_train?)
+		plt.title('Salary vs Experience(Training set)')
+		plt.xlabel('Years of experience')
+		plt.ylabel('Salary')
+		plt.show()
+		plt.scatter(X_test, y_test, color = 'blue')
+		plt.plot(X_test, regressor.predict(X_train), color = 'green')   <- graf that plots the function between the test independent variables and the predictions of it (it will give y_test?). X_train in the prediction will give same result as X_test as it will give the same line , the prediction line
+		plt.title('Salary vs Experience(Test set)')
+		plt.xlabel('Years of experience')
+		plt.ylabel('Salary')
+		plt.show()
+
+Multiple linear regression:
+===================================================
+y = b0+b1x1+b2x2+b3x3+...bnxn
+60

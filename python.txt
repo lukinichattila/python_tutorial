@@ -5961,4 +5961,41 @@ Data preprocessing and linear regression prediction:
 Multiple linear regression:
 ===================================================
 y = b0+b1x1+b2x2+b3x3+...bnxn
-60
+	- categorical variables (strings) in linear regression can be replaced by n-1 dummy variables (columns) that replace  the string column with n different string values	
+	  (the n-th column will be contained in the b0 offset -> xn-1 = 1-xn )
+	- P-Value - Probability Value (fair, not fair coin) - fair coin is 50% chance that head or tail , not fair coin would be 0.01 chance becoming true (6 time tail in a row)
+	- some of the columns can be thrown out (does not realy contribute with real value to the dependable variable )
+	- 5 methods of building models:
+		- All in
+		- Backward elimination - stepwise regression
+		- Forward selection - stepwise regression
+		- Bidirectional elimination - stepwise regression
+		- Score comparison
+	- All-in - model that takes into account all the variables 
+	- Backward elimination <- fastest one from all of them, course will use that
+	  step 1 - select a significance level to stay in the model  (Significance level 0.05)
+	  step 2 - Fit the full model with all possible predictors
+	  step 3 - Consider the predictor with the highest P-value. If P > SL, goto step 4 otherwise go to Finding
+	  step 4 - Remove the predictor
+	  step 5 - Fit model without this variable . go to step 3. take out just the variables that are less then the significance level
+	- Forward selection
+	  step 1: select a significance level to stay in the model  (Significance level 0.05)
+	  step 2: Fit all simple regression models y~xn Select the one with the lowest P value
+	  step 3: Keep this variable and fit all possible models with one extra predictor added to the onece you already have
+	  step 4: Consider predictor with lowest P value. If P<SL got to step 3, otherwise go to FIN
+	  FIN: Keep the previous model
+	- Bidirectional elimination:
+	  step 1 - select a significance level to enter and stay  in the model  SLENTER 0.05, SLSTAY 0.05 (Significance level 0.05)
+	  step 2: Perform the next step of Forward Selection (new variables must have P< SLENTER to enter)
+	  step 3: Perform ALL steps of Backward elimination (old variables must have P< SLSTAY to stay)
+	  step 4: No new variables can enter and no old variables can exit
+	  FIN - model is ready
+	- All posible models:     <- 10 columns mean 1023 models
+	  step 1: Select a criterion of goodness of fit (e.g. Akaike criterion)
+	  step 2: Construct all possible regression models: 2^N - 1 total combinations
+	  step 3: Select the one with the best criterion
+	  FIN - the model is ready     
+
+63
+
+
